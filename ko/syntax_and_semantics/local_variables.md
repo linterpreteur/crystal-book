@@ -1,22 +1,22 @@
-# Local variables
+# 지역 변수
 
-Local variables start with lowercase letters. They are declared when you first assign them a value.
+지역 변수는 소문자로 시작합니다. 지역 변수는 값을 처음 할당할 때 선언됩니다.
 
 ```crystal
 name = "Crystal"
 age = 1
 ```
 
-Their type is inferred from their usage, not only from their initializer. In general, they are just value holders associated with the type that the programmer expects them to have according to their location and usage on the program.
+지역 변수의 타입은 초기화 구문뿐 아니라 사용 예 또한 이용하여 추론됩니다. 보통 지역 변수는 그 변수가 프로그램에서 주어지는 값들에 따라 결정되는 타입의, 값을 담는 상자 정도로 생각할 수 있습니다.
 
-For example, reassigning a variable with a different expression makes it have that expression’s type:
+예를 들어, 다른 표현식으로 한 변수를 다시 할당한다면 변수는 해당 표현식의 값을 갖게 됩니다.
 
 ```crystal
 flower = "Tulip"
-# At this point 'flower' is a String
+# 이 시점에서 'flower'는 String
 
 flower = 1
-# At this point 'flower' is an Int32
+# 이 시점에서 'flower'는 Int32
 ```
 
-Underscores are allowed at the beginning of a variable name, but these names are reserved for the compiler, so their use is not recommended (and it also makes the code uglier to read).
+변수명을 밑줄로 시작할 수도 있지만, 가독성이 떨어지는 데다가 이런 이름은 컴파일러에 의해 예약되어 있기 때문에 사용하지 않는 것이 좋습니다.

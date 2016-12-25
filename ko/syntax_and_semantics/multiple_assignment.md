@@ -1,18 +1,18 @@
-# Multiple assignment
+# 다중 할당
 
-You can declare/assign multiple variables at the same time by separating expressions with a comma (`,`):
+쉼표(`,`)를 이용하여 동시에 다수의 변수를 선언하고 할당할 수 있습니다.
 
 ```crystal
 name, age = "Crystal", 1
 
-# The above is the same as this:
+# 다음과 동일
 temp1 = "Crystal"
 temp2 = 1
-name  = temp1
-age   = temp2
+name = temp1
+age = temp2
 ```
 
-Note that because expressions are assigned to temporary variables it is possible to exchange variables’ contents in a single line:
+위에서 볼 수 있듯 쉼표로 구분된 표현식은 임시 변수에 할당되기 때문에, 한 줄로 변수 내용을 서로 바꿀 수도 있습니다.
 
 ```crystal
 a = 1
@@ -22,45 +22,45 @@ a #=> 2
 b #=> 1
 ```
 
-If the right-hand side contains just one expression, it is considered an indexed type and the following syntax sugar applies:
+등호의 우측에 표현식을 하나만 있다면 인덱스가 있는 타입으로 취급되어 다음 문법적 설탕이 적용됩니다.
 
 ```crystal
 name, age, source = "Crystal,1,github".split(",")
 
-# The above is the same as this:
+# 다음과 동일
 temp = "Crystal,1,github".split(",")
-name   = temp[0]
-age    = temp[1]
+name = temp[0]
+age = temp[1]
 source = temp[2]
 ```
 
-If the left-hand side contains just one variable, the right-hand side is considered an array:
+등호의 좌측에 변수가 하나만 있다면 우측은 배열로 취급됩니다.
 
 ```crystal
 names = "John", "Peter", "Jack"
 
-# The above is the same as:
+# 다음과 동일
 names = ["John", "Peter", "Jack"]
 ```
 
-Multiple assignment is also available to methods that end with `=`:
+다중 할당은 `=`로 끝나는 메서드와 함께 이용할 수도 있습니다.
 
 ```crystal
 person.name, person.age = "John", 32
 
-# Same as:
+# 다음과 동일
 temp1 = "John"
 temp2 = 32
 person.name = temp1
 person.age = temp2
 ```
 
-And it is also available to indexers (`[]=`):
+그리고 인덱서(`[]=`)와 함께 이용할 수도 있습니다.
 
 ```crystal
 objects[1], objects[2] = 3, 4
 
-# Same as:
+# 다음과 동일
 temp1 = 3
 temp2 = 4
 objects[1] = temp1

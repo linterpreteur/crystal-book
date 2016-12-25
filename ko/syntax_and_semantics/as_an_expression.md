@@ -1,40 +1,40 @@
-# As an expression
+# 표현식 용법
 
-The value of an `if` is the value of the last expression found in each of its branches:
+`if`의 값은 각 분기에 마지막으로 나오는 표현식의 값입니다.
 
 ```crystal
 a = if 2 > 1
-      3
-    else
-      4
-    end
+3
+else
+4
+end
 a #=> 3
 ```
 
-If an `if` branch is empty, or it’s missing, it’s considered as if it had `nil` in it:
+한 분기가 비어 있거나 없다면 `nil`을 가진 것으로 취급됩니다.
 
 ```crystal
 if 1 > 2
-  3
+3
 end
 
-# The above is the same as:
+# 다음과 동일
 if 1 > 2
-  3
+3
 else
-  nil
+nil
 end
 
-# Another example:
+# 다른 예시
 if 1 > 2
 else
-  3
+3
 end
 
-# The above is the same as:
+# 다음과 동일
 if 1 > 2
-  nil
+nil
 else
-  3
+3
 end
 ```

@@ -1,3 +1,3 @@
-# Control expressions
+# 흐름 제어문
 
-Before talking about control expressions we need to know what *truthy* and *falsey* values are.
+제어문에 대해 알아보기 전에 *참인* 값과 *거짓인* 값이 무엇인지 먼저 알아봅시다.
