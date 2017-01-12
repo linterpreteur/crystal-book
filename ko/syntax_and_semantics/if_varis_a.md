@@ -1,18 +1,18 @@
 # if var.is_a?(...)
 
-If an `if`'s condition is an `is_a?` test, the type of a variable is guaranteed to be restricted by that type in the `then` branch.
+`if`의 조건이 `is_a?` 테스트라면, `then` 분기에서 해당 변수의 타입은 그 타입으로 한정됩니다.
 
 ```crystal
 if a.is_a?(String)
-  # here a is a String
+  # a는 String
 end
 
 if b.is_a?(Number)
-  # here b is a Number
+  # b는 Number
 end
 ```
 
-Additionally, in the `else` branch the type of the variable is guaranteed to not be restricted by that type:
+추가로 `else` 분기에서 해당 변수의 타입은 그 타입이 아니게 됩니다.
 
 ```crystal
 a = some_condition ? 1 : "hello"
@@ -25,30 +25,30 @@ else
 end
 ```
 
-Note that you can use any type as an `is_a?` test, like abstract classes and modules.
+`is_a?` 테스트는 추상 클래스와 모듈 등 어떤 타입에든 적용할 수 있습니다.
 
-The above also works if there are ands (`&&`) in the condition:
+조건에 `&&`가 있을 때에도 똑같이 적용됩니다.
 
 ```crystal
 if a.is_a?(String) && b.is_a?(Number)
-  # here a is a String and b is a Number
+  # a는 String, b는 Number
 end
 ```
 
-The above **doesn’t** work with instance variables or class variables. To work with these, first assign them to a variable:
+하지만 이는 인스턴스 변수나 클래스 변수에는 적용되지 **않습니다**. 이런 경우에는 우선 변수에 할당해야 합니다.
 
 ```crystal
 if @a.is_a?(String)
-  # here @a is not guaranteed to be a String
+  # 이때 @a는 String이 아닐 수도 있음
 end
 
 a = @a
 if a.is_a?(String)
-  # here a is guaranteed to be a String
+  # 이때 a는 String임이 보장됨
 end
 
-# A bit shorter:
+# 더 짧게는
 if (a = @a).is_a?(String)
-  # here a is guaranteed to be a String
+  # 이때 a는 String임이 보장됨
 end
 ```
