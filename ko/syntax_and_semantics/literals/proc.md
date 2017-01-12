@@ -62,7 +62,7 @@ proc.call(1, 2) #=> 3
 
 ```crystal
 def one
-1
+  1
 end
 
 proc = ->one
@@ -73,7 +73,7 @@ proc.call #=> 1
 
 ```crystal
 def plus_one(x)
-x + 1
+  x + 1
 end
 
 proc = ->plus_one(Int32)

@@ -4,9 +4,9 @@
 
 ```crystal
 a = if 2 > 1
-3
+  3
 else
-4
+  4
 end
 a #=> 3
 ```
@@ -15,26 +15,26 @@ a #=> 3
 
 ```crystal
 if 1 > 2
-3
+  3
 end
 
 # 다음과 동일
 if 1 > 2
-3
+  3
 else
-nil
+  nil
 end
 
 # 다른 예시
 if 1 > 2
 else
-3
+  3
 end
 
 # 다음과 동일
 if 1 > 2
-nil
+  nil
 else
-3
+  3
 end
 ```

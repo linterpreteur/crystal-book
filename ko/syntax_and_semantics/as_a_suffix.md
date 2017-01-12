@@ -7,7 +7,7 @@ a = 2 if some_condition
 
 # 다음과 동일
 if some_condition
-a = 2
+  a = 2
 end
 ```
 

@@ -7,10 +7,10 @@ a = some_condition ? nil : 3
 # a는 Int32 혹은 Nil
 
 if a
-# a가 참이어야 하기 때문에
-# a는 nil일 수 없으므로
-# 이때 a는 Int32
-a.abs
+  # a가 참이어야 하기 때문에
+  # a는 nil일 수 없으므로
+  # 이때 a는 Int32
+  a.abs
 end
 ```
 
@@ -18,7 +18,7 @@ end
 
 ```crystal
 if a = some_expression
-# a는 nil이 아님
+  # a는 nil이 아님
 end
 ```
 
@@ -26,7 +26,7 @@ end
 
 ```crystal
 if a && b
-# a와 b는 모두 nil이 아님
+  # a와 b는 모두 nil이 아님
 end
 ```
 
@@ -38,7 +38,7 @@ end
 
 ```crystal
 if @a
-# 이때 @a는 nil일 수 있음
+  # 이때 @a는 nil일 수 있음
 end
 ```
 
@@ -47,14 +47,14 @@ end
 `@a`를 `nil`이 아닐 때에만 이용하려면 두 가지 방법이 있습니다.
 
 ```crystal
-# 첫 번째: 변수에 할당
+  # 첫 번째: 변수에 할당
 if a = @a
-# a는 nil이 아님
+  # a는 nil이 아님
 end
 
 # 두 번째: 표준 라이브러리의 `Object#try`를 이용
 @a.try do |a|
-# a는 nil이 아님
+  # a는 nil이 아님
 end
 ```
 
@@ -62,8 +62,8 @@ end
 
 ```crystal
 if method # 첫 호출은 Int32 혹은 Nil을 반환
-# 첫 호출은 Nil을 반환하지 않았음
-method # 그러나 두 번째 호출은 Int32 혹은 Nil을 반환
+  # 첫 호출은 Nil을 반환하지 않았음
+  method # 그러나 두 번째 호출은 Int32 혹은 Nil을 반환
 end
 ```
 
