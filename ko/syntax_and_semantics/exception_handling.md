@@ -1,23 +1,23 @@
-# Exception handling
+# 예외 처리
 
-Crystal's way to do error handling is by raising and rescuing exceptions.
+크리스탈에서 오류를 다루는 방법은 예외를 일으키고 구조하는 것입니다.
 
-## Raising exception
+## 예외 일으키기
 
-You raise exceptions by invoking a top-level `raise` method. Unlike other keywords, `raise` is a regular method with two overloads: [one accepting a String](http://crystal-lang.org/api/toplevel.html#raise%28message%20%3A%20String%29-class-method) and another [accepting an Exception instance](http://crystal-lang.org/api/toplevel.html#raise%28ex%20%3A%20Exception%29-class-method):
+최상위 `raise` 메서드를 호출하여 예외를 일으킵니다. 기타 예약어와는 다르게 `raise`는 두 가지 오버로드가 있는 보통의 메서드입니다. [하나는 String을 받고](http://crystal-lang.org/api/toplevel.html#raise%28message%20%3A%20String%29-class-method), [하나는 Exception 인스턴스를 받습니다](http://crystal-lang.org/api/toplevel.html#raise%28ex%20%3A%20Exception%29-class-method).
 
 ```crystal
-raise "OH NO!"
-raise Exception.new("Some error")
+raise "으악!"
+raise Exception.new("무슨 오류")
 ```
 
-The String version just creates a new [Exception](http://crystal-lang.org/api/Exception.html) instance with that message.
+String을 받는 것은 그것을 메시지로 하여 새로운 [Exception](http://crystal-lang.org/api/Exception.html) 인스턴스를 생성합니다.
 
-Only `Exception` instances or subclasses can be raised.
+`Exception`과 그 하위 클래스의 인스턴스만을 일으킬 수 있습니다.
 
-## Defining custom exceptions
+## 사용자 정의 예외 정의
 
-To define a custom exception type, just subclass from [Exception](http://crystal-lang.org/api/Exception.html):
+[Exception](http://crystal-lang.org/api/Exception.html)의 하위 타입을 만들어서 예외 타입을 정의할 수 있습니다.
 
 ```crystal
 class MyException < Exception
@@ -27,100 +27,100 @@ class MyOtherException < Exception
 end
 ```
 
-You can, as always, define a constructor for your exception or just use the default one.
+다른 경우와 마찬가지로, 새로이 생성자를 만들거나 기본 생성자를 이용할 수 있습니다.
 
-## Rescuing exceptions
+## 예외 구조
 
-To rescue any exception use a `begin ... rescue ... end` expression:
+`begin ... rescue ... end` 표현식으로 예외를 구조합니다.
 
 ```crystal
 begin
-  raise "OH NO!"
+  raise "꽥!"
 rescue
-  puts "Rescued!"
+  puts "살았다!"
 end
 
-# Output: Rescued!
+# 출력: 살았다!
 ```
 
-To access the rescued exception you can specify a variable in the `rescue` clause:
+`rescue` 절에서 변수를 특정하여 구조된 예외에 접근할 수 있습니다.
 
 ```crystal
 begin
-  raise "OH NO!"
+  raise "끄억!"
 rescue ex
   puts ex.message
 end
 
-# Output: OH NO!
+# 출력: 끄억!
 ```
 
-To rescue just one type of exception (or any of its subclasses):
+특정 타입, 혹은 그 하위 타입의 예외만을 구조할 수도 있습니다.
 
 ```crystal
 begin
-  raise MyException.new("OH NO!")
+  raise MyException.new("앗!")
 rescue MyException
-  puts "Rescued MyException"
+  puts "MyException이다!"
 end
 
-# Output: Rescued MyException
+# 출력: MyException이다!
 ```
 
-And to access it, use a syntax similar to type restrictions:
+이 경우, 타입 제약과 비슷한 문법으로 그 예외에 접근할 수 있습니다.
 
 ```crystal
 begin
-  raise MyException.new("OH NO!")
+  raise MyException.new("앗!")
 rescue ex : MyException
-  puts "Rescued MyException: #{ex.message}"
+  puts "#{ex.message} MyException이다!"
 end
 
-# Output: Rescued MyException: OH NO!
+# 출력: 앗! MyException이다!
 ```
 
-Multiple `rescue` clauses can be specified:
+`rescue` 절을 여러 개 적을 수도 있습니다.
 
 ```crystal
 begin
   # ...
 rescue ex1 : MyException
-  # only MyException...
+  # MyException만
 rescue ex2 : MyOtherException
-  # only MyOtherException...
+  # MyOtherException만
 rescue
-  # any other kind of exception
+  # 다른 종류의 예외들
 end
 ```
 
-You can also rescue multiple exception types at once by specifying a union type:
+공용체 타입을 특정하여 한 번에 여러 타입의 예외를 구조할 수도 있습니다.
 
 ```crystal
 begin
   # ...
 rescue ex : MyException | MyOtherException
-  # only MyException or MyOtherException
+  # MyException 혹은 MyOtherException만
 rescue
-  # any other kind of exception
+  # 다른 종류의 예외들
 end
 ```
 
 ## ensure
 
-An `ensure` clause is executed at the end of a `begin ... end` or `begin ... rescue ... end` expression regardless of whether an exception was raised or not:
+`ensure` 절은 예외 여부와 상관 없이 `begin ... end` 또는 `begin ... rescue ... end` 표현식의 마지막에 실행됩니다.
 
 ```crystal
 begin
   something_dangerous
 ensure
-  puts "Cleanup..."
+  puts "정리 중..."
 end
 
-# Will print "Cleanup..." after invoking something_dangerous,
-# regardless of whether it raised or not
+# something_dangerous을 호출한 후
+# 예외가 일어났는지 여부는 따지지 않고 "정리 중..."을 출력합니다.
 ```
 
-Or:
+또는,
 
 ```crystal
 begin
@@ -128,56 +128,56 @@ begin
 rescue
   # ...
 ensure
-  # this will always be executed
+  # 이 코드를 실행
 end
 ```
 
-`ensure` clauses are usually used for clean up, freeing resources, etc.
+`ensure` 절은 대개 자원을 해제하거나 메모리 등을 정리하는 데 쓰입니다.
 
 ## else
 
-An `else` clause is executed only if no exceptions were rescued:
+`else` 절은 예외가 구조되지 않은 경우에만 실행됩니다.
 
 ```crystal
 begin
   something_dangerous
 rescue
-  # execute this if an exception is raised
+  # 예외가 일어나면 실행
 else
-  # execute this if an exception isn't raised
+  # 예외가 일어나지 않으면 실행
 end
 ```
 
-An `else` clause can only be specified if at least one `rescue` clause is specified.
+`else` 절은 `rescue` 절이 하나라도 있는 경우에만 올 수 있습니다.
 
-## Short syntax form
+## 짧은 문법
 
-Exception handling has a short syntax form: assume a method definition is an implicit `begin ... end` expression, then specify `rescue`, `ensure` and `else` clauses:
+짧은 형태의 문법으로 예외를 다를 수도 있습니다. 메서드 정의가 암묵적으로 `begin ... end` 표현식이라고 가정하고, `rescue`, `ensure`, `else` 절을 넣어봅시다.
 
 ```crystal
 def some_method
   something_dangerous
 rescue
-  # execute if an exception is raised
+  # 예외가 일어나면 실행
 end
 
-# The above is the same as:
+# 다음과 동일
 def some_method
   begin
     something_dangerous
   rescue
-    # execute if an exception is raised
+    # 예외가 일어나면 실행
   end
 end
 ```
 
-An example with `ensure`:
+`ensure`은 다음과 같이 쓸 수 있습니다.
 
 ```crystal
 def some_method
   something_dangerous
 ensure
-  # always execute this
+  # 항상 이 코드를 실행
 end
 
 # The above is the same as:
@@ -185,39 +185,39 @@ def some_method
   begin
     something_dangerous
   ensure
-    # always execute this
+    # 항상 이 코드를 실행
   end
 end
 ```
 
-## Type inference
+## 타입 추론
 
-Variables declared inside the `begin` part of an exception handler also get the `Nil` type when considered inside a `rescue` or `ensure` body. For example:
+`begin` 안에서 선언된 변수는 `rescue`와 `ensure` 안에서는 `Nil` 타입으로 간주됩니다.
 
 ```crystal
 begin
   a = something_dangerous_that_returns_Int32
 ensure
-  puts a + 1 # error, undefined method '+' for Nil
+  puts a + 1 # 오류, Nil에 정의된 메서드 '+' 없음
 end
 ```
 
-The above happens even if `something_dangerous_that_returns_Int32` never raises, or if `a` was assigned a value and then a method that potentially raises is executed:
+위의 경우는 `something_dangerous_that_returns_Int32`가 오류를 일으키지 않아도, `a`에 값을 할당한 후 예외를 일으킬지 모르는 메서드를 실행한 후에도 해당됩니다.
 
 ```crystal
 begin
   a = 1
   something_dangerous
 ensure
-  puts a + 1 # error, undefined method '+' for Nil
+  puts a + 1 # 오류, Nil에 정의된 메서드 '+' 없음
 end
 ```
 
-Although it is obvious that `a` will always be assigned a value, the compiler will still think `a` might never had a chance to be initialized. Even though this logic might improve in the future, right now it forces you to keep your exception handlers to their necessary minimum, making the code's intention more clear:
+`a`에 값을 할당한다는 사실이 명백할지라도 컴파일러는 `a`가 초기화된 적이 없었을 것이라고 생각합니다. 이 과정이 미래에 더 매끄러워질 수 있겠지만, 지금은 예외 처리 과정을 최소화하고 코드의 의도록 명확하게 만드는 데 집중하는 것이 낫습니다.
 
 ```crystal
-# Clearer than the above: `a` doesn't need
-# to be in the exception handling code.
+# `a`는 예외 처리 코드에 있을 필요가 없으므로
+# 아까의 코드보다 더 나음
 a = 1
 begin
   something_dangerous
@@ -226,16 +226,16 @@ ensure
 end
 ```
 
-## Alternative ways to do error handling
+## 오류를 다루는 다른 방법들
 
-Although exceptions are available as one of the mechanisms for handling errors, they are not your only choice. Raising an exception involves allocating memory, and executing an exception handler is generally slow.
+예외는 오류 처리의 한 방법이지만 유일한 방법은 아닙니다. 예외를 일으키면 메모리가 소모되며, 예외 처리 코드를 실행하는 것은 일반적으로 느린 과정입니다.
 
-The standard library usually provides a couple of methods to accomplish something: one raises, one returns `nil`. For example:
+표준 라이브러리에는 한 가지 동작을 위해 다른 방법을 사용하는 메서드 짝이 몇 가지 있습니다. 하나는 예외를 일으키고, 하나는 `nil`을 반환합니다.
 
 ```crystal
 array = [1, 2, 3]
-array[4]  # raises because of IndexError
-array[4]? # returns nil because of index out of bounds
+array[4]  # IndexError를 일으킴
+array[4]? # 인덱스 초과로 nil을 반환
 ```
 
-The usual convention is to provide an alternative "question" method to signal that this variant of the method returns `nil` instead of raising. This lets the user choose whether she wants to deal with exceptions or with `nil`. Note, however, that this is not available for every method out there, as exceptions are still the preferred way because they don't pollute the code with error handling logic.
+물음표가 달린 메서드는 예외를 일으키는 대신 `nil`을 반환하도록 하는 것이 일반적인 관습입니다. 사용자는 이로써 예외를 처리할지 `nil`을 처리할지 선택할 수 있습니다. 하지만 오류 처리를 분리할 수 있기 때문에 예외를 발생시키는 것이 더욱 바람직하므로, 이는 모든 메서드에 적용할 수 있는 방법은 아닙니다.

@@ -1,35 +1,35 @@
-# Compile-time flags
+# 컴파일 시간 플래그
 
-Types, methods and generally any part of your code can be conditionally defined based on some flags available at compile time. These flags are by default read from the hosts [LLVM Target Triple](http://llvm.org/docs/LangRef.html#target-triple), split on `-`. To get the target you can execute `llvm-config --host-target`.
+타입과 메서드 등 코드를 컴파일 시간의 플래그를 토대로 하여 조건적으로 정의할 수 있습니다. 이 플래그는 기본적으로는 [LLVM Target Triple](http://llvm.org/docs/LangRef.html#target-triple)을 읽어서 `-`을 경계로 쪼갠 것입니다. 컴파일 목표를 알아내기 위해 `llvm-config --host-target`을 실행할 수 있습니다.
 
 ```bash
 $ llvm-config --host-target
 x86_64-unknown-linux-gnu
 
-# so the flags are: x86_64, unknown, linux, gnu
+# 따라서 플래그는 x86_64, unknown, linux, gnu
 ```
 
-Additionally, if a program is compiled with `--release`, the `release` flag will be set.
+추가로 프로그램이 `--release`로 컴파일되었다면 `release` 플래그가 설정됩니다.
 
-You can test these flags with the `flag?` macro method:
+`flag?` 매크로 메서드로 플래그를 검사할 수 있습니다.
 
 ```crystal
 {% if flag?(:x86_64) %}
-  # some specific code for 64 bits platforms
+  # 64비트 플랫폼 전용 코드
 {% else %}
-  # some specific code for non-64 bits platforms
+  # 64비트가 아닌 플랫폼 전용 코드
 {% end %}
 ```
 
-It returns true or false, so you can use `&&` and `||` just normally:
+true 혹은 false를 반환하므로, `&&`와 `||` 또한 사용할 수 있습니다.
 
 ```crystal
 {% if flag?(:linux) && flag?(:x86_64) %}
-  # some specific code for linux 64 bits
+  # 64비트 리눅스 전용 코드
 {% end %}
 ```
 
-These flags are generally used in C bindings to conditionally define types and functions. For example the very well known `size_t` type is defined like this in Crystal:
+플래그는 보통 C 바인딩에서 조건적으로 타입과 함수를 정의하는 데 쓰입니다. 예를 들어 아주 유명한 `size_t` 타입은 크리스탈에서 다음과 같이 정의할 수 있습니다.
 
 ```crystal
 lib C

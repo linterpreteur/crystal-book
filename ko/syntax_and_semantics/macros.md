@@ -1,7 +1,6 @@
-# Macros
+# 매크로
 
-Macros are methods that receive AST nodes at compile-time and produce
-code that is pasted into a program. For example:
+매크로는 컴파일 시간에 AST 노드를 받아 코드를 생성하는 메서드입니다.
 
 ```crystal
 macro define_method(name, content)
@@ -10,7 +9,7 @@ macro define_method(name, content)
   end
 end
 
-# This generates:
+# 다음을 생성
 #
 #     def foo
 #       1
@@ -20,19 +19,15 @@ define_method foo, 1
 foo #=> 1
 ```
 
-A macro's definition body looks like regular Crystal code with
-extra syntax to manipulate the AST nodes. The generated code must
-be valid Crystal code, meaning that you can't for example generate
-a `def` without a matching `end`, or a single `when` expression of a
-`case`, since both of them are not complete valid expressions.
+매크로의 정의부는 일반적인 크리스탈 코드와 유사합니다. 차이는 AST 노드를 조작할 문법이 추가되어 있다는 것입니다. 생성된 코드는 반드시 유효한 크리스탈 코드여야 합니다. 즉 `end` 없는 `def`나, `when` 표현식 없는 `case` 등은 생성할 수 없습니다.
 
-## Scope
+## 범위
 
-Macros declared at the top-level are visible anywhere. If a top-level macro is marked as `private` it is only accessible in that file.
+최상위에 선언된 매크로는 어디서든 사용할 수 있습니다. 최상위 매크로가 `private`으로 표시된다면 그 파일에서만 사용할 수 있습니다.
 
-They can also be defined in classes and modules, and are visible in those scopes. Macros are also looked-up in the ancestors chain (superclasses and included modules).
+클래스나 모듈에 매크로를 선언할 수도 있으며, 그 경우 해당 모듈이나 클래스에서만 사용할 수 있습니다. 매크로는 또한 상위 클래스와 포함한 모듈 등 상속 연쇄를 따릅니다.
 
-For example, a block which is given an object to use as the default receiver by being invoked with `with ... yield` can access macros defined within that object's ancestors chain:
+예를 들어, `with ... yield`를 호출하여 리시버 객체를 받은 블락은 해당 객체의 상속 연쇄에 정의되어 있는 매크로에 접근할 수 있습니다.
 
 ```crystal
 class Foo
@@ -48,7 +43,7 @@ end
 Foo.new.yield_with_self { emphasize(10) } #=> "***10***"
 ```
 
-Macros defined in classes and modules can be invoked from outside of them too:
+클래스와 모듈에 정의된 매크로 또한 바깥에서 호출할 수 있습니다.
 
 ```crystal
 class Foo
@@ -60,14 +55,14 @@ end
 Foo.emphasize(10) # => "***10***"
 ```
 
-## Interpolation
+## 보간
 
-You use `{{...}}` to paste, or interpolate, an AST node, as in the above example.
+위에서 보았듯 `{{...}}`를 이용하여 AST 노드를 붙여넣거나 보간합니다.
 
-Note that the node is pasted as-is. If in the previous example we pass a symbol, the generated code becomes invalid:
+해당 노드는 그대로 붙여넣어진다는 사실에 주의해야 합니다. 앞서 본 예시에서 심벌을 넘긴다면 생성된 코드는 유효하지 않게 됩니다.
 
 ```crystal
-# This generates:
+# 다음을 생성
 #
 #     def :foo
 #       1
@@ -75,13 +70,13 @@ Note that the node is pasted as-is. If in the previous example we pass a symbol,
 define_method :foo, 1
 ```
 
-Note that `:foo` was the result of the interpolation, because that's what was passed to the macro. You can use the method `ASTNode#id` in these cases, where you just need an identifier.
+`:foo`가 매크로에 넘겨졌기 때문에 그대로 보간의 결과가 됩니다. 이 경우처럼 식별자가 필요하다면 `ASTNode#id` 메서드를 사용하면 됩니다.
 
-## Macro calls
+## 매크로 호출
 
-You can invoke a **fixed subset** of methods on AST nodes at compile-time. These methods are documented in a fictitious [Crystal::Macros](http://crystal-lang.org/api/Crystal/Macros.html) module.
+컴파일 시간에는 AST 노드에 **미리 정해진 종류의** 메서드만을 호출할 수 있습니다. 가상의 [Crystal::Macros](http://crystal-lang.org/api/Crystal/Macros.html) 모듈에 정리되어 있습니다.
 
-For example, invoking `ASTNode#id` in the above example solves the problem:
+예를 들어, 위의 코드에서 `ASTNode#id`를 호출하여 문제를 해결할 수 있습니다.
 
 ```crystal
 macro define_method(name, content)
@@ -90,7 +85,7 @@ macro define_method(name, content)
   end
 end
 
-# This correctly generates:
+# 올바르게 다음을 생성
 #
 #     def foo
 #       1
@@ -98,9 +93,9 @@ end
 define_method :foo, 1
 ```
 
-## Conditionals
+## 조건문
 
-You use `{% if condition %}` ... `{% end %}` to conditionally generate code:
+`{% if condition %}` ... `{% end %}` 구문을 통해 조건적으로 코드를 생성할 수 있습니다.
 
 ```crystal
 macro define_method(name, content)
@@ -120,18 +115,18 @@ foo #=> one
 bar #=> 2
 ```
 
-Similar to regular code, `Nop`, `NilLiteral` and a false `BoolLiteral` are considered *falsey*, while everything else is considered truthy.
+일반 코드와 비슷하게, `Nop`, `NilLiteral`과 거짓인 `BoolLiteral`이 *거짓인* 값으로 취급되며, 나머지는 모두 참인 값으로 취급됩니다.
 
-Macro conditionals can be used outside a macro definition:
+매크로 조건문은 매크로 정의가 아닐 때에도 사용할 수 있습니다.
 
 ```crystal
 {% if env("TEST") %}
-  puts "We are in test mode"
+  puts "지금은 테스트 모드"
 {% end %}
 ```
 
-### Iteration
-To iterate an `ArrayLiteral`:
+### 반복문
+다음과 같이 `ArrayLiteral`의 요소를 반복할 수 있습니다.
 
 ```crystal
 macro define_dummy_methods(names)
@@ -149,9 +144,9 @@ bar #=> 1
 baz #=> 2
 ```
 
-The `index` variable in the above example is optional.
+위의 경우 `index` 변수를 쓰지 않을 수도 있습니다.
 
-To iterate a `HashLiteral`:
+`HashLiteral`의 요소를 반복하는 것은 다음과 같습니다.
 
 ```crystal
 macro define_dummy_methods(hash)
@@ -166,7 +161,7 @@ foo #=> 10
 bar #=> 20
 ```
 
-Macro iterations can be used outside a macro definition:
+매크로 반복문은 매크로 정의가 아닐 때에도 사용할 수 있습니다.
 
 ```crystal
 {% for name, index in ["foo", "bar", "baz"] %}
@@ -180,9 +175,9 @@ bar #=> 1
 baz #=> 2
 ```
 
-## Variadic arguments and splatting
+## 가변 인자와 쪼개기
 
-A macro can accept variadic arguments:
+매크로는 가변 인자를 받을 수 있습니다.
 
 ```crystal
 macro define_dummy_methods(*names)
@@ -200,9 +195,9 @@ bar #=> 1
 baz #=> 2
 ```
 
-The arguments are packed into an `ArrayLiteral` and passed to the macro.
+인자는 `ArrayLiteral`에 담겨 매크로에 전달됩니다.
 
-Additionally, using `*` when interpolating an `ArrayLiteral` interpolates the elements separated by commas:
+추가로 `ArrayLiteral`을 보간할 때 `*`를 사용한다면, 쉼표로 쪼개어 인자를 합치게 될 것입니다.
 
 ```crystal
 macro println(*values)
@@ -212,15 +207,15 @@ end
 println 1, 2, 3 # outputs 123\n
 ```
 
-### Type information
+### 타입 정보
 
-When a macro is invoked you can access the current scope, or type, with a special instance variable: `@type`. The type of this variable is `TypeNode`, which gives you access to type information at compile time.
+매크로를 호출할 때 현재 객체의 타입을 특수한 인스턴스 변스 `@type`을 통해 접근할 수 있습니다. 이 변수의 타입은 `TypeNode`이며, 컴파일 시간에 타입 정보를 읽을 수 있습니다.
 
-Note that `@type` is always the *instance* type, even when the macro is invoked in a class method.
+매크로가 클래스 메서드에서 호출될 때라고 해도 `@type`은 항상 *인스턴스* 타입입니다.
 
-### Constants
+### 상수
 
-Macros can access constants. For example:
+매크로에서 상수를 읽을 수 있습니다.
 
 ```crystal
 VALUES = [1, 2, 3]
@@ -230,4 +225,4 @@ VALUES = [1, 2, 3]
 {% end %}
 ```
 
-If the constant denotes a type, you get back a `TypeNode`.
+상수가 타입 표기일 경우, 그 값은 `TypeNode`입니다.

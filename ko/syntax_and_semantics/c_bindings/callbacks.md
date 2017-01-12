@@ -1,51 +1,50 @@
-# Callbacks
+# 콜백
 
-You can use function types in C declarations:
+C 선언에서의 함수 타입을 이용할 수 있습니다.
 
 ```crystal
 lib X
-  # In C:
+  # C에서는
   #
   #    void callback(int (*f)(int));
   fun callback(f : Int32 -> Int32)
 end
 ```
 
-Then you can pass a function (a [Proc](http://crystal-lang.org/api/Proc.html)) like this:
+그러면 함수([Proc](http://crystal-lang.org/api/Proc.html))을 다음과 같이 넘길 수 있습니다.
 
 ```crystal
 f = ->(x : Int32) { x + 1 }
 X.callback(f)
 ```
 
-If you define the function inline in the same call you can omit the argument types, the compiler will add the types for you based on the `fun` signature:
+함수를 호출하는 줄에서 선언하면 인자의 타입을 생략할 수 있습니다. 컴파일러가 `fun`의 시그니처에 따라 타입을 추가할 것입니다.
 
 ```crystal
 X.callback ->(x) { x + 1 }
 ```
 
-Note, however, that functions passed to C can't form closures. If the compiler detects at compile-time that a closure is being passed, an error will be issued:
+하지만 C에 넘겨진 함수는 클로저를 형성하지 않는다는 사실을 기억해야 합니다. 클로저를 넘기는 것을 컴파일러가 감지한다면, 컴파일 시간 오류가 발생합니다.
 
 ```crystal
 y = 2
-X.callback ->(x) { x + y } # Error: can't send closure
-                           # to C function
+X.callback ->(x) { x + y } # 오류: C 함수에 클로저를 보낼 수 없음
 ```
 
-If the compiler can't detect this at compile-time, an exception will be raised at runtime.
+컴파일러가 이를 컴파일 시간에 감지하지 못한다면 실행 시간 예외가 일어납니다.
 
-Refer to the [type grammar](../type_grammar.html) for the notation used in callbacks and procs types.
+[타입 문법](../type_grammar.html)에서 콜백과 프록 타입에 쓰인 표기에 대해 알아볼 수 있습니다.
 
-If you want to pass `NULL` instead of a callback, just pass `nil`:
+콜백 대신에 `NULL`을 넘기려면, `nil`을 넘기면 됩니다.
 
 ```crystal
-# Same as callback(NULL) in C
+# C에서의 callback(NULL)와 동일
 X.callback nil
 ```
 
-### Passing a closure to a C function
+### C 함수에 클로저 넘기기
 
-Most of the time a C function that allows setting a callback also provide an argument for custom data. This custom data is then sent as an argument to the callback. For example, suppose a C function that invokes a callback at every tick, passing that tick:
+대부분의 경우 콜백이 있는 C 함수는 사용자 정의 데이터를 위한 인자가 있습니다. 이 데이터는 콜백의 인자로 넘겨집니다. 예를 들어, 콜백을 계속 호출하는 C 함수를 가정해 봅시다.
 
 ```crystal
 lib LibTicker
@@ -53,25 +52,24 @@ lib LibTicker
 end
 ```
 
-To properly define a wrapper for this function we must send the Proc as the callback data, and then convert that callback data to the Proc and finally invoke it.
+이 함수를 올바르게 감싸는 방법은 Proc을 콜백 데이터로 보내고, 그 데이터를 Proc으로 변환하여 호출하는 것입니다.
 
 ```crystal
 module Ticker
-  # The callback for the user doesn't have a Void*
+  # 사용자 콜백은 Void*가 없음
   def self.on_tick(&callback : Int32 ->)
-    # We must save this in Crystal-land so the GC doesn't collect it (*)
+    # GC의 수집을 피하기 위해 크리스탈에서 저장해야 함
     @@callback = callback
 
-    # Since Proc is a {Void*, Void*}, we can't turn that into a Void*, so we
-    # "box" it: we allocate memory and store the Proc there
+    # Proc은 {Void*, Void*}이므로, Void*로 변환할 수 없고,
+    # "상자"에 메모리를 할당하고 프록을 담아야 함
     boxed_data = Box.box(callback)
 
-    # We pass a callback that doesn't form a closure, and pass the boxed_data as
-    # the callback data
+    # 클로저를 만들지 않는 콜백과 boxed_data를 콜백 데이터로 넘김
     LibTicker.on_tick(->(tick, data) {
-      # Now we turn data back into the Proc, using Box.unbox
+      # 이제 Box.unbox로 데이터를 Proc으로 되돌림
       data_as_callback = Box(typeof(callback)).unbox(data)
-      # And finally invoke the user's callback
+      # 마침내 사용자 콜백을 호출
       data_as_callback.call(tick)
     }, boxed_data)
   end
@@ -82,15 +80,15 @@ Ticker.on_tick do |tick|
 end
 ```
 
-Note that we save the callback in `@@callback`. The reason is that if we don't do it, and our code doesn't reference it anymore, the GC will collect it. The C library will of course store the callback, but Crystal's GC has no way of knowing that.
+`@@callback`에 콜백을 저장한다는 데 주의해야 합니다. 이렇게 하지 않으면 코드가 더 이상 참조하지 않을 때 GC가 콜백을 수집할 것입니다. C 라이브러리는 물론 콜백을 저장하겠지만, 크리스탈의 GC는 그 사실을 알 방법이 없기 때문입니다.
 
-## Raises attribute
+## Raises 속성
 
-If a C function executes a user-provided callback that might raise, it must be annotated with the `@[Raises]` attribute.
+C 함수가 예외를 던질 수 있는 사용자 정의 콜백을 실행할 경우, `@[Raises]` 속성으로 표기해야 합니다.
 
-The compiler infers this attribute for a method if it invokes a method that is marked as `@[Raises]` or raises (recursively).
+컴파일러는 메서드가 `@[Raises]` 속성을 갖거나 예외를 일으키는 메서드를 호출한다면 이 속성을 (재귀적으로) 추론해냅니다.
 
-However, some C functions accept callbacks to be executed by other C functions. For example, suppose a fictitious library:
+하지만 일부 C 함수는 다른 C 함수가 실행할 콜백을 받을 수 있습니다. 예를 들어 가상의 라이브러리를 가정합시다.
 
 ```crystal
 lib LibFoo
@@ -98,19 +96,19 @@ lib LibFoo
   fun execute_callback
 end
 
-LibFoo.store_callback ->{ raise "OH NO!" }
+LibFoo.store_callback ->{ raise "안 돼!" }
 LibFoo.execute_callback
 ```
 
-If the callback passed to `store_callback` raises, then `execute_callback` will raise. However, the compiler doesn't know that `execute_callback` can potentially raise because it is not marked as `@[Raises]` and the compiler has no way to figure this out. In these cases you have to manually mark such functions:
+`store_callback`에 전해진 콜백이 예외를 일으킨다면 `execute_callback` 또한 예외를 일으킬 것입니다. 하지만 컴파일러는 `execute_callback`이 `@[Raises]`로 표기되어 있지 않기 때문에 잠재적으로 예외를 일으킬 수 있다는 사실을 알 수가 없습니다. 이런 경우에는 수동으로 표시해 주어야 합니다.
 
 ```crystal
 lib LibFoo
   fun store_callback(callback : ->)
 
-  @[Raises]
+  @ [Raises]
   fun execute_callback
 end
 ```
 
-If you don't mark them, `begin/rescue` blocks that surround this function's calls won't work as expected.
+`@[Raises]`로 제대로 표시하지 않을 경우, 이 함수의 호출을 감싸는 `begin/rescue` 블럭은 예상대로 동작하지 않을 것입니다.
