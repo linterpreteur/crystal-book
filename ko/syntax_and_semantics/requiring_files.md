@@ -1,24 +1,24 @@
-# Requiring files
+# require
 
-Writing a program in a single file is OK for little snippets and small benchmark code. Big programs are better maintained and understood when split across different files.
+성능을 측정하는 작은 프로그램 같은 경우라면 파일 하나에 프로그램 코드를 전부 넣어도 괜찮을 것입니다. 하지만 규모가 커진다면 여러 파일에 코드를 분리해 넣어야 유지보수 및 코드 이해에 문제가 없습니다.
 
-To make the compiler process other files you use `require "..."`. It accepts a single argument, a string literal, and it can come in many flavors.
+`require "..."`를 통해 컴파일러가 다른 파일을 처리하도록 명령합니다. 이 표현식은 문자열 리터럴 하나를 인자로 받으며, 다양한 방법으로 사용될 수 있습니다.
 
-Once a file is required, the compiler remembers its absolute path and later `require`s of that same file will be ignored.
+파일이 `require`되고 나면, 컴파일러는 그 절대 경로를 기억해두었다가 같은 파일을 `require`하도록 요청받을 경우 그 요청을 무시합니다.
 
-## require "filename"
+## require "파일명"
 
-This looks up "filename" in the require path.
+require 경로에서 이름이 "filename"인 파일을 찾습니다.
 
-By default the require path is the location of the standard library that comes with the compiler, and the "libs" directory relative to the current working directory (given by `pwd` in a Unix shell). These are the only places that are looked up.
+require 경로란 컴파일러에 동봉되는 표준 라이브러리 위치와 (유닉스 셸에서 `pwd`로 얻을 수 있는) 현재 작업 디렉토리에 상대적인 "libs" 디렉토리를 의미합니다. 컴파일러는 이 경로만을 검색하게 됩니다.
 
-The lookup goes like this:
+검색은 다음 순서로 이루어집니다.
 
-* If a file named "filename.cr" is found in the require path, it is required.
-* If a directory named "filename" is found and it contains a file named "filename.cr" directly underneath it, it is required.
-* Otherwise a compile-time error is issued.
+* require 경로에 "filename.cr" 파일이 존재할 경우 그 파일이 포함됩니다.
+* "filename" 디렉토리가 존재하며 그 디렉토리 바로 아래에 "filename.cr" 파일이 있을 경우 그 파일이 포함됩니다.
+* 이외의 경우 컴파일 시간 오류가 발생합니다.
 
-The second rule is very convenient because of the typical directory structure of a project:
+전형적인 프로젝트 구조를 가정하면, 두 번째 규칙은 아주 유용합니다.
 
 ```
 - project
@@ -35,31 +35,31 @@ The second rule is very convenient because of the typical directory structure of
 
 ## require "./filename"
 
-This looks up "filename" relative to the file containing the require expression.
+require 표현식을 포함하는 파일에 상대적인 경로에서 "filename"을 찾습니다.
 
-The lookup goes like this:
+검색은 다음 순서로 이루어집니다.
 
-* If a file named "filename.cr" is found relative to the current file, it is required.
-* If a directory named "filename" is found and it contains a file named "filename.cr" directly underneath it, it is required.
-* Otherwise a compile-time error is issued.
+* 현재 파일과 같은 경로에 "filename.cr" 파일이 존재할 경우 그 파일이 포함됩니다.
+* "filename" 디렉토리가 존재하며 그 디렉토리 바로 아래에 "filename.cr" 파일이 있을 경우 그 파일이 포함됩니다..
+* 이외의 경우 컴파일 시간 오류가 발생합니다.
 
-This relative is mostly used inside a project to refer to other files inside it. It is also used to refer to code from specs:
+이 상대 경로 표현식은 한 프로젝트에서 같은 경로에 있는 다른 파일을 참조하기 위해 주로 사용됩니다. specs에서 코드를 나타내기 위해 사용할 수도 있습니다.
 
 ```crystal
-# in spec/project_spec.cr
+# spec/project_spec.cr에서
 require "../src/project"
 ```
 
-## Other forms
+## 기타 형태
 
-In both cases you can use nested names and they will be looked up in nested directories:
+두 경우 모두 중첩된 이름을 사용하여 중첩 디렉토리에서 이름을 찾게 됩니다.
 
-* `require "foo/bar/baz"` will lookup "foo/bar/baz.cr" or "foo/bar/baz/baz.cr" in the require path.
-* `require "./foo/bar/baz"` will lookup "foo/bar/baz.cr" or "foo/bar/baz/baz.cr" relative to the current file.
+* `require "foo/bar/baz"`는 require 경로에서 "foo/bar/baz.cr" 또는 "foo/bar/baz/baz.cr"를 검색합니다.
+* `require "./foo/bar/baz"`는 현재 경로에서 "foo/bar/baz.cr" 또는 "foo/bar/baz/baz.cr"를 검색합니다.
 
-You can also use "../" to access parent directories relative to the current file, so `require "../../foo/bar"` works as well.
+"../"로 현재 경로의 상위 디렉토리에 접근할 수 있습니다. 따라서 `require "../../foo/bar"` 또한 하나의 방법입니다.
 
-In all of these cases you can use the special `*` and `**` suffixes:
+어떤 경우든 특수한 `*` 접미사와 `**` 접미사를 사용할 수 있습니다.
 
-* `require "foo/*"` will require all ".cr" files below the "foo" directory, but not below directories inside "foo".
-* `require "foo/**"` will require all ".cr" files below the "foo" directory, and below directories inside "foo", recursively.
+* `require "foo/*"`는 "foo" 디렉토리 안의 모든 ".cr" 파일을 포함하지만, "foo" 안의 디렉토리는 포함하지 않습니다.
+* `require "foo/**"`는 "foo" 디렉토리 안의 모든 ".cr" 파일을 포함하며, "foo" 안의 모든 디렉토리를 재귀적으로 포함합니다.

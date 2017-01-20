@@ -1,8 +1,8 @@
 # pointerof
 
-The `pointerof` expression returns a [Pointer](http://crystal-lang.org/api/Pointer.html) that points to the contents of a variable or instance variable.
+`pointerof` 표현식은 변수 혹은 인스턴스 변수의 내용물을 가리키는 [Pointer](http://crystal-lang.org/api/Pointer.html)를 반환합니다.
 
-An example with a variable:
+변수의 예시입니다.
 
 ```crystal
 a = 1
@@ -13,7 +13,7 @@ ptr.value = 2
 a #=> 2
 ```
 
-An example with an instance variable:
+인스턴스 변수의 예시입니다.
 
 ```crystal
 class Point
@@ -37,5 +37,5 @@ ptr.value = 10
 point.x #=> 10
 ```
 
-Because `pointerof` involves pointers, it is considered [unsafe](unsafe.html).
+`pointerof`는 포인터를 사용하므로, [안전하지 않은](unsafe.html) 코드로 간주됩니다.
 
