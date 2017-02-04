@@ -1,10 +1,10 @@
-# Classes and methods
+# 클래스와 메서드
 
-A class is a blueprint from which individual objects are created. As an example, consider a `Person` class. You declare a class like this:
+클래스는 각 객체가 생성되는 설계도와 같습니다. 다음과 같이 선언되는 `Person` 클래스를 생각해볼 수 있습니다.
 
 ```crystal
 class Person
 end
 ```
 
-Class names, and every type name, begin with a capital letter in Crystal.
+클래스 이름을 비롯해 크리스탈의 모든 타입 이름은 대문자로 시작합니다.

@@ -1,18 +1,18 @@
-# The Program
+# 프로그램
 
-The program is a global object in which you can define types, methods and file-local variables.
+프로그램은 타입, 메서드, 파일 단위의 지역 변수가 선언되는 전역 객체입니다.
 
 ```crystal
-# Defines a method in the program
+# 프로그램에 메서드 선언
 def add(x, y)
   x + y
 end
 
-# Invokes the add method in the program
+# 프로그램의 add 메서드 호출
 add(1, 2) #=> 3
 ```
 
-A method's value is the value of its last expression, there's no need for explicit `return` expressions. However, explicit `return` are possible:
+메서드의 값은 마지막 표현식의 값과 같습니다. 따라서 `return`은 필요하지 않지만, 명시할 수는 있습니다.
 
 ```crystal
 def even?(num)
@@ -24,7 +24,7 @@ def even?(num)
 end
 ```
 
-When invoking a method without a receiver, like `add(1, 2)`, it will be searched in the program if not found in the current type or any of its ancestors.
+`add(1, 2)`처럼 리시버 없이 메서드를 호출했을 때, 현재 타입이나 상위 타입에서 그 메서드를 찾지 못했다면 프로그램에서 해당 메서드를 찾습니다.
 
 ```crystal
 def add(x, y)
@@ -33,10 +33,10 @@ end
 
 class Foo
   def bar
-    # invokes the program's add method
+    # 프로그램의 add 메서드 호출
     add(1, 2)
 
-    # invokes Foo's baz method
+    # Foo의 baz 메서드 호출
     baz(1, 2)
   end
 
@@ -46,7 +46,7 @@ class Foo
 end
 ```
 
-If you want to invoke the program's method, even though the current type defines a method with the same name, prefix the call with `::`:
+현재 타입에서 같은 이름을 갖는 메서드를 정의하고 있더라도 프로그램의 메서드를 호출하고 싶은 경우라면 호출 앞에 `::`를 붙입니다.
 
 ```crystal
 def baz(x, y)
@@ -65,39 +65,39 @@ class Foo
 end
 ```
 
-Variables declared in a program are not visible inside methods:
+프로그램에 선언된 변수는 메서드 안에서는 사용할 수 없습니다.
 
 ```crystal
 x = 1
 
 def add(y)
-  x + y # error: undefined local variable or method 'x'
+  x + y # 오류: 지역 변수 또는 메서드 'x'는 정의되지 않음
 end
 
 add(2)
 ```
 
-Parentheses in method invocations are optional:
+메서드 호출에서 괄호를 생략할 수도 있습니다.
 
 ```crystal
 add 1, 2 # same as add(1, 2)
 ```
 
-## Main code
+## 메인 코드
 
-Main code, the code that is run when you compile and run a program, can be written directly in a source file without the need to put it in a special "main" method:
+프로그램을 컴파일하고 실행할 때 실행되는 메인 코드는, 별도의 "메인" 메서드 없이 소스 파일에 바로 쓸 수 있습니다.
 
 ```crystal
-# This is a program that prints "Hello Crystal!"
+# "Hello Crystal!"을 출력하는 프로그램
 puts "Hello Crystal!"
 ```
 
-Main code can also be inside type declarations:
+메인 코드는 타입 선언 안에도 올 수 있습니다.
 
 ```crystal
-# This is a program that prints "Hello"
+# "Hello"를 출력하는 프로그램
 class Hello
-  # 'self' here is the Hello class
+  # 이 때 'self'는 Hello 클래스
   puts self
 end
 ```

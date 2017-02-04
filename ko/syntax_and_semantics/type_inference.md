@@ -1,8 +1,8 @@
-# Type inference
+# 타입 추론
 
-Crystal's philosophy is to require as few type annotations as possible. However, some type annotatinos are required.
+크리스탈의 철학은 타입 표기를 최소한 줄이는 것입니다. 그럼에도 표기가 필요한 경우가 있습니다.
 
-Consider a class definition like this:
+다음과 같은 클래스 정의를 생각해봅시다.
 
 ```crystal
 class Person
@@ -12,20 +12,20 @@ class Person
 end
 ```
 
-We can quickly see that `@age` is an integer, but we don't know what's the type of `@name`. The compiler could infer its type from all uses of the `Person` class. However, doing so has a few issues:
+`@age`가 정수라는 것은 빠르게 알아챌 수 있지만 `@name`의 타입은 알 수가 없습니다. 컴파일러가 `Person` 클래스의 쓰임새로부터 그 타입을 추론해낼 수도 있을 것입니다. 하지만 문제가 있습니다.
 
-* The type is not obvious for a human reading the code: she would also have to check all uses of `Person` to find this out.
-* Some compiler optimizations, like having to analyze a method just once, and incremental compilation, are near impossible to do.
+* 코드를 읽는 인간에게 타입이 분명하지 않습니다. 컴파일러뿐 아니라 사람도 `Person`의 모든 쓰임새를 찾아봐야 할 것입니다.
+* 메서드를 한 번만 분석하는 것이나, 증분 컴파일과 같은 일부 컴파일러 최적화 기법이 거의 불가능해집니다.
 
-As a code base grows, these issues gain more relevance: understanding a project becomes harder, and compile times become unbearable.
+코드가 방대해짐에 따라 이 문제의 연관성은 더욱 커집니다. 프로젝트를 이해하는 것은 힘들어지고, 컴파일 시간은 견디기 힘들 만큼 길어지는 것입니다.
 
-For this reason, Crystal needs to know, in an obvious way (as obvious as to a human), the types of instance, [class](class_variables.html) variables.
+이런 이유로 크리스탈은 인스턴스 변수와 [클래스](class_variables.html) 변수의 타입을 (인간에게 명확한 만큼) 명확하게 알고 있어야 합니다.
 
-There are several ways to let Crystal know this.
+이를 달성하는 방법은 여러 가지가 있습니다.
 
-## Use an explicit type annotation
+## 명시적 타입 표기 사용
 
-The easiest, but probably most tedious, way is to use explicit type annotations.
+가장 쉽지만 가장 재미없는 방법은 타입을 명시적으로 표기하는 것입니다.
 
 ```crystal
 class Person
@@ -38,21 +38,21 @@ class Person
 end
 ```
 
-## Don't use an explicit type annotation
+## 명시적 타입 표기 미사용
 
-If you omit an explicit type annotation the compiler will try to infer the type of instance and class variables using a bunch of syntactic rules.
+명시적으로 타입을 적어주지 않는다면 컴파일러는 인스턴스 변수와 클래스 변수의 타입을 문법 규칙으로부터 추론하려 할 것입니다.
 
-For a given instance/class variable, when a rule can be applied and a type can be guessed, the type is added to a set. When no more rules can be applied, the inferred type will be the [union](union_types.html) of those types. Additionally, if the compiler infers that an instance variable isn't always initialized, it will also include the [Nil](literals/nil.html) type.
+규칙을 통해 주어진 인스턴스 또는 클래스 변수로부터 타입을 추론할 수 있다면, 해당 타입이 집합에 추가됩니다. 모든 규칙을 적용한 후에 추론되는 타입은 집합에 있는 타입의 [공용체](union_types.html)가 됩니다. 추가로 인스턴스 변수가 항상 초기화되는 것은 아니라고 추론하는 경우에는 [Nil](literals/nil.html) 타입도 포함됩니다.
 
-The rules are many, but usually the first three are most used. There's no need to remember them all. If the compiler gives an error saying that the type of an instance variable can't be inferred you can always add an explicit type annotation.
+많은 규칙이 있지만 가장 많이 쓰이는 것은 세 개가 있습니다. 이를 모두 기억할 필요는 없습니다. 컴파일러가 인스턴스 변수의 타입을 추론할 수 없다는 오류를 띄운다면 언제든 명시적으로 타입을 적어줌으로써 해결할 수 있습니다.
 
-The following rules only mention instance variables, but they apply to class variables as well. They are:
+지금부터 볼 규칙들은, 인스턴스 변수의 경우만 언급하지만 클래스 변수에도 동일하게 적용됩니다.
 
-### 1. Assigning a literal value
+### 1. 리터럴 값을 할당
 
-When a literal is assigned to an instance variable, the literal's type is added to the set. All [literals](literals.html) have an associated type.
+인스턴스 변수에 리터럴이 할당된다면 그 리터럴의 타입이 집합에 추가됩니다. 모든 [리터럴](literals.html)에는 주어지는 타입이 있습니다.
 
-In the following example, `@name` is inferred to be `String` and `@age` to be `Int32`.
+다음 예시에서 `@name`은 `String`으로, `@age`는 `Int32`로 추론됩니다.
 
 ```crystal
 class Person
@@ -63,7 +63,7 @@ class Person
 end
 ```
 
-This rule, and every following rule, will also be applied in methods other than `initialize`. For example:
+이 규칙을 비롯해 모든 규칙은 `intialize`가 아닌 메서드에도 적용됩니다.
 
 ```crystal
 class SomeObject
@@ -73,13 +73,13 @@ class SomeObject
 end
 ```
 
-In the above case, `@lucky_number` will be inferred to be `Int32 | Nil`: `Int32` because 42 was assigned to it, and `Nil` because it wasn't assigned in all of the class' initialize methods.
+이 경우, `@lucky_number`는 `Int32 | Nil`로 추론됩니다. 42가 할당되었으므로 `Int32`가, 항상 할당되는 것은 아니므로 `Nil`이 추론되는 것입니다.
 
-### 2. Assigning the result of invoking the class method `new`
+### 2. 클래스 메서드 `new` 호출의 결과를 할당
 
-When an expression like `Type.new(...)` is assigned to an instance variable, the type `Type` is added to the set.
+`Type.new(...)` 식의 표현식이 인스턴스 변수에 할당된다면 `Type` 타입이 집합에 추가됩니다.
 
-In the following example, `@address` is inferred to be `Address`.
+다음 예시에서 `@address`는 `Address`로 추론됩니다.
 
 ```crystal
 class Person
@@ -89,7 +89,7 @@ class Person
 end
 ```
 
-This also is applied to generic types. Here `@values` is inferred to be `Array(Int32)`.
+제너릭 타입의 경우도 마찬가지입니다. 다음과 같은 경우 `@values`는 `Array(Int32)`로 추론됩니다.
 
 ```crystal
 class Something
@@ -99,11 +99,11 @@ class Something
 end
 ```
 
-**Note**: a `new` method might be redefined by a type. In that case the inferred type will be the one returned by `new`, if it can be inferred using some of the next rules.
+**주의**: `new` 메서드를 재정의하는 타입이 있을 수 있습니다. 이 경우 다음 규칙을 이용하여 추론할 수 있다면, 추론되는 타입은 `new`가 반환하는 타입입니다.
 
-### 3. Assigning a variable that is a method argument with a type restriction
+### 3. 타입 제약이 있는 메서드 인자를 할당
 
-In the following example `@name` is inferred to be `String` because the method argument `name` has a type restriction of type `String`, and that argument is assigned to `@name`.
+다음 예시에서 메서드 인자 `name`이 `String`의 타입 제약이 있기 때문에 `@name`은 `String`으로 추론되며, 그 인자가 `@name`에 할당됩니다.
 
 ```crystal
 class Person
@@ -113,7 +113,7 @@ class Person
 end
 ```
 
-Note that the name of the method argument is not important, this works as well:
+그 인자의 이름은 전혀 중요하지 않습니다. 다음과 같은 경우도 동일하게 동작합니다.
 
 ```crystal
 class Person
@@ -123,7 +123,7 @@ class Person
 end
 ```
 
-Using the shorter syntax to assign an instance variable from a method argument has the same effect:
+메서드 인자를 인스턴스 변수에 할당하는 짧은 문법을 쓸 때에도 같은 효과가 있습니다.
 
 ```crystal
 class Person
@@ -132,7 +132,7 @@ class Person
 end
 ```
 
-Also note that the compiler doesn't check whether method argument is reassigned a different value:
+또한 컴파일러는 인자에 다른 값이 재할당되는지 검사하지 않는다는 사실에 유의해야 합니다.
 
 ```crystal
 class Person
@@ -143,11 +143,11 @@ class Person
 end
 ```
 
-In the above case, the compiler will still infer `@name` to be `String`, and later will give a compile time error, when fully typing that method, saying that `Int32` can't be assigned to a variable of type `String`. Use an explicit type annotation if `@name` isn't supposed to be a `String`.
+이 경우에도 `@name`은 `String`으로 추론되어, 나중에서야 `Int32`는 `String` 타입의 변수에 할당될 수 없다며 컴파일 오류를 내놓을 것입니다. `@name`이 `String`이 아닌 경우라면 명시적으로 타입을 표기해주어야 합니다.
 
-### 4. Assigning the result of a class method that has a return type annotation
+### 4. 반환 타입 표기가 있는 클래스 메서드의 결과를 할당
 
-In the following example, `@address` is inferred to be `Address`, because the class method `Address.unknown` has a return type annotation of `Address`.
+다음 예시에서, 클래스 메서드 `Address.unknown`에 `Address` 반환 표기가 있기 때문에 `@address`는 `Address`로 추론됩니다.
 
 ```crystal
 class Person
@@ -166,7 +166,7 @@ class Address
 end
 ```
 
-In fact, the above code doesn't need the return type annotation in `self.unknown`. The reason is that the compiler will also look at a class method's body and if it can apply one of the previous rules (it's a `new` method, or it's a literal, etc.) it will infer the type from that expression. So, the above can be simply written like this:
+사실 이런 경우에는 `self.unknown`에 반환 타입 표기가 필요 없습니다. 컴파일러가 메서드 본체를 보고서 앞서 본 규칙 중 하나를 적용할 수 있다면 그로부터 타입을 추론할 것이기 때문입니다. 따라서 단순하게 다음과 같이 쓸 수도 있습니다.
 
 ```crystal
 class Person
@@ -176,7 +176,7 @@ class Person
 end
 
 class Address
-  # No need for a return type annotation here
+  # 반환 타입 표기 필요 없음
   def self.unknown
     new("unknown")
   end
@@ -186,11 +186,11 @@ class Address
 end
 ```
 
-This extra rule is very convenient because it's very common to have "constructor-like" class methods in addition to `new`.
+이 규칙은 `new`에 더해 "생성자와 유사한" 클래스 메서드가 여럿 있는 경우가 매우 흔하기 때문에 편리하게 이용됩니다.
 
-### 5. Assigning a variable that is a method argument with a default value
+### 5. 기본값이 있는 메서드 인자를 할당
 
-In the following example, because the default value of `name` is a string literal, and it's later assigned to `@name`, `String` will be added to the set of inferred typed.
+다음 예시에서 `name`의 기본값이 문자열 리터럴이며 이 인자가 `@name`에 할당되기 때문에, 추론 타입의 집합에 `String`이 추가됩니다.
 
 ```crystal
 class Person
@@ -200,7 +200,7 @@ class Person
 end
 ```
 
-This of course also works with the short syntax:
+물론 짧은 문법을 써도 같습니다.
 
 ```crystal
 class Person
@@ -209,13 +209,13 @@ class Person
 end
 ```
 
-The default value can also be a `Type.new(...)` method or a class method with a return type annotation.
+`Type.new(...)` 메서드 혹은 반환 타입 표기가 있는 클래스 메서드 또한 기본값으로 넘길 수 있습니다.
 
-### 6. Assigning the result of invoking a `lib` function
+### 6. `lib` 함수 호출의 결과를 할당
 
-Because a [lib function](c_bindings/fun.html) must have explicit types, the compiler can use the return type when assigning it to an instance variable.
+[lib 함수](c_bindings/fun.html)에는 명시적으로 타입이 있어야 하기 때문에 이를 인스턴스 변수에 할당할 때 컴파일러가 그 반환 타입을 이용할 수 있습니다.
 
-In the following example `@age` is inferred to be `Int32`.
+다음 예시에서 `@age`는 `Int32`로 추론됩니다.
 
 ```crystal
 class Person
@@ -229,11 +229,11 @@ lib LibPerson
 end
 ```
 
-### 7. Using an `out` lib expression
+### 7. lib의 `out` 표현식 사용
 
-Because a [lib function](c_bindings/fun.html) must have explicit types, the compiler can use the `out` argument's type, which should be a pointer type, and use the dereferenced type as a guess.
+[lib 함수](c_bindings/fun.html)에는 명시적으로 타입이 있어야 하기 때문에 컴파일러가 `out` 인자의 타입을 이용할 수 있습니다. 이 인자는 포인터 타입이어야 하며 참조를 해제한 타입이 추론됩니다.
 
-In the following example `@age` is inferred to be `Int32`.
+다음 예시에서 `@age`는 `Int32`로 추론됩니다.
 
 ```crystal
 class Person
@@ -247,9 +247,9 @@ lib LibPerson
 end
 ```
 
-### Other rules
+### 기타 규칙
 
-The compiler will try to be as smart as possible to require less explicit type annotations. For example, if assigning an `if` expression, type will be inferred from the `then` and `else` branches:
+컴파일러는 타입 표기를 줄이기 위해 최대한 노력합니다. 예를 들어 `if` 표현식을 할당할 때는, `then`과 `else` 분기로부터 타입이 추론될 것입니다.
 
 ```crystal
 class Person
@@ -259,9 +259,9 @@ class Person
 end
 ```
 
-Because the `if` above (well, technically a ternary operator, but it's similar to an `if`) has integer literals, `@age` is successfully inferred to be `Int32` without requiring a redundant type annotation.
+위의 `if`(음, 엄밀히는 삼항 연산자지만 `if`에 비슷하잖아요)는 정수 리터럴을 가지므로 `@age`는 불필요한 타입 표기 없이도 `Int32`로 성공적으로 추론됩니다.
 
-Another case is `||` and `||=`:
+또 다른 예는 `||`와 `||=`입니다.
 
 ```crystal
 class SomeObject
@@ -271,9 +271,9 @@ class SomeObject
 end
 ```
 
-In the above example `@lucky_number` will be inferred to be `Int32 | Nil`. This is very useful for lazily initialized variables.
+위의 예에서 `@lucky_number`는 `Int32 | Nil`로 추론됩니다. 늦은 시점에 초기화되는 변수의 경우 아주 유용합니다.
 
-Constants will also be followed, as it's pretty simple for the compiler (and a human) to do so.
+상수도 이용할 수 있으며, 컴파일러에게 (그리고 인간에게) 이는 아주 간단합니다.
 
 ```crystal
 class SomeObject
@@ -284,4 +284,4 @@ class SomeObject
 end
 ```
 
-Here rule 5 (argument's default value) is used, and because the constant resolves to an integer literal, `@lucky_number` is inferred to be `Int32`.
+여기서는 5번째 규칙(인자의 기본값)이 사용되며, 상수가 정수 리터럴로 해석되기 때문에 `@lucky_number`가 `Int32`로 추론될 수 있습니다.
