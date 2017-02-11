@@ -1,166 +1,164 @@
-# Method arguments
+# 메서드 인자
 
-This is the formal specification of method and call arguments.
+메서드와 호출 시 인자의 상세입니다.
 
-## Components a method definition
+## 메서드 정의의 구성 요소
 
-A method definition consists of:
+메서드의 정의는 다음 요소로 이루어집니다.
 
-* required and optional positional arguments
-* an optional splat argument, whose name can be empty
-* required and optional named arguments
-* an optional double splat argument
-
-For example:
+* 위치에 따른 인자
+* 스플랫 인자 (이름이 없을 수 있음)
+* 이름 달린 인자
+* 더블 스플랫 인자
 
 ```crystal
 def foo(
-  # These are positional arguments:
+  # 위치에 따른 인자
   x, y, z = 1,
-  # This is the splat argument:
+  # 스플랫 인자
   *args,
-  # These are the named arguments:
+  # 이름 달린 인자
   a, b, c = 2,
-  # This is the double splat argument:
+  # 더블 스플랫 인자
   **options
   )
 end
 ```
 
-Each one of them is optional, so a method can do without the double splat, without the splat, without keyword arguments and without positional arguments.
+각각은 필수적인 요소가 아니므로 메서드에는 더블 스플랫 인자, 스플랫 인자, 키워드 인자, 위치에 따른 인자가 없을 수도 있습니다.
 
-## Components of a method call
+## 메서드 호출의 구성 요소
 
-A method call also has some parts:
+메서드 호출에도 몇 가지 요소가 있습니다.
 
 ```crystal
 foo(
-  # These are positional arguments
+  # 위치에 따른 인자
   1, 2,
-  # These are named arguments
+  # 이름 달린 인자
   a: 1, b: 2
 )
 ```
 
-Additionally, a call argument can have a splat (`*`) or double splat (`**`). A splat expands a [Tuple](literals/tuple.html) into positional arguments, while a double splat expands a [NamedTuple](literals/named_tuple.html) into named arguments. Multiple argument splats and double splats are allowed.
+또한 메서드 호출의 인자에는 스플랫(`*`)과 더블 스플랫(`**`)이 올 수도 있습니다. 스플랫은 위치에 따른 인자를 [Tuple](literals/tuple.html)로, 더블 스플랫은 이름 달린 인자를 [NamedTuple](literals/named_tuple.html)로 바꿉니다. 스플랫과 더블 스플랫을 여러 개 넘길 수도 있습니다.
 
-## How call arguments are matched to method arguments
+## 호출 인자가 메서드 인자에 대응되는 방식
 
-When invoking a method, the algorithm to match call arguments to method arguments is:
+메서드를 호출할 때 호출 인자가 메서드 인자에 대응되는 것은 다음 과정을 거칩니다.
 
-* First positional arguments are matched with positional method arguments. The number of these must be at least the number of positional arguments without a default value. If there's a splat method argument with a name (the case without a name is explained below), more positional arguments are allowed and they are captured as a tuple. Positional arguments never match past the splat method argument.
-* Then named arguments are matched, by name, with any argument in the method (it can be before or after the splat method argument). If an argument was already filled by a positional argument then it's an error.
-* Extra named arguments are placed in the double splat method argument, as a [NamedTuple](literals/named_tuple.html), if it exists, otherwise it's an error.
+* 위치에 따른 인자들이 먼저 위치에 따른 메서드 인자와 비교됩니다. 이 인자의 개수는 최소한 기본값이 없는 인자, 즉 반드시 필요한 인자의 개수는 되어야 합니다. 만약 이름이 있는 스플랫 메서드 인자가 있다면, 위치에 따른 인자들을 더 써줄 수 있으며 이는 모두 튜플에 저장됩니다. 위치에 따른 인자는 스플랫 인자가 나오는 뒤로는 대응되지 않습니다.
+* 그 후 이름 달린 인자가 메서드 인자의 이름에 따라 비교됩니다. (이는 스플랫 메서드 인자의 앞일 수도, 뒤일 수도 있습니다.) 이미 위치에 따른 인자로 모든 인자가 들어왔다면 오류가 발생합니다.
+* 나머지 이름 달린 인자들은 메서드의 더블 스플랫 인자 자리에 [NamedTuple](literals/named_tuple.html)로 들어갑니다. 메서드에 더블 스플랫 인자가 없을 경우, 오류가 발생합니다.
 
-When a splat method argument has no name, it means no more positional arguments can be passed, and next arguments must be passed as named arguments. For example:
+메서드의 스플랫 인자에 이름이 없다면, 위치에 따른 인자는 더 올 수 없으며 다음 인자들은 이름 달린 인자로 와야 한다는 뜻입니다.
 
 ```crystal
-# Only one positional argument allowed, y must be passed as a named argument
+# 위치에 따른 인자는 하나만, y는 이름 달린 인자여야
 def foo(x, *, y)
 end
 
-foo 1 # Error, missing argument: y
-foo 1, 2 # Error: wrong number of arguments (given 2, expected 1)
-foo 1, y: 10 # OK
+foo 1 # 오류, 인자 없음: y
+foo 1, 2 # 오류: 인자 개수 틀림 (실제 2, 예상 1)
+foo 1, y: 10 # 정상 동작
 ```
 
-But even if a splat method argument has a name, arguments that follow it must be passed as named arguments:
+하지만 스플랫 인자에 이름이 있다고 해도, 그 뒤의 인자는 모두 이름 달린 인자여야 합니다.
 
 ```crystal
-# One or more positional argument allowed, y must be passed as a named argument
+# 위치에 따른 인자는 하나만, y는 이름 달린 인자여야
 def foo(x, *args, y)
 end
 
-foo 1 # Error, missing argument: y
-foo 1, 2 # Error: missing argument; y
-foo 1, 2, 3 # Error: missing argument: y
-foo 1, y: 10 # OK
-foo 1, 2, 3, y: 4 # OK
+foo 1 # 오류, 인자 없음: y
+foo 1, 2 # 오류, 인자 없음: y
+foo 1, 2, 3 # 오류, 인자 없음: y
+foo 1, y: 10 # 정상 동작
+foo 1, 2, 3, y: 4 # 정상 동작
 ```
 
-There's also the possibility of making a method only receive named arguments (and list them), by placing the star at the beginning:
+메서드가 이름 달린 인자만을 받도록 할 수도 있습니다. 처음에 스플랫 인자를 두는 것이 그 방법입니다.
 
 ```crystal
-# A method with two required named arguments: x and y
+# 이름 달린 인자가 x, y 두 개 필요한 메서드
 def foo(*, x, y)
 end
 
-foo # Error: missing arguments: x, y
-foo x: 1 # Error: missing argument: y
-foo x: 1, y: 2 # OK
+foo # 오류: 인자 없음: x, y
+foo x: 1 # 오류: 인자 없음: y
+foo x: 1, y: 2 # 정상 동작
 ```
 
-Arguments past the star can also have default values. It means: they must be passed as named arguments, but they aren't required (so: optional named arguments):
+별표 뒤의 인자는 기본값을 가질 수도 있습니다. 이는 이름 달린 인자로 넘겨야 하지만, 반드시 필요한 것은 아니란 것입니다.
 
 ```crystal
-# A method with two required named arguments: x and y
+# 이름 달린 인자 x가 필요하고 y는 선택적인 메서드
 def foo(*, x, y = 2)
 end
 
-foo # Error: missing argument: x
-foo x: 1 # OK, y is 2
-foo x: 1, y: 3 # OK, y is 3
+foo # 오류: 인자 없음: x
+foo x: 1 # 정상 동작, y는 2
+foo x: 1, y: 3 # 정상 동작, y는 3
 ```
 
-Because arguments (without a default value) after the splat method argument must be passed by name, two methods with different required named arguments overload:
+스플랫 인자 뒤의 (기본값이 없는) 인자는 반드시 이름 달린 인자로 전달되어야 하며 필수인 이름 달린 인자가 이름이 다른 두 메서드는 서로 다른 오버로드로 취급됩니다.
 
 ```crystal
 def foo(*, x)
-  puts "Passed with x: #{x}"
+  puts "전달된 x 값: #{x}"
 end
 
 def foo(*, y)
-  puts "Passed with y: #{y}"
+  puts "전달된 y 값: #{y}"
 end
 
-foo x: 1 # => Passed with x: 1
-foo y: 2 # => Passed with y: 2
+foo x: 1 # => 전달된 x 값: 1
+foo y: 2 # => 전달된 y 값: 2
 ```
 
-Positional arguments can always be matched by name:
+위치에 따른 인자 또한 이름 달린 인자로 넣어줄 수 있습니다.
 
 ```crystal
 def foo(x, *, y)
 end
 
-foo 1, y: 2 # OK
-foo y: 2, x: 3 # OK
+foo 1, y: 2 # 정상 동작
+foo y: 2, x: 3 # 정상 동작
 ```
 
-## External names
+## 외부 이름
 
-An external name can be specified for a method argument. The external name is the one used when passing an argument as a named argument, and the internal name is the one used inside the method definition:
+메서드 인자의 외부 이름을 특정해줄 수 있습니다. 외부 이름은 이름 달린 인자로 넘겨줄 때 사용하는 이름이고, 내부 이름은 메서드 정의 안에서 사용되는 이름입니다.
 
 ```crystal
 def foo(external_name internal_name)
-  # here we use internal_name
+  # 여기선 internal_name을 사용
 end
 
 foo external_name: 1
 ```
 
-This covers two uses cases.
+이를 두 가지 경우에 사용합니다.
 
-The first use case is using keywords as named arguments:
+첫 번째는 예약어를 이름 달린 인자로 사용하는 것입니다.
 
 ```crystal
 def plan(begin begin_time, end end_time)
-  puts "Planning between #{begin_time} and #{end_time}"
+  puts "#{begin_time}와 #{end_time} 사이 계획 중"
 end
 
 plan begin: Time.now, end: 2.days.from_now
 ```
 
-The second use case is making a method argument more readable inside a method body:
+두 번째는 메서드 안에서 메서드 인자의 가독성을 높이는 것입니다.
 
 ```crystal
 def increment(value, by)
-  # OK, but reads odd
+  # 정상 동작하지만 읽기 이상함
   value + by
 end
 
 def increment(value, by amount)
-  # Better
+  # 더 나음
   value + amount
 end
 ```

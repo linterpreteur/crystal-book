@@ -30,13 +30,13 @@ end
 이제 다음과 같이 사람을 만들 수 있습니다.
 
 ```crystal
-john = Person.new "John"
-peter = Person.new "Peter"
+cholsu = Person.new "철수"
+minsu = Person.new "민수"
 
-john.name #=> "John"
-john.age #=> 0
+cholsu.name #=> "철수"
+cholsu.age #=> 0
 
-peter.name #=> "Peter"
+minsu.name #=> "민수"
 ```
 
 (`name`은 `String`임을 특정했지만 `age`는 타입을 특정하지 않은 이유가 궁금하시다면 [전역 타입 추론 알고리즘](type_inference.html)에 그 설명이 있습니다.)

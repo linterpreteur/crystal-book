@@ -19,8 +19,8 @@ class Person
   end
 end
 
-john = Person.new "John"
-peter = Person.new "Peter"
+john = Person.new "철수"
+peter = Person.new "민수"
 
 john.age #=> 0
 
@@ -65,7 +65,7 @@ class Person
   end
 end
 
-person = Person.new "John"
+person = Person.new "철수"
 person.become_older
 person.age #=> 2
 ```
@@ -86,7 +86,7 @@ class Person
   end
 end
 
-person = Person.new "John"
+person = Person.new "철수"
 person.become_older
 person.age #=> 3
 ```

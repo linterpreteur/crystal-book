@@ -57,7 +57,7 @@ end
 ```crystal
 class Person
   def initialize
-    @name = "John Doe"
+    @name = "홍길동"
     @age = 0
   end
 end
@@ -84,7 +84,7 @@ end
 ```crystal
 class Person
   def initialize
-    @address = Address.new("somewhere")
+    @address = Address.new("어딘가")
   end
 end
 ```
@@ -158,7 +158,7 @@ end
 
 class Address
   def self.unknown : Address
-    new("unknown")
+    new("알려지지 않은 장소")
   end
 
   def initialize(@name : String)
@@ -178,7 +178,7 @@ end
 class Address
   # 반환 타입 표기 필요 없음
   def self.unknown
-    new("unknown")
+    new("알려지지 않은 장소")
   end
 
   def initialize(@name : String)
@@ -194,7 +194,7 @@ end
 
 ```crystal
 class Person
-  def initialize(name = "John Doe")
+  def initialize(name = "홍길동")
     @name = name
   end
 end
@@ -204,7 +204,7 @@ end
 
 ```crystal
 class Person
-  def initialize(@name = "John Doe")
+  def initialize(@name = "홍길동")
   end
 end
 ```

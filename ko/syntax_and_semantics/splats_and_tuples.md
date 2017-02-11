@@ -1,6 +1,6 @@
-# Splats and tuples
+# 스플랫과 튜플
 
-A method can receive a variable number of arguments by using a *splat* (`*`), which can appear only once and in any position:
+*스플랫*(`*`)을 이용하여 메서드에 가변 인자를 넘길 수 있습니다. 스플랫은 인자 중 어느 위치에든 한 번만 나타날 수 있습니다.
 
 ```crystal
 def sum(*elements)
@@ -15,17 +15,17 @@ sum 1, 2, 3    #=> 6
 sum 1, 2, 3, 4.5 #=> 10.5
 ```
 
-The passed arguments become a [Tuple](http://crystal-lang.org/api/Tuple.html) in the method's body:
+넘겨진 인자는 메서드 본체에서 [튜플](http://crystal-lang.org/api/Tuple.html)이 됩니다.
 
 ```crystal
-# elements is Tuple(Int32, Int32, Int32)
+# elements는 Tuple(Int32, Int32, Int32)
 sum 1, 2, 3
 
-# elements is Tuple(Int32, Int32, Int32, Float64)
+# elements는 Tuple(Int32, Int32, Int32, Float64)
 sum 1, 2, 3, 4.5
 ```
 
-Arguments past the splat argument can only be passed as named arguments:
+스플랫 인자 다음에는 이름 달린 인자만을 넘길 수 있습니다.
 
 ```crystal
 def sum(*elements, initial = 0)
@@ -40,7 +40,7 @@ sum 1, 2, 3 # => 6
 sum 1, 2, 3, initial: 10 # => 16
 ```
 
-Arguments past the splat method without a default value are required named arguments:
+스플랫 뒤의 인자는 기본값이 없다면, 이름 달린 필수 인자입니다.
 
 ```crystal
 def sum(*elements, initial)
@@ -51,11 +51,11 @@ def sum(*elements, initial)
   total
 end
 
-sum 1, 2, 3 # Error, missing argument: initial
+sum 1, 2, 3 # 오류, 인자 없음: initial
 sum 1, 2, 3, initial: 10 # => 16
 ```
 
-Two methods with different required named arguments overload between each other:
+이름 달린 인자가 다른 두 메서드는 서로 다른 메서드입니다.
 
 ```crystal
 def foo(*elements, x)
@@ -66,24 +66,24 @@ def foo(*elements, y)
   2
 end
 
-foo x: "something" # => 1
-foo y: "something" # => 2
+foo x: "머시기" # => 1
+foo y: "머시기" # => 2
 ```
 
-The splat argument can also be left unnamed, with the meaning "after this, named arguments follow":
+스플랫 인자에 이름을 짓지 않을 수도 있습니다. 이때는 "이 뒤로는 모두 이름 달린 인자여야 함"을 의미합니다.
 
 ```crystal
 def foo(x, y, *, z)
 end
 
-foo 1, 2, 3    # Error, wrong number of arguments (given 3, expected 2)
-foo 1, 2       # Error, missing argument: z
-foo 1, 2, z: 3 # OK
+foo 1, 2, 3    # 오류, 인자 개수 틀림 (예상 2개, 실제 3개)
+foo 1, 2       # 오류, 인자 없음: z
+foo 1, 2, z: 3 # 정상 작동
 ```
 
-## Splatting a tuple
+## 튜플 쪼개기
 
-A `Tuple` can be splat into a method call by using `*`:
+`*`을 이용하여 메서드 호출에 튜플을 쪼개어 넣을 수도 있습니다.
 
 ```crystal
 def foo(x, y)
@@ -94,13 +94,13 @@ tuple = {1, 2}
 foo *tuple # => 3
 ```
 
-## Double splats and named tuples
+## 더블 스플랫과 이름 달린 튜플
 
-A double splat (`**`) captures named arguments that were not matched by other arguments. The type of the argument is a `NamedTuple`:
+더블 스플랫(`**`)은 이름 달린 인자 중 다른 인자에 해당되지 않는 것을 전부 포착합니다. 그 인자의 타입은 `NamedTuple`입니다.
 
 ```crystal
 def foo(x, **other)
-  # Return the captured named arguments as a NamedTuple
+  # 포착한 이름 달린 인자를 NamedTuple로 반환
   other
 end
 
@@ -108,9 +108,9 @@ foo 1, y: 2, z: 3    # => {y: 2, z: 3}
 foo y: 2, x: 1, z: 3 # => {y: 2, z: 3}
 ```
 
-## Double splatting a named tuple
+## 이름 달린 튜플을 쪼개기
 
-A `NamedTuple` can be splat into a method call by using `**`:
+`**`을 이용해 메서드 호출에 `NamedTuple`을 쪼개어 넣을 수 있습니다.
 
 ```crystal
 def foo(x, y)

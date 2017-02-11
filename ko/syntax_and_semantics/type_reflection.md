@@ -1,3 +1,3 @@
-# Type reflection
+# 타입 재귀
 
-Crystal provides basic methods to do type reflection, casting and introspection.
+크리스탈에서는 몇 가지 방법을 통해 타입 재귀, 변환, 검사를 할 수 있습니다.

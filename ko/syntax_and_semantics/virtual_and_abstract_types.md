@@ -1,6 +1,6 @@
-# Virtual and abstract types
+# 가상 타입과 추상 타입
 
-When a variable's type combines different types under the same class hierarchy, its type becomes a **virtual type**. This applies to every class and struct except for `Reference`, `Value`, `Int` and `Float`. An example:
+한 변수의 타입이 같은 계층 아래의 여러 타입을 조합한 것이라면, 그 타입은 **가상 타입**이 됩니다. 이는 `Reference`, `Value`, `Int`, `Float`을 제외한 모든 클래스와 구조체에 적용됩니다.
 
 ```crystal
 class Animal
@@ -8,13 +8,13 @@ end
 
 class Dog < Animal
   def talk
-    "Woof!"
+    "멍!"
   end
 end
 
 class Cat < Animal
   def talk
-    "Miau"
+    "냥"
   end
 end
 
@@ -25,11 +25,11 @@ class Person
   end
 end
 
-john = Person.new "John", Dog.new
-peter = Person.new "Peter", Cat.new
+cholsu = Person.new "철수", Dog.new
+minsu = Person.new "민수", Cat.new
 ```
 
-If you compile the above program with the `tool hierarchy` command you will see this for `Person`:
+위의 프로그램을 `tool hierarchy` 명령어로 컴파일한다면 `Person`에 대해 다음을 볼 수 있습니다.
 
 ```
 - class Object
@@ -41,9 +41,9 @@ If you compile the above program with the `tool hierarchy` command you will see 
             @pet : Animal+
 ```
 
-You can see that `@pet` is `Animal+`. The `+` means it's a virtual type, meaning "any class that inherits from `Animal`, including `Animal`".
+`@pet`이 `Animal+`이라는 것을 볼 수 있습니다. `+` 기호는 가상 타입을 나타냅니다. "`Animal`을 포함해 `Animal`을 상속하는 임의의 타입"을 의미합니다.
 
-The compiler will always resolve a type union to a virtual type if they are under the same hierarchy:
+컴파일러는 같은 위계에 있는 타입이라면 언제나 타입 공용체를 가상 타입으로 해석합니다.
 
 ```
 if some_condition
@@ -55,38 +55,38 @@ end
 # pet : Animal+
 ```
 
-The compiler will always do this for classes and structs under the same hierarchy: it will find the first superclass from which all types inherit from (excluding `Reference`, `Value`, `Int` and `Float`). If it can't find one, the type union remains.
+같은 위계에 있는 구조체와 클래스에 대해서는 항상 공용체가 가상 타입이 됩니다. 컴파일러는 항상 (`Reference`, `Value`, `Int`, `Float`을 제외하고) 가장 가까운 공통 상위 클래스를 찾을 것입니다. 찾을 수 없는 경우에는 타입 공용체가 유지됩니다.
 
-The real reason the compiler does this is to be able to compile programs faster by not creating all kinds of different similar unions, also making the generated code smaller in size. But, on the other hand, it makes sense: classes under the same hierarchy should behave in a similar way.
+이런 과정이 일어나는 진짜 이유는, 비슷하지만 다른 온갖 종류의 공용체를 만들지 않으므로 컴파일이 더욱 빨라질 뿐 아니라 코드의 용량 또한 줄어들기 때문입니다. 굳이 그런 이유가 아니더라도 가상 타입을 만드는 쪽이 더 말이 되기도 합니다. 같은 위계 하의 클래스는 비슷하게 동작하기 때문입니다.
 
-Lets make John's pet talk:
+철수의 애완동물한테 말을 걸어볼까요.
 
 ```crystal
-john.pet.talk # Error: undefined method 'talk' for Animal
+cholsu.pet.talk # 오류: Animal에 'talk' 메서드 정의되지 않음
 ```
 
-We get an error because the compiler now treats `@pet` as an `Animal+`, which includes `Animal`. And since it can't find a `talk` method on it, it errors.
+이때 `@pet`은 `Animal`을 포함하는 `Animal+`로 취급되기 때문에 오류가 발생합니다. `Animal`에서는 `talk` 메서드를 찾을 수 없기 때문에 오류가 되는 것입니다.
 
-What the compiler doesn't know is that for us, `Animal` will never be instantiated as it doesn't make sense to instantiate one. We have a way to tell the compiler so by marking the class as `abstract`:
+컴파일러가 모르는 것은, `Animal`의 인스턴스를 만든다는 것은 말이 안 되고 절대로 일어나지 않는단 사실입니다. 컴파일러에게 이를 알려주는 방법은 클래스를 `abstract`로 표시하는 것입니다.
 
 ```crystal
 abstract class Animal
 end
 ```
 
-Now the code compiles:
+이제 코드는 정상적으로 컴파일됩니다.
 
 ```crystal
-john.pet.talk #=> "Woof!"
+cholsu.pet.talk #=> "멍!"
 ```
 
-Marking a class as abstract will also prevent us from creating an instance of it:
+클래스를 추상 클래스로 지정하면 인스턴스를 실수로 만드는 것을 방지할 수도 있습니다.
 
 ```crystal
-Animal.new # Error: can't instantiate abstract class Animal
+Animal.new # 오류: 추상 클래스 Animal의 인스턴스를 만들 수 없음
 ```
 
-To make it more explicit that an `Animal` must define a `talk` method, we can add it to `Animal` as an abstract method:
+`Animal`이 `talk` 메서드를 정의해야 한다는 것을 명시적으로 나타내기 위해 추상 메서드를 추가할 수 있습니다.
 
 ```crystal
 abstract class Animal
@@ -95,6 +95,6 @@ abstract class Animal
 end
 ```
 
-By marking a method as `abstract` the compiler will check that all subclasses implement this method, even if a program doesn't use them.
+메서드를 `abstract`로 지정하면 컴파일러는 모든 하위 클래스에 대해 이 메서드가 설령 사용되지 않는다고 해도 구현되어 있는지 점검합니다.
 
-Abstract methods can also be defined in modules, and the compiler will check that including types implement them.
+추상 메서드는 모듈에도 정의될 수 있으며, 이 경우 컴파일러는 그 모듈을 포함하는 타입이 해당 추상 메서드를 구현하는지 검사합니다.

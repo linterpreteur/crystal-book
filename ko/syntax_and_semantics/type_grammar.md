@@ -99,7 +99,7 @@ alias Int32StringNamedTuple = {x: Int32, y: String}
 alias Int32StringNamedTuple = NamedTuple(x: Int32, y: String)
 ```
 
-일반 코드에서 `{x: Int32, y: String}`는 `x`에 `Int32`를, `y`에 `String`을 갖는 이름 있는 튜플 인스턴스입니다. 이는 위의 튜플 **타입**과는 다른 것입니다.
+일반 코드에서 `{x: Int32, y: String}`는 `x`에 `Int32`를, `y`에 `String`을 갖는 이름 달린 튜플 인스턴스입니다. 이는 위의 튜플 **타입**과는 다른 것입니다.
 
 ## Proc
 
