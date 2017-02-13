@@ -13,6 +13,8 @@ Crystal is a programming language with the following goals:
 ## Build
 
 ```
+$ git clone https://github.com/crystal-lang/crystal-book.git
+$ cd crystal-book
 $ npm install -g gitbook-cli@2.3.0
 $ npm install
 $ gitbook serve
@@ -48,3 +50,7 @@ documentation. You can submit a pull request to this repository:
 https://github.com/crystal-lang/crystal-book
 
 Thank you very much!
+
+### Adding a page
+
+To add a page, create a markdown file in the desired location. Example: `overview/hello_world.md`. Then, add a link in the `SUMMARY.md` file which acts as the navigation for the documentation.
