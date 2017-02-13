@@ -1,6 +1,6 @@
 # 오버로딩
 
-몇 살이나 나이를 먹을지 인자를 받는 `become_older` 메서드를 정의할 수 있습니다.
+몇 살이나 나이를 먹을지를 인자로 받는 `become_older` 메서드를 정의할 수 있습니다.
 
 ```crystal
 class Person

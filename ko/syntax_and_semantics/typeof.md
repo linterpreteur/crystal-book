@@ -13,14 +13,14 @@ b = typeof(a) #=> Int32
 typeof(1, "a", 'a') #=> (Int32 | String | Char)
 ```
 
-컴파일러의 타입 추론 능력을 이용하기 위한 목적으로 제너릭 코드에서 사용됩니다.
+`typeof`는 컴파일러의 타입 추론 능력을 이용하기 위한 목적으로 제너릭 코드에서 사용되곤 합니다.
 
 ```crystal
 hash = {} of Int32 => String
 another_hash = typeof(hash).new #:: Hash(Int32, String)
 ```
 
-`typeof`가 실제로 표현식을 평가하는 것은 아니므로 컴파일 시간의 메서드에도
+`typeof`가 실제로 표현식을 평가하는 것은 아니므로, 컴파일 시간에도
 사용할 수 있습니다. 다음 예에서는 중첩된 타입 인자로부터 재귀적으로
 공용체 타입을 생성해 냅니다.
 

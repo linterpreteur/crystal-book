@@ -1,10 +1,10 @@
 # 예외 처리
 
-크리스탈에서 오류를 다루는 방법은 예외를 일으키고 구조하는 것입니다.
+크리스탈에서 오류를 다루는 방법은 예외를 일으키고(`raise`) 구조(`rescue`)하는 것입니다.
 
 ## 예외 일으키기
 
-최상위 `raise` 메서드를 호출하여 예외를 일으킵니다. 기타 예약어와는 다르게 `raise`는 두 가지 오버로드가 있는 보통의 메서드입니다. [하나는 String을 받고](http://crystal-lang.org/api/toplevel.html#raise%28message%20%3A%20String%29-class-method), [하나는 Exception 인스턴스를 받습니다](http://crystal-lang.org/api/toplevel.html#raise%28ex%20%3A%20Exception%29-class-method).
+최상위 `raise` 메서드를 호출하여 예외를 일으킵니다. 기타 예약어와는 달리, `raise`는 두 가지 오버로드가 있는 평범한 메서드입니다. [하나는 String을 받고](http://crystal-lang.org/api/toplevel.html#raise%28message%20%3A%20String%29-class-method), [하나는 Exception 인스턴스를 받습니다](http://crystal-lang.org/api/toplevel.html#raise%28ex%20%3A%20Exception%29-class-method).
 
 ```crystal
 raise "으악!"

@@ -1,6 +1,6 @@
-# Constants
+# 상수
 
-Constants can be declared at the top level or inside other types. They must start with a capital letter:
+상수는 최상위 범위에서 혹은 타입 안에서 선언합니다. 상수는 대문자로 시작합니다.
 
 ```crystal
 PI = 3.14
@@ -13,9 +13,9 @@ PI #=> 3.14
 Earth::RADIUS #=> 6_371_000
 ```
 
-Although not enforced by the compiler, constants are usually named with all capital letters and underscores to separate words.
+컴파일러에 의해 강제되는 사항은 아니지만, 상수는 이름을 모두 대문자로 쓰고 밑줄로 단어를 구분하는 것이 보통입니다.
 
-A constant definition can invoke methods and have complex logic:
+상수를 정의할 때 메서드를 호출하거나 복잡한 로직을 다룰 수도 있습니다.
 
 ```crystal
 TEN = begin

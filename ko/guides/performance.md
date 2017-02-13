@@ -8,7 +8,7 @@
 
 > 우리는 97% 정도의 작은 효율성에 대해서는 잊어야 한다. 조기 최적화가 만악의 근원이다. 하지만 치명적인 3%에서의 기회를 놓쳐서는 안 된다.
 
-하지만 프로그램을 작성하고 있는데, 의미론적으로 동일하면서 조금만 바꿔도 빨라진다는 것을 깨닫는다면 기회를 놓쳐서는 안 됩니다.
+그렇다고 프로그램을 작성하는 도중 의미론적으로 동일하면서 조금만 바꿔도 빨라진다는 것을 깨달았을 때 그 기회를 놓쳐서는 안 됩니다.
 
 그리고 꼭 병목이 어디인지 알아내기 위해 프로그램을 항상 프로파일링하세요. Mac OSX에서는 XCode에 내장된 [Instruments Time Profiler](https://developer.apple.com/library/prerelease/content/documentation/DeveloperTools/Conceptual/InstrumentsUserGuide/Instrument-TimeProfiler.html)를 사용할 수 있습니다. 리눅스에서는 C/C++ 프로그램을 프로파일링 할 수 있는 [gprof](https://sourceware.org/binutils/docs/gprof/) 같은 프로그램이라면 작동할 것입니다.
 
@@ -22,7 +22,7 @@
 
 힙 메모리 할당을 피하기 위한 방법이 몇 가지 있습니다. 표준 라이브러리는 이에 대해 프로그래머를 돕기 위한 방식으로 설계되어 있습니다.
 
-### IO에 쓸 때 임시 문자열을 만들지 말 것
+### IO에 출력할 때 임시 문자열을 만들지 말 것
 
 표준 출력에 숫자를 쓰기 위하여 다음과 같이 할 수 있습니다.
 
@@ -30,7 +30,7 @@
 puts 123
 ```
 
-많은 프로그래밍 언어에서 일어나는 일은, 객체를 문자열로 바꾸는 `to_s` 같은 메서드가 호출되고 문자열이 표준 출력에 출력되는 것입니다. 작동하는 방식이지만 결점이 있습니다. 힙 메모리에 쓰고 금방 버릴 임시 문자열을 생성한다는 것입니다. 이는 힙 메모리 할당을 수반하므로 GC에 좀 더 부담이 됩니다.
+많은 프로그래밍 언어에서의 구현은, 객체를 문자열로 바꾸는 `to_s` 같은 메서드를 호출하고 그 문자열을 표준 출력에 출력하는 것입니다. 문제 없이 작동하는 방식이지만 결점이 있습니다. 금방 버릴 임시 문자열을 힙 메모리에 쓰고 생성한다는 것입니다. 이는 힙 메모리 할당을 수반하므로 GC에 좀 더 부담이 됩니다.
 
 크리스탈에서 `puts`는 객체에 `to_s(io)`를 호출하여 문자열을 출력하려는 IO에 그 객체를 넘겨줄 것입니다.
 
@@ -76,12 +76,12 @@ require "benchmark"
 io = MemoryIO.new
 
 Benchmark.ips do |x|
-  x.report("without to_s") do
+  x.report("to_s 없이") do
     io << 123
     io.clear
   end
 
-  x.report("with to_s") do
+  x.report("to_s 사용") do
     io << 123.to_s
     io.clear
   end
@@ -105,15 +105,15 @@ without to_s  69.71M (± 6.14%)       fastest
 ```crystal
 lines_with_language_reference = 0
 while line = gets
-  if ["crystal", "ruby", "java"].any? { |string| line.includes?(string) }
+  if ["크리스탈", "루비", "자바"].any? { |string| line.includes?(string) }
     lines_with_language_reference += 1
   end
 end
-puts "Lines that mention crystal, ruby or java: #{lines_with_language_reference}"
+puts "크리스탈, 루비, 자바가 나오는 줄: #{lines_with_language_reference}"
 ```
 
 위의 프로그램은 작동하긴 하지만 엄청난 성능 문제가 있습니다. 반복을 돌 때마다 `["crystal", "ruby", "java"]` 배열이 새로 생성됩니다.
-잊지 마세요. 배열 리터럴은 배열 인스턴스를 생성하고 값을 넣는 작업의 신택스 슈거일 뿐이며 반복될 때마다 매번 일어날 것입니다.
+잊지 마세요. 배열 리터럴은 인스턴스를 생성하고 값을 넣는 작업을 위한 문법적 편의 사항일 뿐이며 반복이 일어날 때마다 매번 배열이 생성될 것입니다.
 
 해결법은 두 가지가 있습니다.
 
@@ -123,17 +123,17 @@ puts "Lines that mention crystal, ruby or java: #{lines_with_language_reference}
   ```crystal
   lines_with_language_reference = 0
   while line = gets
-    if {"crystal", "ruby", "java"}.any? { |string| line.includes?(string) }
+    if {"크리스탈", "루비", "자바"}.any? { |string| line.includes?(string) }
       lines_with_language_reference += 1
     end
   end
-  puts "Lines that mention crystal, ruby or java: #{lines_with_language_reference}"
+  puts "크리스탈, 루비, 자바가 나오는 줄: #{lines_with_language_reference}"
   ```
 
 2. 배열을 상수로 바꿉니다.
 
   ```crystal
-  LANGS = ["crystal", "ruby", "java"]
+  LANGS = ["크리스탈", "루비", "자바"]
 
   lines_with_language_reference = 0
   while line = gets
@@ -141,13 +141,12 @@ puts "Lines that mention crystal, ruby or java: #{lines_with_language_reference}
       lines_with_language_reference += 1
     end
   end
-  puts "Lines that mention crystal, ruby or java: #{lines_with_language_reference}"
+  puts "크리스탈, 루비, 자바가 나오는 줄: #{lines_with_language_reference}"
   ```
 
-튜플을 사용하는 것을 더 권장합니다.
+튜플을 사용하는 것이 더 권장됩니다.
 
-반복문에서의 명시적 배열 리터럴은 임시 객체가 생겨나는 한 경로입니다만, 메서드 호출을 통해서도 임시 객체가 생길 수 있습니다. 예를 들어 `Hash#keys`는
-호출될 때마다 키를 담은 새로운 배열을 반환할 것입니다. 대신에 `Hash#each_key`, `Hash#has_key?` 등 다른 메서드를 사용할 수 있습니다.
+반복문에서의 명시적 배열 리터럴은 임시 객체가 생겨나는 한 경우이지만, 메서드 호출을 통해서도 임시 객체가 생길 수 있습니다. 예를 들어 `Hash#keys`는 호출될 때마다 키를 담은 새로운 배열을 반환합니다. 대신에 `Hash#each_key`, `Hash#has_key?` 등 다른 메서드를 사용할 수 있습니다.
 
 ### 가능하면 구조체를 이용할 것
 
@@ -191,11 +190,11 @@ $ crystal class_vs_struct.cr --release
 struct 430.82M (± 6.58%)       fastest
 ```
 
-## 문자열 순환
+## 문자열 순회
 
 크리스탈의 문자열은 항상 UTF-8로 인코드한 바이트를 담습니다. UTF-8은 가변 길이 인코딩이기 때문에, ASCII 범위의 문자가 바이트 하나로 표현될지라도 한 문자는 여러 바이트에 의해 표현될 수 있습니다. 때문에 `String#[]`을 이용해 문자열을 인덱싱 하는 것은 주어진 위치의 문자를 찾기 위해 바이트가 매번 디코드되어야 하므로 `O(1)` 작업이 아닙니다. 크리스탈의 문자열은, 모든 문자가 ASCII라는 것을 알 때에 한해 `String#[]`을 `O(1)`으로 구현하는 최적화 기법을 사용합니다. 하지만 일반적으로는 그러지 못합니다.
 
-따라서 이 방식의 문자열의 순환은 최적이 아니며 실제로는 `O(n^2)`의 차수를 갖습니다.
+따라서 이 방식의 문자열의 순회은 최적이 아니며 실제로는 `O(n^2)`의 차수를 갖습니다.
 
 ```crystal
 string = ...
@@ -207,7 +206,7 @@ end
 
 위의 코드는 두 번째 문제가 있습니다. 문자열의 크기(`size`)와 문자열에 있는 바이트의 숫자(`bytesize`)는 다르기 때문에 문자열의 크기를 계산하는 것 또한 느리다는 것입니다. 하지만 문자열이 크기를 계산하고 나면 그 결과를 캐시합니다. 그래도 느린 것은 `String#[]` 때문입니다.
 
-대신 사용할 수 있는 것은 순환 메서드(`each_char`, `each_byte`, `each_codepoint`)를 사용하거나, 더욱 저수준인 `Char::Reader` 구조체를 사용하는 것입니다. 예를 들어 `each_char`은 다음과 같이 사용합니다.
+대신 사용할 수 있는 것은 순회 메서드(`each_char`, `each_byte`, `each_codepoint`)를 사용하거나, 더욱 저수준인 `Char::Reader` 구조체를 사용하는 것입니다. 예를 들어 `each_char`은 다음과 같이 사용합니다.
 
 ```crystal
 string = ...

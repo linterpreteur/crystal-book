@@ -19,15 +19,15 @@ class Person
   end
 end
 
-john = Person.new "철수"
-peter = Person.new "민수"
+cholsu = Person.new "철수"
+minsu = Person.new "민수"
 
-john.age #=> 0
+cholsu.age #=> 0
 
-john.become_older
-john.age #=> 1
+cholsu.become_older
+cholsu.age #=> 1
 
-peter.age #=> 0
+minsu.age #=> 0
 ```
 
 메서드 이름은 관습에 따라 소문자로 시작하며, 소문자와 숫자, 밑줄만을 사용합니다.

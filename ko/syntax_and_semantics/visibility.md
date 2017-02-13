@@ -1,12 +1,12 @@
 # 가시성
 
-메서드는 기본적으로 공개되어(public) 있습니다. 메서드가 공개되어 있다는 것은 언제든 이 메서드를 호출할 수 있다는 뜻입니다. `public` 키워드를 쓰지 않아도 그것이 기본값이기 때문입니다.
+메서드는 기본적으로 공개되어(public) 있습니다. 메서드가 공개되어 있다는 것은 언제든 이 메서드를 호출할 수 있다는 뜻입니다. `public` 예약어를 쓰지 않는다고 해도 그것이 기본값이기 때문입니다.
 
 메서드에 `private` 혹은 `protected` 표시를 할 수 있습니다.
 
 ## private 메서드
 
-`private` 메서드는 리시버 없이만 호출할 수 있습니다. 즉 점 뒤에 아무것도 올 수 없다는 것입니다.
+`private` 메서드는 리시버 없이만 호출할 수 있습니다. 즉 점 앞에는 아무것도 올 수 없습니다.
 
 ```crystal
 class Person
@@ -15,11 +15,11 @@ class Person
   end
 
   def say_hello
-    say "hello" # 정상 동작, 리시버 없음
-    self.say "hello" # 오류, self가 리시버
+    say "안녕" # 정상 동작, 리시버 없음
+    self.say "안녕" # 오류, self가 리시버
 
     other = Person.new "Other"
-    other.say "hello" # 오류, other이 리시버
+    other.say "안녕" # 오류, other이 리시버
   end
 end
 ```
@@ -29,14 +29,14 @@ end
 ```crystal
 class Employee < Person
   def say_bye
-    say "bye" # 정상 동작
+    say "잘 가" # 정상 동작
   end
 end
 ```
 
 ## private 타입
 
-private 타입은 그 타입이 정의된 네임스페이스에서만 참조될 수 있으며, 그 타입의 모든 경로를 절대로 적어줄 수 없습니다.
+private 타입은 그 타입이 정의된 네임스페이스에서만 참조될 수 있으며, 그 타입의 경로를 전부 적는 것은 허용되지 않습니다.
 
 ```crystal
 class Foo
@@ -50,7 +50,7 @@ end
 Foo::Bar # 오류
 ```
 
-`private`는 `class`, `module`, `lib`, `enum`, `alias`와 상수에 사용할 수 있습니다.
+`private`은 `class`, `module`, `lib`, `enum`, `alias`와 상수에 사용할 수 있습니다.
 
 ```crystal
 class Foo
@@ -78,24 +78,24 @@ class Person
   end
 
   def say_hello
-    say "hello" # 정상 동작, 암묵적인 self는 Person
-    self.say "hello" # 정상 동작, self는 Person
+    say "안녕" # 정상 동작, 암묵적인 self는 Person
+    self.say "안녕" # 정상 동작, self는 Person
 
     other = Person.new "Other"
-    other.say "hello" # OK, other은 Person
+    other.say "안녕" # OK, other은 Person
   end
 end
 
 class Animal
   def make_a_person_talk
     person = Person.new
-    person.say "hello" # 오류, person은 Person이지만
+    person.say "안녕" # 오류, person은 Person이지만
                        # 현재 타입은 Animal
   end
 end
 
 one_more = Person.new "One more"
-one_more.say "hello" # 오류, one_more은 Person이지만
+one_more.say "안녕" # 오류, one_more은 Person이지만
                      # 현재 타입은 Program
 
 ### 2의 예시
@@ -103,7 +103,7 @@ one_more.say "hello" # 오류, one_more은 Person이지만
 module Namespace
   class Foo
     protected def foo
-      puts "Hello"
+      puts "안녕"
     end
   end
 
@@ -127,7 +127,7 @@ class Person
   end
 
   def say_hello
-    Person.say "hello" # 정상 동작
+    Person.say "안녕" # 정상 동작
   end
 end
 ```
@@ -139,10 +139,10 @@ end
 ```crystal
 # one.cr 파일
 private def greet
-  puts "Hello"
+  puts "안녕"
 end
 
-greet #=> "Hello"
+greet #=> "안녕"
 
 # two.cr 파일
 require "./one"
@@ -160,11 +160,11 @@ greet # 정의되지 않은 지역 변수 혹은 메서드 'greet'
 # one.cr 파일
 private class Greeter
   def self.greet
-    "Hello"
+    "안녕"
   end
 end
 
-Greeter.greet #=> "Hello"
+Greeter.greet #=> "안녕"
 
 # two.cr 파일
 require "./one"

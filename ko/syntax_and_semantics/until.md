@@ -1,6 +1,6 @@
 # until
 
-`until`은 조건이 *참인* 값이 될 때까지 몸체를 실행합니다. `until`은 조건이 반대인 `while`의 문법적 설탕일 뿐입니다.
+`until`은 조건이 *참인* 값이 될 때까지 본체를 실행합니다. `until`은 조건이 반대인 `while`을 나타내는 문법적 편의 사항일 뿐입니다.
 
 ```crystal
 until some_condition

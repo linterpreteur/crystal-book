@@ -66,7 +66,7 @@ tz.minutes_west = 1
 tz.minutes_west #=> 1
 ```
 
-할당하는 값이 속성의 값과 다를 경우 [to_unsafe](to_unsafe.html)가 시도됩니다.
+할당하는 값의 타입과 속성의 타입이 다를 경우 [to_unsafe](to_unsafe.html)가 시도됩니다.
 
 [named arguments](../default_and_named_arguments.html)와 비슷한 문법으로 속성을 초기화할 수도 있습니다.
 

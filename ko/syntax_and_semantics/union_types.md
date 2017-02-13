@@ -49,7 +49,7 @@ typeof(a) # => Int32 | Nil | String
 
 ### 같은 위계를 갖는 클래스와 구조체의 공용체
 
-`T1`과 `T2`가 같은 위계 구조를 가지며 가장 가까운 공통 조상이 `Reference`, `Struct`, `Int`, `Float`, `Value`가 아닌 `Parent`일 경우 결과 타입은 `Parent+`가 됩니다. 이를 가상 타입이라고 합니다. 컴파일러는 이 타입을 `Parent` 혹은 그를 상속하는 타입으로 취급할 것입니다.
+`T1`과 `T2`가 같은 위계 구조를 가지며 가장 가까운 공통 조상이 `Reference`, `Struct`, `Int`, `Float`, `Value`가 아닌 `Parent`일 경우 결과 타입은 `Parent+`가 됩니다. 이를 가상 타입이라고 합니다. 컴파일러는 이 타입을 `Parent` 또는 그 타입을 상속하는 타입으로 취급할 것입니다.
 
 ```crystal
 class Foo
@@ -73,7 +73,7 @@ typeof(foo) # => Foo+
 
 ### 같은 크기를 갖는 튜플의 공용체
 
-같은 크기를 갖는 두 튜플의 공용체는 각 위치에서의 공용체 타입을 갖는 튜플 타입이 됩니다.
+같은 크기를 갖는 두 튜플의 공용체는 각 위치에 주어진 타입들의 공용체 타입을 갖는 튜플 타입이 됩니다.
 
 예를 들자면, 다음과 같습니다.
 
@@ -90,7 +90,7 @@ typeof(t3) # Tuple(Int32 | Bool, String | Nil)
 두 개 이상의 이름 달린 튜플이 (순서와 상관 없이) 같은 키를 갖는다면 각 키의 공용체 타입을 갖는 이름 달린 튜플이 됩니다. 이 키의 순서는 좌측에 있는 것의 순서를 따릅니다.
 
 ```crystal
-t1 = {x: 1, y: "hi"} # Tuple(x: Int32, y: String)
+t1 = {x: 1, y: "안뇽"} # Tuple(x: Int32, y: String)
 t2 = {y: true, x: nil} # Tuple(y: Bool, x: Nil)
 
 t3 = rand < 0.5 ? t1 : t2

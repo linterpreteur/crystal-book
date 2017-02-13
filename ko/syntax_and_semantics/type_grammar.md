@@ -1,7 +1,7 @@
 # 타입 문법
 
 * [타입 제약](type_restrictions.html)을 특정할 때
-* [타입 인자](generics.html)을 특정할 때
+* [타입 인자](generics.html)를 특정할 때
 * [변수를 선언할 때](declare_var.html)
 * [별칭](alias.html)을 선언할 때
 * [typedef](c_bindings/type.html)를 선언할 때
@@ -11,7 +11,7 @@
 * [instance_sizeof](instance_sizeof.html) 표현식의 인자일 때
 * 메서드의 [반환형](return_types.html)일 때
 
-일반적인 타입에 대해 편의를 위한 문법을 제공합니다. [C 바인딩](c_bindings/index.html)을 작성할 때 특히 유용하고, 앞서 본 경우 중 하나라면 언제든 사용할 수 있습니다.
+일반적인 타입에 대해 편리하게 쓸 수 있는 문법을 제공합니다. [C 바인딩](c_bindings/index.html)을 작성할 때 특히 유용하고, 앞서 본 경우 중 하나라면 언제든 사용할 수 있습니다.
 
 ## 제너릭
 
@@ -135,9 +135,7 @@ alias ComplexProc = (Int32 -> Int32) -> String
 
 ## self
 
-타입 문법에서 `self`를 이용하여 `self` 타입을 표기할 수 있습니다. 자세한 것은 [타입 
-
-제약](type_restrictions.html) 항목을 참고하세요.
+타입 문법에서 `self`를 이용하여 `self` 타입을 표기할 수 있습니다. 자세한 것은 [타입 제약](type_restrictions.html) 항목을 참고하세요.
 
 ## class
 

@@ -1,10 +1,10 @@
-# 크로스 컴필레이션
+# 크로스 컴파일링
 
-크리스탈은 기초적인 [크로스 컴필레이션](http://en.wikipedia.org/wiki/Cross_compiler)을 지원합니다.
+크리스탈은 기초적인 [크로스 컴파일링](http://en.wikipedia.org/wiki/Cross_compiler)을 지원합니다.
 
 이를 위해 컴파일러 실행 파일은 두 가지 플래그를 제공합니다.
 
-* `--cross-compile`: 크로스 컴필레이션 모드를 활성화
+* `--cross-compile`: 크로스 컴파일링 모드를 활성화
 * `--target`: 사용할 [LLVM Target Triple](http://llvm.org/docs/LangRef.html#target-triple)로 [컴파일 시간 플래그](compile_time_flags.html)를 설정
 
 설치한 LLVM 3.5를 이용하여 `llvm-config --host-target`을 실행하면 `--target` 플래그를 알아낼 수 있습니다. 예를 들어 리눅스에서는 "x86_64-unknown-linux-gnu"를 출력할 것입니다.

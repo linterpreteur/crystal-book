@@ -1,6 +1,6 @@
 # type
 
-`lib` 안의 `type` 선언은 C `typedef`와 비슷하지만 더 강력한 타입을 선언합니다.
+`lib` 안의 `type` 선언은 C `typedef`와 비슷하지만 더 강력한 방식으로 타입을 선언합니다.
 
 ```crystal
 lib X

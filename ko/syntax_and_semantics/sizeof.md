@@ -15,7 +15,7 @@ sizeof(Pointer(Int32)) #=> 8
 sizeof(String)         #=> 8
 ```
 
-이는 참조형의 메모리는 힙에 할당되며 그 포인터가 전달되기 때문입니다. 포인터의 크기가 아니라 클래스 인스턴스의 실질적인 크기를 구하려면, [instance_sizeof](instance_sizeof.html)를 이용합니다.
+이는 참조형의 메모리는 힙에 할당되어 그 포인터가 전달되기 때문입니다. 포인터의 크기가 아니라 클래스 인스턴스의 실질적인 크기를 구하려면, [instance_sizeof](instance_sizeof.html)를 이용합니다.
 
 sizeof의 인자는 [타입](type_grammar.html)으로, 많은 경우 [typeof](typeof.html)와 함께 사용됩니다.
 

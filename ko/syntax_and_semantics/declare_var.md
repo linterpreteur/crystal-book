@@ -15,5 +15,5 @@ buffer = uninitialized UInt8[256]
 
 buffer는 힙이 아니라 스택에 할당됩니다.
 
-예약어 `uninitialized` 뒤에 오는 타입은 [타입 문법](type_grammar.html)을 따릅니다.
+`uninitialized` 예약어 뒤에 오는 타입은 [타입 문법](type_grammar.html)을 따릅니다.
 

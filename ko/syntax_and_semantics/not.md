@@ -2,7 +2,7 @@
 
 `!` 연산자는 값이 [참인지 거짓인지의 여부](truthy_and_falsey_values.html)를 반전시킨 결과의 `Bool` 값을 반환합니다.
 
-`if`의 조건으로 `is_a?`, `responds_to`, `nil?`과 변수를 사용하는 경우, 컴파일러는 그에 따라 타입을 한정합니다.
+`if`의 조건으로 `is_a?`, `responds_to`, `nil?`, 또는 변수를 사용하는 경우 컴파일러는 그에 따라 타입을 한정합니다.
 
 ```crystal
 a = some_condition ? nil : 3

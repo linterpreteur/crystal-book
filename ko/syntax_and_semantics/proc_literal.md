@@ -1,6 +1,6 @@
-# Proc literal
+# Proc 리터럴
 
-A captured block is the same as declaring a [Proc literal](literals/proc.html) and [passing](block_forwarding.html) it to the method.
+블락을 포획하는 것은 [Proc 리터럴](literals/proc.html)을 선언하여 메서드에 [넘기는](block_forwarding.html) 것과 동일합니다.
 
 ```crystal
 def some_proc(&block : Int32 -> Int32)
@@ -15,7 +15,7 @@ proc.call(10) #=> 11
 x #=> 11
 ```
 
-As explained in the [proc literals](literals/proc.html) section, a Proc can also be created from existing methods:
+[리터럴](literals/proc.html) 항목에서 설명했듯, 프록은 기존 메서드로부터 생성할 수도 있습니다.
 
 ```crystal
 def add(x, y)

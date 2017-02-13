@@ -43,7 +43,7 @@ value.some_int #=> 1
 value.some_float #=> 4.94066e-324
 ```
 
-할당하는 값이 속성의 값과 다를 경우 [to_unsafe](to_unsafe.html)가 시도됩니다.
+할당하는 값의 타입과 속성의 타입이 다를 경우 [to_unsafe](to_unsafe.html)가 시도됩니다.
 
 C 공용체는 함수와 메서드에 값으로 (복사되어) 전달되며, 메서드에서 반환될 때에도 값으로 전달됩니다.
 

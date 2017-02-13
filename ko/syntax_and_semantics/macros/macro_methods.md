@@ -16,7 +16,7 @@ class Person
   end
 end
 
-person = Person.new "John", 30
+person = Person.new "철수", 30
 person.instance_vars_names #=> ["name", "age"]
 ```
 
@@ -42,7 +42,7 @@ class Object
   end
 end
 
-person = Person.new "John", 30
+person = Person.new "철수", 30
 person.has_instance_var?("name") #=> true
 person.has_instance_var?("birthday") #=> false
 ```
