@@ -58,7 +58,7 @@ end
 module Ticker
   # 사용자 콜백은 Void*가 없음
   def self.on_tick(&callback : Int32 ->)
-    # GC의 수집을 피하기 위해 크리스탈에서 저장해야 함
+    # GC의 수집을 막기 위해 크리스탈에서 저장해야 함
     @@callback = callback
 
     # Proc은 {Void*, Void*}이므로, Void*로 변환할 수 없고,

@@ -89,7 +89,7 @@ e.greet 1 # "안녕, 숫자 1"
 ```crystal
 class Person
   def greet(msg)
-    puts "안녕, "#{msg}"
+    puts "안녕, #{msg}"
   end
 end
 

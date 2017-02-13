@@ -1,12 +1,12 @@
 # 커넥션 풀
 
-When a connection is established it usually means opening a TCP connection or Socket. The socket will handle one statement at a time. If a program needs to perform many queries simultaneously, or if it handles concurrent requests that aim to use a database, it will need more than one active connection.
+커넥션이 열린다는 것은 일반적으로 TCP 커넥션 혹은 소켓이 열린다는 것을 의미합니다. 소켓은 구문을 하나씩 처리합니다. 다수의 쿼리를 동시에 실행하거나 데이터베이스로의 요청을 병행적으로 처리해야 한다면 여러 개의 커넥션을 활성화해야 합니다.
 
-Since databases are separate services from the application using them, the connections might go down, the services might be restarted, and other sort of things the program might not want to care about.
+데이터베이스는 데이터베이스를 사용할 프로그램과는 독립적인 서비스이므로, 커넥션이 끊기고 데이터베이스가 재시작되는 등 프로그램에서 예상치 못하는 다양한 상황이 있을 수 있습니다.
 
-To address this issues usually a connection pool is a neat solution.
+이 문제를 해결하기 위해서는 커넥션 풀이 깔끔한 선택입니다.
 
-When a database is opened with `crystal-db` there is already a connection pool working. `DB.open` returns a `DB::Database` object which manages the whole connection pool and not just a single connection.
+`crystal-db`로 데이터베이스를 열면 커넥션 풀이 생성됩니다. `DB.open`은 커넥션 풀을 하나뿐이 아니라 모두 다루는 `DB::Database` 객체를 반환합니다.
 
 ```crystal
 DB.open("mysql://root@localhost/test") do |db|
@@ -14,24 +14,24 @@ DB.open("mysql://root@localhost/test") do |db|
 end
 ```
 
-When executing statements using `db.query`, `db.exec`, `db.scalar`, etc. the algorithm goes:
+`db.query`, `db.exec`, `db.scalar` 등을 이용해 쿼리를 실행할 때의 알고리듬은 다음과 같습니다.
 
-1. Find an available connection in the pool.
-   1. Create one if needed and possible.
-   2. If the pool is not allowed to create a new connection, wait a for a connection to become available.
-      1. But this wait should be aborted if it takes too long.
-2. Checkout that connection from the pool.
-3. Execute the SQL command.
-4. If there is no `DB::ResultSet` yielded, return the connection to the pool. Otherwise, the connection will be returned to the pool when the ResultSet is closed.
-5. Return the statement result.
+1. 풀에서 사용할 수 있는 커넥션을 찾음.
+   1. 생성해야 하는 경우이며 그럴 수 있다면 하나를 생성.
+   2. 풀에서 새 커넥션을 생성할 수 없을 경우 커넥션을 사용할 수 있을 때까지 대기.
+      1. 하지만 너무 오래 걸리면 취소.
+2. 풀에서 해당 커넥션을 꺼내옴.
+3. SQL 명령어를 실행.
+4. `DB::ResultSet`가 코드 블락에 넘겨지지 않았다면 커넥션을 풀로 되돌려줌. 넘겨진 경우, ResultSet이 닫힐 때 커넥션이 풀로 반환됨.
+5. 구문 결과를 반환.
 
-If a connection can't be created, or if a connection loss occurs while the statement is performed the above process is repeated.
+커넥션이 생성될 수 없거나 구문이 실행되는 동안 커넥션이 끊길 경우 위 과정이 반복됩니다.
 
-> The retry logic only happens when the statement is sent through the `DB::Database` . If it is sent through a `DB::Connection` or `DB::Transaction` no retry is performed since the code will state that certain connection object was expected to be used.
+> 재시도는 `DB::Database`를 이용해 구문이 보내질 경우에만 해당됩니다. `DB::Conenction` 또는 `DB::Transaction`으로 구문이 보내졌다면 특정한 커넥션 객체를 사용해야 하므로 실패한 경우에도 다시 시도되지 않습니다.
 
-## Configuration
+## 설정
 
-The behavior of the pool can be configured from a set of parameters that can appear as query string in the connection URI.
+커넥션 URI에 쿼리 문자열로 인수를 넘겨서 풀의 행동 방식을 설정할 수 있습니다.
 
 | Name | Default value |
 | :--- | :--- |
@@ -42,18 +42,18 @@ The behavior of the pool can be configured from a set of parameters that can app
 | retry\_attempts | 1 |
 | retry\_delay | 1.0 \(seconds\) |
 
-When `DB::Database` is opened an initial number of `initial_pool_size` connections will be created. The pool will never hold more than `max_pool_size` connections. When returning/releasing a connection to the pool it will be closed if there are already `max_idle_pool_size` idle connections.
+`DB::Database`가 열렸을 때 `initial_pool_size`개의 커넥션이 생성됩니다. 커넥션 개수는 `max_pool_size`를 넘을 수 없습니다. 커넥션을 풀에 되돌릴 때 `max_idel_pool_size`만큼 놀고 있는 커넥션이 있다면, 되돌리려고 했던 커넥션은 닫히게 됩니다.
 
-If the `max_pool_size` was reached and a connection is needed, wait up to `checkout_timeout` seconds for an existing connection to become available.
+`max_pool_size`에 도달했는데 커넥션이 필요한 경우 이미 존재하는 커넥션 중 하나가 사용할 수 있어질 때까지 `checkout_timeout`초까지 기다립니다.
 
-If a connection is lost or can't be established retry at most `retry_attempts` times waiting `retry_delay` seconds between each try.
+커넥션이 끊기거나 생성되지 못한 경우 `retry_delay`초 간격으로 `retry_attempts`회까지 재시도합니다.
 
-## Sample
+## 예제
 
-The following program will print the current time from MySQL but if the connection is lost or the whole server is down for a few seconds the program will still run without raising exceptions.
+다음 프로그램은 현재 시간을 MySQL로부터 가져와 출력합니다. 몇 초 동안 커넥션이 끊기거나 서버가 내려가도 예외가 일어나지 않고 프로그램이 계속 실행됩니다.
 
 ```crystal
-# file: sample.cr
+# 파일 이름: sample.cr
 require "mysql"
 
 DB.open "mysql://root@localhost?retry_attempts=8&retry_delay=3" do |db|
