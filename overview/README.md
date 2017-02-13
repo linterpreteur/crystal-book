@@ -1,19 +1,19 @@
-# Overview
+# 개괄
 
-You can read this document from top to bottom, but it’s advisable to jump through sections because some concepts are interrelated and can’t be explained in isolation.
+이 문서를 하향식으로 읽어나갈 수도 있습니다. 하지만 일부 개념은 서로 연결되어 있어 따로 설명할 수 없기 때문에, 앞뒤로 옮겨 다니며 읽는 것이 더 바람직합니다.
 
-In code examples, the comment `#=>` is used to show the value of an expression. For example:
+코드 예시에서 `#=>` 주석은 표현식의 값을 나타냅니다. 예를 들자면,
 
 ```crystal
 a = 1 + 2
 a #=> 3
 ```
 
-A comment using `:` is used for showing the type of a variable.
+`:`을 이용한 주석은 변수의 타입을 나타냅니다.
 
 ```crystal
 s = "hello"
 # s : String
 ```
 
-Let's start with two examples to familiarize ourselves with the language.
+두 가지 예제를 통해 크리스탈 언어와 친해져 봅시다.

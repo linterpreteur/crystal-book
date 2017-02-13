@@ -1,23 +1,21 @@
-# From sources
+# 소스 코드로부터
 
-If you want to contribute then you might want to install Crystal from sources. But Crystal is written in Crystal itself! So you first need to use one of the previous described methods to have a running compiler.
+기여하고 싶으시다면 소스 코드로부터 크리스탈을 설치하고 싶으실 겁니다. 하지만 크리스탈은 크리스탈 자신으로 작성되어 있기 때문에, 일단 상기한 방법 중 하나를 이용하여 컴파일러를 실행시켜야 합니다.
 
-You will also need LLVM 3.5 or 3.6 present in the path. If you are using Mac and the Homebrew formula, this will be automatically configured for you if you install Crystal adding `--with-llvm` flag.
+또한 해당 경로에 LLVM 3.5 혹은 3.6이 설치되어 있어야 합니다. 맥에서 Homebrew를 이용하신다면 `--with-llvm` 플래그를 추가하여 자동으로 설치할 수 있습니다.
 
+1. 반드시 [필요한 라이브러리를 모두](https://github.com/crystal-lang/crystal/wiki/All-required-libraries) 설치하세요. [기여 가이드](https://github.com/crystal-lang/crystal/blob/master/CONTRIBUTING.md) 또한 참고하시기 바랍니다.
 
-1. Make sure to install [all the required libraries](https://github.com/crystal-lang/crystal/wiki/All-required-libraries). You might also want to read the [contributing guide](https://github.com/crystal-lang/crystal/blob/master/CONTRIBUTING.md).
-
-2. Clone the repository:
+2. 그리고 저장소를 복제하세요.
 
 ```
 git clone https://github.com/crystal-lang/crystal.git
 ```
 
-3. Run `make` to build your own version of the compiler
-4. Run `make spec` to ensure all specs pass, and you've installed everything correctly.
-5. Use `bin/crystal` to run your crystal files
+3. 새로운 버전의 컴파일러를 생성하려면 `make`를 실행하세요.
+4. `make spec`을 실행해서 모든 스펙을 통과한다면 모든 것이 제대로 설치된 것입니다.
+5. `bin/crystal`로 크리스탈 파일을 실행하세요.
 
-If you would like more information about the new `bin/crystal`, check out the [using the compiler](https://crystal-lang.org/docs/using_the_compiler/) documentation.
+새로운 `bin/crystal`에 대해 더 알아보려면, [컴파일러 사용하기](https://crystal-lang.org/docs/using_the_compiler/) 문서를 참고하세요.
 
-Note: The actual binary is built in to `.build/crystal`, but the `bin/crystal` wrapper script is what you should use to run crystal.
-
+주의: 실제 바이너리는 `.build/crystal`에 위치하지만, `bin/crystal`의 크리스탈을 실행하기 위해선 래퍼(wrapper) 스크립트를 사용하셔야 합니다.

@@ -1,3 +1,3 @@
-# Low-level primitives
+# 저수준 원어
 
-Some low-level primitives are provided. They are mostly useful for interfacing with C libraries and for low-level code.
+크리스탈에서는 저수준 원어를 사용할 수 있습니다. 저수준 원어는 C 라이브러리와 상호작용하거나 저수준 코드를 작성하는 경우에 유용합니다.

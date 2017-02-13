@@ -1,23 +1,23 @@
-# Return types
+# 반환 타입
 
-A method's return type is always inferred by the compiler. However, you might want to specify it for two reasons:
+컴파일러는 메서드의 반환 타입을 항상 추론합니다. 하지만 특정하는 것이 좋은 경우가 두 가지 있습니다.
 
-1. To make sure that the method returns the type that you want
-2. To make it appear in documentation comments
+1. 메서드가 의도한 타입을 반환하는 것을 보장하고 싶을 때
+2. 문서 주석에 나타내고 싶을 때
 
-For example:
+다음과 같은 경우입니다.
 
 ```crystal
 def some_method : String
-  "hello"
+  "안녕"
 end
 ```
 
-The return type follows the [type grammar](type_grammar.html).
+반환 타입은 [타입 문법](type_grammar.html)을 따릅니다.
 
-## Nil return type
+## 반환 타입 Nil
 
-Marking a method as returning `Nil` will make it return `nil` regardless of what it actually returns:
+메서드가 `Nil`을 반환하는 것으로 표기한다면, 실제로 반환하는 값이 무엇이든 간에 `nil`을 반환하게 됩니다.
 
 ```crystal
 def some_method : Nil
@@ -27,11 +27,11 @@ end
 some_method # => nil
 ```
 
-This is useful for two reasons:
+이것이 유용한 경우는 두 가지입니다.
 
-1. Making sure a method returns `nil` without needing to add an extra `nil` at the end, or at every return point
-2. Documenting that the method's return value is of no interest
+1. `nil`을 끝에 추가하지 않아도 메서드가 `nil`을 반환하게 하고 싶을 때
+2. 문서를 작성할 때 메서드의 반환 값이 중요하지 않을 때
 
-These methods usually imply a side effect.
+이런 메서드는 보통 부수 효과를 암시합니다.
 
-Using `Void` is the same, but `Nil` is more idiomatic: `Void` is preferred in C bindings.
+`Void`도 같은 효과를 내지만 `Nil`이 더 자주 쓰입니다. `Void`는 C 바인딩에서 사용합니다.

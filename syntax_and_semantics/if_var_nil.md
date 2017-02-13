@@ -1,12 +1,12 @@
 # if var.nil?
 
-If an `if`'s condition is `var.nil?` then the type of `var` in the `then` branch is known by the compiler to be `Nil`, and to be known as non-`Nil` in the `else` branch:
+`if`의 조건이 `var.nil?`이라면 컴파일러는 `then` 분기에서 `var`이 `Nil`이며 `else` 분기에서는 `Nil`이 아님을 추론합니다.
 
 ```crystal
 a = some_condition ? nil : 3
 if a.nil?
-  # here a is Nil
+  # 이때 a는 Nil
 else
-  # here a is Int32
+  # 이때 a는 Int32
 end
 ```

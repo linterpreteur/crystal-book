@@ -1,9 +1,8 @@
 # Char
 
-A [Char](http://crystal-lang.org/api/Char.html) represents a [Unicode](http://en.wikipedia.org/wiki/Unicode) [code point](http://en.wikipedia.org/wiki/Code_point).
-It occupies 32 bits.
+[Char](http://crystal-lang.org/api/Char.html) 타입은 [유니코드](http://en.wikipedia.org/wiki/Unicode) [코드 포인트](http://en.wikipedia.org/wiki/Code_point)를 나타내며 32비트를 차지합니다.
 
-It is created by enclosing an UTF-8 character in single quotes.
+UTF-8 문자를 작은 따옴표로 둘러싸서 생성합니다.
 
 ```crystal
 'a'
@@ -13,35 +12,35 @@ It is created by enclosing an UTF-8 character in single quotes.
 'あ'
 ```
 
-You can use a backslash to denote some special characters:
+역슬래시를 사용하여 특수한 문자를 표기할 수 있습니다.
 
 ```crystal
-'\'' # single quote
-'\\' # backslash
-'\e' # escape
-'\f' # form feed
-'\n' # newline
-'\r' # carriage return
-'\t' # tab
-'\v' # vertical tab
+'\'' # 작은 따옴표
+'\\' # 역슬래시
+'\e' # 이스케이프
+'\f' # 폼 피드
+'\n' # 개행문자
+'\r' # 캐리지 리턴
+'\t' # 탭
+'\v' # 수직 탭
 ```
 
-You can use a backslash followed by at most three digits to denote a code point written in octal:
+역슬래시 뒤에 8진수로 세 개까지의 숫자를 써서 코드 포인트를 표기할 수도 있습니다.
 
 ```crystal
 '\101' # == 'A'
 '\123' # == 'S'
 '\12'  # == '\n'
-'\1'   # code point 1
+'\1'   # 코드 포인트 1
 ```
 
-You can use a backslash followed by an *u* and four hexadecimal characters to denote a unicode codepoint written:
+역슬래시와 (`\u`) 뒤에 네 개의 16진수 문자를 써서 유니코드 코드 포인트를 표기할 수도 있습니다.
 
 ```crystal
 '\u0041' # == 'A'
 ```
 
-Or you can use curly braces and specify up to six hexadecimal numbers (0 to 10FFFF):
+혹은 중괄호를 이용하여 여섯 개까지의 숫자(0부터 10FFFF까지)를 쓸 수도 있습니다.
 
 ```crystal
 '\u{41}'    # == 'A'

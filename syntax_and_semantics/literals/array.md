@@ -1,46 +1,46 @@
 # Array
 
-An [Array](http://crystal-lang.org/api/Array.html) is a generic type containing elements of a type `T`. It is typically created with an array literal:
+[Array](http://crystal-lang.org/api/Array.html)는 타입이 `T`인 원소들을 포함하는 제너릭 타입입니다. 배열 리터럴을 통해 보통 생성합니다.
 
 ```crystal
 [1, 2, 3]         # Array(Int32)
-[1, "hello", 'x'] # Array(Int32 | String | Char)
+[1, "안녕", 'x'] # Array(Int32 | String | Char)
 ```
 
-An Array can have mixed types, meaning `T` will be a union of types, but these are determined when the array is created, either by specifying T or by using an array literal. In the latter case, T will be set to the union of the array literal elements.
+배열은 혼합 타입을 가질 수 있습니다. 이는 곧 `T`가 타입의 공용체라는 뜻입니다. 이는 T를 특정하거나 배열 리터럴을 사용함으로써, 배열이 생성되는 시점에 결정됩니다. 후자의 경우, T는 배열 리터럴의 원소들의 공용체입니다.
 
-When creating an empty array you must always specify T:
+빈 배열을 만들 때는 항상 T를 특정해야 합니다.
 
 ```crystal
-[] of Int32 # same as Array(Int32).new
-[]          # syntax error
+[] of Int32 # Array(Int32).new와 동일
+[]          # 문법 오류
 ```
 
-## Array of String
+## 문자열 배열
 
-Arrays of strings can be created with a special syntax:
+문자열의 배열은 특수한 문법으로도 만들 수 있습니다.
 
 ```crystal
 %w(one two three) # ["one", "two", "three"]
 ```
 
-## Array of Symbol
+## 기호 배열
 
-Arrays of symbols can be created with a special syntax:
+기호의 배열은 특수한 문법으로도 만들 수 있습니다.
 
 ```crystal
 %i(one two three) # [:one, :two, :three]
 ```
 
-## Array-like types
+## 배열류 타입
 
-You can use a special array literal syntax with other types too, as long as they define an argless `new` method and a `<<` method:
+다른 타입에서도 배열 리터럴 문법을 사용할 수 있습니다. 단, 그 타입이 인자 없는 `new` 메서드와 `<<` 메서드를 정의하는 경우에 한합니다.
 
 ```crystal
 MyType{1, 2, 3}
 ```
 
-If `MyType` is not generic, the above is equivalent to this:
+`MyType`이 제너릭이 아니라면, 위 코드는 다음과 동일합니다.
 
 ```crystal
 tmp = MyType.new
@@ -50,7 +50,7 @@ tmp << 3
 tmp
 ```
 
-If `MyType` is generic, the above is equivalent to this:
+`MyType`이 제너릭이라면, 위 코드는 다음과 동일합니다.
 
 ```crystal
 tmp = MyType(typeof(1, 2, 3)).new
@@ -60,7 +60,7 @@ tmp << 3
 tmp
 ```
 
-In the case of a generic type, the type arguments can be specified too:
+제너릭 타입인 경우 타입 인자를 특정할 수도 있습니다.
 
 ```crystal
 MyType(Int32 | String) {1, 2, "foo"}

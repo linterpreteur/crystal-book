@@ -1,6 +1,6 @@
 # instance_sizeof
 
-The `instance_sizeof` expression returns an `Int32` with the instance size of a given class. For example:
+`instance_sizeof` 표현식은 주어진 클래스의 인스턴스 크기를 `Int32`로 반환합니다.
 
 ```crystal
 class Point
@@ -14,4 +14,4 @@ Point.new 1, 2
 instance_sizeof(Point) #=> 12
 ```
 
-Even though the instance has two `Int32` fields, the compiler always includes an extra `Int32` field for the type id of the object. That's why the instance size ends up being 12 and not 8.
+인스턴스에 `Int32` 속성이 두 개 있지만 컴파일러는 객체의 ID 값을 위한 `Int32` 속성을 한 개 더 추가합니다. 따라서 위의 코드에서 인스턴스 크기는 8이 아니라 12가 되는 것입니다.

@@ -1,10 +1,10 @@
 # Range
 
-A [Range](http://crystal-lang.org/api/Range.html) is typically constructed with a range literal:
+[Range](http://crystal-lang.org/api/Range.html)는 보통 범위 리터럴으로 생성합니다.
 
 ```crystal
-x..y  # an inclusive range, in mathematics: [x, y]
-x...y # an exclusive range, in mathematics: [x, y)
+x..y  # 포함 범위, 수학적으로는 [x, y]
+x...y # 배제 범위, 수학적으로는 [x, y)
 ```
 
-An easy way to remember which one is inclusive and which one is exclusive it to think of the extra dot as if it pushes *y* further away, thus leaving it outside of the range.
+세 번째 점이 *y*를 범위 밖으로 밀어 보낸다고 생각하면 외우기 쉬울 것입니다.

@@ -1,10 +1,10 @@
-# Coding Style
+# 코딩 스타일
 
-This style is used in the standard library. You can use it in your own project to make it familiar to other developers.
+이 스타일은 표준 라이브러리에서 사용됩니다. 여러분의 프로젝트에 이 스타일을 이용하신다면 다른 개발자가 더 친숙하게 느낄 수 있을 것입니다.
 
-## Naming
+## 네이밍
 
-__Type names__ are camelcased. For example:
+__타입 이름__은 캐멀 케이스입니다.
 
 ```crystal
 class ParseError < Exception
@@ -27,7 +27,7 @@ enum Time::DayOfWeek
 end
 ```
 
-__Method names__ are underscore-cased. For example:
+__메서드 이름__은 언더스코어 케이스입니다.
 
 ```crystal
 class Person
@@ -42,7 +42,7 @@ class Person
 end
 ```
 
-__Variable names__ are underscore-cased. For example:
+__변수명__은 언더스코어 케이스입니다.
 
 ```crystal
 class Greeting
@@ -58,39 +58,39 @@ class Greeting
 end
 ```
 
-__Constants__ are screaming-cased. For example:
+__상수명__은 스크리밍 케이스입니다.
 
 ```crystal
 LUCKY_NUMBERS     = [3, 7, 11]
 DOCUMENTATION_URL = "http://crystal-lang.org/docs"
 ```
 
-### Acronyms
+### 줄임말
 
-In class names, acronyms are _all-uppercase_. For example, `HTTP`, and `LibXML`.
+클래스 이름에서, 줄임말은 _모두 대문자_입니다. 예를 들어, `HTTP`나 `LibXML`과 같습니다.
 
-In method names, acronyms are _all-lowercase_.  For example `#from_json`,  `#to_io`.
+메서드 이름에서, 줄임말은 _모두 소문자_입니다. 예를 들어, `#from_json`이나 `#to_io`와 같습니다.
 
-### Libs
+### Lib
 
-`Lib` names are prefixed with `Lib`. For example: `LibC`, `LibEvent2`.
+`Lib` 이름은 `Lib`으로 시작합니다. 예를 들어, `LibC`, `LibEvent2`와 같습니다.
 
-### Directory and File Names
+### 디렉토리와 파일 이름
 
-Within a project:
+한 프로젝트 안에서
 
-- `/` contains a readme, any project configurations (eg, CI or editor configs), and any other project-level documentation (eg, changelog or contributing guide).
-- `src/` contains the project's source code.
-- `spec/` contains the project's specs, which can be run with `crystal spec`.
-- `bin/` contains any executables.
+- `/`는 README 문서와 프로젝트 설정(CI나 에디터 설정), 그리고 기타 프로젝트 수준의 문서(변경사항이나 기여 가이드)를 포함합니다.
+- `src/`는 프로젝트의 소스 코드를 포함합니다.
+- `spec/`는 `crystal spec`으로 실행할 수 있는 프로젝트 스펙을 포함합니다.
+- `bin/`은 실행 파일을 포함합니다.
 
-File paths match the namespace of their contents. Files are named after the class or namespace they define, with _underscore-case_.
+파일 경로는 내용물의 네임스페이스와 일치해야 합니다. 파일명은 정의하는 클래스 혹은 네임스페이스에 따라 _언더스코어 케이스_로 짓습니다.
 
-For example, `HTTP::WebSocket` is defined in `src/http/web_socket.cr`.
+예를 들어, `HTTP::WebSocket`은 `src/http/web_socket.cr`에 정의되어 있습니다.
 
-## Whitespace
+## 공백
 
-Use __two spaces__ to indent code inside namespaces, methods, blocks or other nested contexts. For example:
+네임스페이스, 메서드, 블락, 혹은 기타 상황에서 __스페이스 2개__로 코드를 들여씁니다.
 
 ```crystal
 module Scorecard
@@ -101,14 +101,14 @@ module Scorecard
           handle_match(match)
         end
       rescue err : ParseError
-        # handle error ...
+        # 에러 처리 ...
       end
     end
   end
 end
 ```
 
-Within a class, separate method definitions, constants and inner class definitions with __one newline__. For example:
+클래스 안에서, 메서드 정의, 상수, 내부 클래스 정의를 _한 줄씩 띄어서_ 분리하세요.
 
 ```crystal
 module Money
@@ -131,7 +131,7 @@ module Money
     end
 
     def amount
-      # implement conversion ...
+      # 변환 구현 ...
     end
   end
 end

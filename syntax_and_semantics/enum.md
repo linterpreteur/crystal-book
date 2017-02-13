@@ -1,6 +1,6 @@
-# Enums
+# 열거형
 
-An enum is a set of integer values, where each value has an associated name. For example:
+열거형은 정수 값의 집합입니다. 각 값은 대응되는 이름을 갖습니다.
 
 ```crystal
 enum Color
@@ -10,30 +10,30 @@ enum Color
 end
 ```
 
-An enum is defined with the `enum` keyword, followed by its name. The enum's body contains the values. Values start with the value `0` and are incremented by one. The default value can be overwritten:
+열거형은 `enum` 예약어 뒤에 이름을 써서 정의합니다. 열거형의 본체에 값이 올 수 있습니다. 값은 `0`으로 시작하여 하나씩 증가합니다. 이 기본값을 덮어쓸 수도 있습니다.
 
 ```crystal
 enum Color
   Red         # 0
   Green       # 1
-  Blue   = 5  # overwritten to 5
+  Blue   = 5  # 5로 덮어씀
   Yellow      # 6 (5 + 1)
 end
 ```
 
-Each constant in the enum has the type of the enum:
+열거형의 각 상수는 그 열거형의 타입을 갖습니다.
 
 ```crystal
 Color::Red #:: Color
 ```
 
-To get the underlying value you invoke `value` on it:
+`value`를 호출하여 기저에 있는 값을 얻어올 수 있습니다.
 
 ```crystal
 Color::Green.value #=> 1
 ```
 
-The type of the value is `Int32` by default but can be changed:
+그 값은 기본적으로 `Int32`이지만, 타입을 바꿀 수도 있습니다.
 
 ```crystal
 enum Color : UInt8
@@ -45,13 +45,13 @@ end
 Color::Red.value #:: UInt8
 ```
 
-Only integer types are allowed as the underlying type.
+기저 타입으로는 정수 타입만을 사용할 수 있습니다.
 
-All enums inherit from [Enum](http://crystal-lang.org/api/Enum.html).
+모든 열거형은 [Enum](http://crystal-lang.org/api/Enum.html)을 상속합니다.
 
-## Flags enums
+## 플래그 열거형
 
-An enum can be marked with the `@[Flags]` attribute. This changes the default values:
+열거형에 `@[Flags]` 속성을 지정하여 기본값을 바꿀 수 있습니다.
 
 ```crystal
 @[Flags]
@@ -62,41 +62,41 @@ enum IOMode
 end
 ```
 
-The `@[Flags]` attribute makes the first constant's value be `1`, and successive constants are multiplied by `2`.
+`@[Flags]` 속성은 첫 상수의 값을 `1`로 바꾸고, 뒤에 오는 값을 `2`씩 곱합니다.
 
-Implicit constants, `None` and `All`, are automatically added to these enums, where `None` has the value `0` and `All` has the "or"ed value of all constants.
+암묵적인 `None`과 `All` 상수가 열거형에 자동으로 추가됩니다. `None`의 값은 `0`이며 `All`의 값은 모든 상수에 비트 OR 연산을 한 값이 됩니다.
 
 ```crystal
 IOMode::None.value #=> 0
 IOMode::All.value  #=> 7
 ```
 
-Additionally, some `Enum` methods check the `@[Flags]` attribute. For example:
+또한 `Enum`의 몇 가지 메서드를 사용하기 위해서는 `@[Flags]` 속성이 필요합니다.
 
 ```crystal
-puts(Color::Red)                    # prints "Red"
-puts(IOMode::Write | IOMode::Async) # prints "Write, Async"
+puts(Color::Red)                    # "Red"를 출력
+puts(IOMode::Write | IOMode::Async) # "Write, Async"를 출력
 ```
 
-## Enums from integers
+## 정수에서 열거형으로의 변환
 
-An enum can be created from an integer:
+정수로부터 열거형을 생성할 수 있습니다.
 
 ```crystal
-puts Color.new(1) #=> prints "Green"
+puts Color.new(1) #=> "Green"을 출력
 ```
 
-Values that don't correspond to an enum's constants are allowed: the value will still be of type `Color`, but when printed you will get the underlying value:
+열거형의 상수 중에 없는 값은 사용할 수 없습니다. 타입은 `Color`가 되겠지만, 출력해 보면 기저에 있는 값이 그대로 사용되는 것을 알 수 있습니다.
 
 ```crystal
-puts Color.new(10) #=> prints "10"
+puts Color.new(10) #=> "10"을 출력
 ```
 
-This method is mainly intended to convert integers from C to enums in Crystal.
+이 메서드는 C에서의 정수를 크리스탈의 열거형으로 변환하는 것이 주 목적입니다.
 
-## Methods
+## 메서드
 
-Just like a class or a struct, you can define methods for enums:
+클래스나 구조체와 마찬가지로 열거형에서 메서드를 정의할 수 있습니다.
 
 ```crystal
 enum Color
@@ -113,11 +113,11 @@ Color::Red.red?  #=> true
 Color::Blue.red? #=> false
 ```
 
-Class variables are allowed, but instance variables are not.
+인스턴스 변수는 정의할 수 없고, 클래스 변수만을 정의할 수 있습니다.
 
-## Usage
+## 사용
 
-Enums are a type-safe alternative to [Symbol](http://crystal-lang.org/api/Symbol.html). For example, an API's method can specify a [type restriction](type_restrictions.html) using an enum type:
+열거형은 [Symbol](http://crystal-lang.org/api/Symbol.html)의 타입 안정성을 확보한 대안입니다. 예를 들어, API의 메서드에서 열거형을 이용한 [타입 제약](type_restrictions.html)을 특정할 수 있습니다.
 
 ```crystal
 def paint(color : Color)
@@ -125,15 +125,15 @@ def paint(color : Color)
   when Color::Red
     # ...
   else
-    # Unusual, but still can happen
-    raise "unknown color: #{color}"
+    # 확률은 높지 않아도 일어날 수 있음
+    raise "알 수 없는 색깔: #{color}"
   end
 end
 
 paint Color::Red
 ```
 
-The above could also be implemented with a Symbol:
+위의 예시를 Symbol로 구현할 수도 있습니다.
 
 ```crystal
 def paint(color : Symbol)
@@ -141,13 +141,13 @@ def paint(color : Symbol)
   when :red
     # ...
   else
-    raise "unknown color: #{color}"
+    raise "알 수 없는 색깔: #{color}"
   end
 end
 
 paint :red
 ```
 
-However, if the programmer makes a typo, say `:reed`, the error will only be caught at runtime, while attempting to use `Color::Reed` will result in a compile-time error.
+하지만 프로그래머가 `:reed` 같은 오타를 낸다면 실행 시간에나 오류를 알아차릴 수 있습니다. 하지만 `Color::Reed`는 컴파일 오류이므로 컴파일 시간에 알아차릴 수 있습니다.
 
-The recommended thing to do is to use enums whenever possible, only use symbols for the internal implementation of an API, and avoid symbols for public APIs. But you are free to do what you want.
+가능하다면 열거형은 사용하는 것이 권장됩니다. 심볼은 API의 내부 구현에서만 사용하고 공개 API에서는 심볼을 가급적이면 피해야 합니다. 그렇다고 굳이 심볼을 쓰는 것을 말릴 사람이 있는 것은 아닙니다.

@@ -1,6 +1,6 @@
 # as
 
-The `as` pseudo-method restricts the types of an expression. For example:
+유사 메서드 `as`는 표현식의 타입을 제한합니다.
 
 ```crystal
 if some_condition
@@ -12,58 +12,58 @@ end
 # a : Int32 | String
 ```
 
-In the above code, `a` is a union of `Int32 | String`. If for some reason we are sure `a` is an `Int32` after the `if`, we can force the compiler to treat it like one:
+위 코드에서, `a`는 `Int32 | String`의 공용체입니다. `if` 이후에 `a`가 `Int32`라는 증거가 있다면, 컴파일러가 그렇게 취급하도록 강제할 수 있습니다.
 
 ```crystal
 a_as_int = a.as(Int32)
-a_as_int.abs          # works, compiler knows that a_as_int is Int32
+a_as_int.abs          # 작동, 컴파일러는 a_as_int가 Int32임을 앎
 ```
 
-The `as` pseudo-method performs a runtime check: if `a` wasn't an `Int32`, an [exception](exception_handling.html) is raised.
+유사 메서드 `as`는 실행 시간 검사를 실시합니다. `a`가 `Int32`가 아니었다면, [예외](exception_handling.html)가 일어납니다.
 
-The argument to the expression is a [type](type_grammar.html).
+표현식의 인자는 [타입](type_grammar.html)이어야 합니다.
 
-If it is impossible for a type to be restricted by another type, a compile-time error is issued:
+타입이 다른 타입으로 제한될 수 없는 경우에는 컴파일 시간 오류가 발생합니다.
 
 ```crystal
-1.as(String) # Compile-time error
+1.as(String) # 컴파일 시간 오류
 ```
 
-**Note: ** you can't use `as` to convert a type to an unrelated type: `as` is not like a `cast` in other languages. Methods on integers, floats and chars are provided for these conversions. Alternatively, use pointer casts as explained below.
+**주의:** `as`로 한 타입에서 관계 없는 타입으로 변환할 수는 없습니다. `as`는 다른 언어의 `cast`와는 다릅니다. 이런 경우에 쓸 수 있는 정수, 실수, 문자의 메서드가 있습니다. 또는 이후 설명할 포인터 변환을 사용합니다.
 
-## Converting between pointer types
+## 포인터 타입의 변환
 
-The `as` pseudo-method also allows to cast between pointer types:
+`as`로 포인터 타입끼리 서로 변환할 수도 있습니다.
 
 ```crystal
 ptr = Pointer(Int32).malloc(1)
 ptr.as(Int8*)                    #:: Pointer(Int8)
 ```
 
-In this case, no runtime checks are done: pointers are unsafe and this type of casting is usually only needed in C bindings and low-level code.
+이 경우, 실행 시간 검사는 일어나지 않습니다. 포인터는 안전하지 않으며 이런 종류의 변환은 보통 C 바인딩 또는 저수준 코드에서나 필요합니다.
 
-## Converting between pointer types and other types
+## 포인터 타입과 다른 타입 사이의 변환
 
-Conversion between pointer types and Reference types is also possible:
+포인터 타입과 Reference 타입의 변환 또한 가능합니다.
 
 ```crystal
 array = [1, 2, 3]
 
-# object_id returns the address of an object in memory,
-# so we create a pointer with that address
+# object_id는 객체의 메모리 주소를 반환하므로
+# 그 주소로 포인터를 생성
 ptr = Pointer(Void).new(array.object_id)
 
-# Now we cast that pointer to the same type, and
-# we should get the same value
+# 그 포인터를 같은 타입으로 변환하여
+# 같은 값을 획득할 수 있음
 array2 = ptr.as(Array(Int32))
 array2.same?(array) #=> true
 ```
 
-No runtime checks are performed in these cases because, again, pointers are involved. The need for this cast is even more rare than the previous one, but allows to implement some core types (like String) in Crystal itself, and it also allows passing a Reference type to C functions by casting it to a void pointer.
+포인터가 있기 때문에 이 경우에도 실행 시간 검사는 일어나지 않습니다. 이런 종류의 변환은 앞서 본 것보다 필요한 경우가 더욱 드물지만, 크리스탈에서 String과 같은 핵심 타입을 구현하는 데 쓰이며, 이를 사용하여 Reference 타입을 void 포인터로 변환하여 C 함수에 넘길 수도 있습니다.
 
-## Usage for casting to a bigger type
+## 상위 공용체 타입으로의 변환
 
-The `as` pseudo-method can be used to cast an expression to a "bigger" type. For example:
+`as`를 이용하여 "더 큰" 타입으로 표현식을 변환할 수도 있습니다.
 
 ```crystal
 a = 1
@@ -71,23 +71,23 @@ b = a.as(Int32 | Float64)
 b #:: Int32 | Float64
 ```
 
-The above might not seem to be useful, but it is when, for example, mapping an array of elements:
+별로 유용해 보이지 않을 수도 있지만, 예를 들어 배열의 원소에 사용하는 경우라면 다를 수 있습니다.
 
 ```crystal
 ary = [1, 2, 3]
 
-# We want to create an array 1, 2, 3 of Int32 | Float64
+# Int32 | Float64의 배열 1, 2, 3을 생성
 ary2 = ary.map { |x| x.as(Int32 | Float64) }
 
 ary2 #:: Array(Int32 | Float64)
-ary2 << 1.5 # OK
+ary2 << 1.5 # 정상 작동
 ```
 
-The `Array#map` method uses the block's type as the generic type for the Array. Without the `as` pseudo-method, the inferred type would have been `Int32` and we wouldn't have been able to add a `Float64` into it.
+`Array#map` 메서드는 블락의 타입을 배열의 제너릭 타입으로 사용합니다. 유사 메서드 `as`가 없었다면 `Int32` 타입이 추런되어 `Float64`를 배열에 추가할 수 없었을 것입니다.
 
-## Usage for when the compiler can't infer the type of a block
+## 컴파일러가 블락의 타입을 추론할 수 없을 때의 사용
 
-Sometimes the compiler can't infer the type of a block. This can happen in recursive calls that depend on each other. In those cases you can use `as` to let it know the type:
+컴파일러가 블락의 타입을 추론할 수 없는 경우도 간혹 있습니다. 서로에게 의존하는 재귀 호출이 한 예입니다. 그런 경우에는 `as`로 컴파일러에게 타입을 알려줄 수 있습니다.
 
 ```crystal
 some_call { |v| v.method.as(ExpectedType) }

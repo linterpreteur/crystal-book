@@ -1,6 +1,6 @@
-# Closures
+# 클로저
 
-Captured blocks and proc literals closure local variables and `self`. This is better understood with an example:
+포획된 블락과 프록 리터럴은 지역 변수와 `self`를 클로저로 저장합니다. 예시가 말보다는 이해하기 쉬울 것입니다.
 
 ```crystal
 x = 0
@@ -10,7 +10,7 @@ proc.call #=> 2
 x         #=> 2
 ```
 
-Or with a proc returned from a method:
+메서드에서 반환한 프록을 사용할 수도 있습니다.
 
 ```crystal
 def counter
@@ -23,11 +23,11 @@ proc.call #=> 1
 proc.call #=> 2
 ```
 
-In the above example, even though `x` is a local variable, it was captured by the proc literal. In this case the compiler allocates `x` on the heap and uses it as the context data of the proc to make it work, because normally local variables live in the stack and are gone after a method returns.
+위 예시에서, `x`는 지역 변수이지만 프록 리터럴에 의해 포획되어 있습니다. 이 경우 컴파일러는 `x`를 힙에 할당하여 프록이 동작하기 위한 맥락 데이터로 사용합니다. 일반적인 지역 변수는 스택에 저장되므로 메서드가 반환할 때 소멸하기 때문입니다.
 
-## Type of closured variables
+## 클로저로 저장된 변수의 타입
 
-The compiler is usually moderately smart about the type of local variables. For example:
+컴파일러는 보통 지역 변수의 타입을 알아서 적당히 추론합니다.
 
 ```crystal
 def foo
@@ -36,19 +36,19 @@ end
 
 x = 1
 foo do
-  x = "hello"
+  x = "안녕"
 end
 x # : Int32 | String
 ```
 
-The compiler knows that after the block, `x` can be Int32 or String (it could know that it will always be String because the method always yields; this may improve in the future).
+컴파일러는 블락이 끝난 후 `x`는 Int32일 수도, String일 수도 있다는 사실을 알아냅니다. (메서드가 항상 yield를 사용하므로 `x`가 항상 String이라는 것을 추론할 수도 있지만, 이는 추후 개선될 사항입니다.)
 
-If `x` is assigned something else after the block, the compiler knows the type changed:
+블락이 지나서 `x`에 다른 값이 할당된다면 컴파일러는 이 또한 알아차립니다.
 
 ```crystal
 x = 1
 foo do
-  x = "hello"
+  x = "안녕"
 end
 x # : Int32 | String
 
@@ -56,7 +56,7 @@ x = 'a'
 x # : Char
 ```
 
-However, if `x` is closured by a proc, the type is always the mixed type of all assignments to it:
+하지만 `x`가 프록에 클로저로 저장된다면 그 타입은 할당된 모든 값의 공용체입니다.
 
 ```crystal
 def capture(&block)
@@ -64,15 +64,15 @@ def capture(&block)
 end
 
 x = 1
-capture { x = "hello" }
+capture { x = "안녕" }
 
 x = 'a'
 x # : Int32 | String | Char
 ```
 
-This is because the captured block could have been potentially stored in a class or instance variable and invoked in a separate thread in between the instructions. The compiler doesn't do an exhaustive analysis of this: it just assumes that if a variable is captured by a proc, the time of that proc invocation is unknown.
+이는 포획된 블락이 클래스나 인스턴스 변수로 저장되어 다른 스레드에서 실행될 가능성이 있기 때문입니다. 컴파일러는 이런 사항을 모두 분석하지는 않기 때문에, 어떤 변수가 프록에 의해 포획된다면 그 프록이 호출될 시점에서는 변수의 타입을 알 수 없다고 가정할 뿐입니다.
 
-This also happens with regular proc literals, even if it's evident that the proc wasn't invoked or stored:
+이는 평범한 프록에 대해서도 동일합니다. 프록이 절대로 호출되거나 저장되지 않음이 분명하더라도 같습니다.
 
 ```crystal
 def capture(&block)
@@ -80,7 +80,7 @@ def capture(&block)
 end
 
 x = 1
-->{ x = "hello" }
+->{ x = "안녕" }
 
 x = 'a'
 x # : Int32 | String | Char

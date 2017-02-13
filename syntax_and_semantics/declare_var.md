@@ -1,19 +1,19 @@
-# Uninitialized variable declaration
+# 초기화하지 않은 변수 선언
 
-Crystal allows declaring uninitialized variables:
+크리스탈에서는 초기화하지 않은 변수를 선언할 수 있습니다.
 
 ```crystal
 x = uninitialized Int32
-x #=> some random value, garbage, unreliable
+x #=> 신뢰할 수 없는 쓰레기 값
 ```
 
-This is [unsafe](unsafe.html) code and is almost always used in low-level code for declaring uninitialized [StaticArray](http://crystal-lang.org/api/StaticArray.html) buffers without a performance penalty:
+이는 [안전하지 않은](unsafe.html) 코드이며, 저수준 코드에서 성능 저하를 일으키지 않고서 초기화하지 않은 [StaticArray](http://crystal-lang.org/api/StaticArray.html)를 선언하는 데 사용되곤 합니다.
 
 ```crystal
 buffer = uninitialized UInt8[256]
 ```
 
-The buffer is allocated on the stack, avoiding a heap allocation.
+buffer는 힙이 아니라 스택에 할당됩니다.
 
-The type after the `uninitialized` keyword follows the [type grammar](type_grammar.html).
+`uninitialized` 예약어 뒤에 오는 타입은 [타입 문법](type_grammar.html)을 따릅니다.
 

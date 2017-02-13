@@ -1,14 +1,14 @@
-# Ternary if
+# 삼항 연산자
 
-The ternary `if` allows writing an `if` in a shorter way:
+삼항 연산자로 `if`를 더 짧게 쓸 수 있습니다.
 
 ```crystal
 a = 1 > 2 ? 3 : 4
 
-# The above is the same as:
+# 다음과 동일
 a = if 1 > 2
-      3
-    else
-      4
-    end
+  3
+else
+  4
+end
 ```

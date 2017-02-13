@@ -1,10 +1,10 @@
-# Everything is an object
+# 모든 것이 객체
 
-In Crystal everything is an object. The definition of an object boils down to these points:
+크리스탈에서는 모든 것이 객체입니다. 객체의 정의는 두 가지로 정리할 수 있습니다.
 
-* It has a type
-* It can respond to some methods
+* 타입이 있다
+* 메서드에 반응할 수 있다
 
-This is everything you can know about an object: its type and whether it responds to some method.
+타입이 있고, 메서드에 반응한다는 것. 이것이 객체의 전부입니다.
 
-An object's internal state, if any, can only be queried by invoking methods.
+객체에 내부 상태가 있다면, 메서드 호출로 상태를 읽을 수 있습니다.

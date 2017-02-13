@@ -1,6 +1,6 @@
-# Overloading
+# 오버로딩
 
-We can define a `become_older` method that accepts a number indicating the years to grow:
+몇 살이나 나이를 먹을지를 인자로 받는 `become_older` 메서드를 정의할 수 있습니다.
 
 ```crystal
 class Person
@@ -15,54 +15,54 @@ class Person
   end
 end
 
-john = Person.new "John"
-john.age #=> 0
+cholsu = Person.new "철수"
+cholsu.age #=> 0
 
-john.become_older
-john.age #=> 1
+cholsu.become_older
+cholsu.age #=> 1
 
-john.become_older 5
-john.age #=> 6
+cholsu.become_older 5
+cholsu.age #=> 6
 ```
 
-That is, you can have different methods with the same name and different number of arguments and they will be considered as separate methods. This is called *method overloading*.
+즉, 이름이 같지만 다른 인자를 받는 메서드를 정의할 수 있습니다. 이 둘은 별도의 메서드로 취급됩니다. 이런 경우를 가리켜 *메서드 오버로딩*이라고 합니다.
 
-Methods overload by several criteria:
+메서드 오버로드에는 몇 가지 기준이 있습니다.
 
-* The number of arguments
-* The type restrictions applied to arguments
-* The names of required named arguments
-* Whether the method accepts a [block](blocks_and_procs.html) or not
+* 인자의 개수
+* 인자에 적용된 타입 제약
+* 이름 달린 인자 중 필수적인 인자들의 이름
+* 메서드가 [블락](blocks_and_procs.html)을 받는지 여부
 
-For example, we can define four different `become_older` methods:
+예를 들어, 서로 다른 네 가지의 `become_older` 메서드를 정의할 수 있습니다.
 
 ```crystal
 class Person
   @age = 0
 
-  # Increases age by one
+  # 나이를 한 살 먹기
   def become_older
     @age += 1
   end
 
-  # Increases age by the given number of years
+  # 나이를 주어진 만큼 먹기
   def become_older(years : Int32)
     @age += years
   end
 
-  # Increases age by the given number of years, as a String
+  # 나이를 문자열로 주어진 만큼 먹기
   def become_older(years : String)
     @age += years.to_i
   end
 
-  # Yields the current age of this person and increases
-  # its age by the value returned by the block
+  # 이 사람의 현재 나이를 블락에 넘겨서
+  # 블락이 반환한 만큼 나이를 먹기
   def become_older
     @age += yield @age
   end
 end
 
-person = Person.new "John"
+person = Person.new "철수"
 
 person.become_older
 person.age #=> 1
@@ -79,7 +79,7 @@ end
 person.age #=> 28
 ```
 
-Note that in the case of the method that yields, the compiler figured this out because there's a `yield` expression. To make this more explicit, you can add a dummy `&block` argument at the end:
+블락을 받는 메서드의 경우는 `yield`에 의해 구분된다는 것을 볼 수 있습니다. 마지막에 의미 없는 `&block` 인자를 추가함으로써 이를 명시적으로 나타낼 수 있습니다.
 
 ```crystal
 class Person
@@ -91,34 +91,34 @@ class Person
 end
 ```
 
-In generated documentation the dummy `&block` method will always appear, regardless of you writing it or not.
+자동으로 생성되는 문서에서는 이 `&block` 인자가 명시하지 않더라도 항상 나타날 것입니다.
 
-Given the same number of arguments, the compiler will try to sort them by leaving the less restrictive ones to the end:
+인자의 개수가 같다면 컴파일러는 제약이 많은 순서로 정렬합니다.
 
 ```crystal
 class Person
   @age = 0
 
-  # First, this method is defined
+  # 이 메서드가 우선 정의됨
   def become_older(age)
     @age += age
   end
 
-  # Since "String" is more restrictive than no restriction
-  # at all, the compiler puts this method before the previous
-  # one when considering which overload matches.
+  # 제약이 아예 없는 것보다 "String"은 제약이 더 많은 셈이므로,
+  # 컴파일러는 어떤 오버로드가 사용될지 결정할 때
+  # 이 메서드를 앞서 정의한 것보다 우선으로 고려합니다.
   def become_older(age : String)
     @age += age.to_i
   end
 end
 
-person = Person.new "John"
+person = Person.new "철수"
 
-# Invokes the first definition
+# 첫 번째 정의를 호출
 person.become_older 20
 
-# Invokes the second definition
+# 두 번째 정의를 호출
 person.become_older "12"
 ```
 
-However, the compiler cannot always figure out the order because there isn't always a total ordering, so it's always better to put less restrictive methods at the end.
+하지만 완전한 순서가 있어서 컴파일러가 순서를 항상 알아낼 수 있는 것은 아니기 때문에, 제약이 더 많은 메서드를 앞에, 제약이 더 적는 메서드를 뒤에 두는 것이 좋은 습관입니다.

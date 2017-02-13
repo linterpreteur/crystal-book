@@ -1,6 +1,6 @@
-# Conventions
+# 관습
 
-Follow these conventions so your code will be more accessible to other developers.
+다음 관습을 따름으로써 다른 개발자들이 코드에 더욱 쉽게 접근할 수 있습니다.
 
-* Use [standard coding style](coding_style.md) so your project will be navigable and readable to others.
-* Write [documentation](documenting_code.md) to express purpose of your code and support the `crystal doc` generator.
+* [표준 코딩 스타일](coding_style.md)을 이용하세요. 다른 사람들이 쉽게 탐색하고 읽을 수 있을 것입니다.
+* [문서](documenting_code.md)를 작성하여 코드의 목적을 드러내고 `crystal doc`을 지원합니다.

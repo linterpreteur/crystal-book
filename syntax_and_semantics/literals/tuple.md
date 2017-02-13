@@ -1,6 +1,6 @@
 # Tuple
 
-A [Tuple](http://crystal-lang.org/api/Tuple.html) is typically created with a tuple literal:
+[Tuple](http://crystal-lang.org/api/Tuple.html)은 튜플 리터럴로 보통 생성됩니다.
 
 ```crystal
 tuple = {1, "hello", 'x'} # Tuple(Int32, String, Char)
@@ -9,18 +9,18 @@ tuple[1]                  #=> "hello" (String)
 tuple[2]                  #=> 'x'     (Char)
 ```
 
-To create an empty tuple use [Tuple.new](http://crystal-lang.org/api/Tuple.html#new%28%2Aargs%29-class-method).
+[Tuple.new](http://crystal-lang.org/api/Tuple.html#new%28%2Aargs%29-class-method)를 이용해 빈 튜플을 만들 수 있습니다.
 
-To denote a tuple type you can write:
+튜플 타입을 표기하기 위해 다음과 같이 할 수 있습니다.
 
 ```crystal
-# The type denoting a tuple of Int32, String and Char
+# Int32, String, Char 튜플의 타입 표기
 Tuple(Int32, String, Char)
 ```
 
-In type restrictions, generic type arguments and other places where a type is expected, you can use a shorter syntax, as explained in the [type grammar](../type_grammar.html):
+타입 제약, 제너릭 타입 인자, 그 외 타입을 써야 하는 경우에는 [타입 문법](../type_grammar.html)에 설명된 대로 더 짧은 문법을 사용할 수도 있습니다.
 
 ```crystal
-# An array of tuples of Int32, String and Char
+# Int32, String, Char 튜플의 배열
 Array({Int32, String, Char})
 ```

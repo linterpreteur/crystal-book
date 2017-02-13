@@ -1,6 +1,6 @@
 # to_unsafe
 
-If a type defines a `to_unsafe` method, when passing it to C the value returned by this method will be passed. For example:
+어떤 타입이 `to_unsafe` 메서드를 정의한다면, C에 값을 넘길 때 이 메서드가 반환하는 값이 전달됩니다.
 
 ```crystal
 lib C
@@ -17,14 +17,13 @@ class IntWrapper
 end
 
 wrapper = IntWrapper.new(1)
-C.exit(wrapper) # wrapper is not an Int32, but its to_unsafe
-                # method is, so wrapper.to_unsafe
-                # is passed instead
+C.exit(wrapper) # wrapper는 Int32가 아니지만 to_unsafe 메서드는
+                # 맞기 때문에 wrapper.to_unsafe가 대신 전달됨
 ```
 
-This is very useful for defining wrappers of C types without having to explicitly transform them to their wrapped values.
+이는 값을 명시적으로 변환하지 않으면서도 C 타입의 래퍼를 정의할 때 아주 유용합니다.
 
-For example, the `String` class implements `to_unsafe` to return `UInt8*`:
+예를 들어 `String` 클래스는 `UInt8*`를 반환하는 `to_unsafe`를 구현하고 있습니다.
 
 ```crystal
 lib C

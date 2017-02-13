@@ -1,69 +1,70 @@
 # if var
 
-If a variable is the condition of an `if`, inside the `then` branch the variable will be considered as not having the `Nil` type:
+`if`의 조건이 변수라면, `then` 분기 안에서 그 변수는 `Nil` 타입을 갖지 않는 것으로 취급됩니다.
 
 ```crystal
 a = some_condition ? nil : 3
-# a is Int32 or Nil
+# a는 Int32 혹은 Nil
 
 if a
-  # Since the only way to get here is if a is truthy,
-  # a can't be nil. So here a is Int32.
+  # a가 참이어야 하기 때문에
+  # a는 nil일 수 없으므로
+  # 이때 a는 Int32
   a.abs
 end
 ```
 
-This also applies when a variable is assigned in an `if`'s condition:
+`if`의 조건문에서 변수가 할당될 때에도 적용됩니다.
 
 ```crystal
 if a = some_expression
-  # here a is not nil
+  # a는 nil이 아님
 end
 ```
 
-This logic also applies if there are ands (`&&`) in the condition:
+조건에 `&&`가 있을 때에도 똑같이 적용됩니다.
 
 ```crystal
 if a && b
-  # here both a and b are guaranteed not to be Nil
+  # a와 b는 모두 nil이 아님
 end
 ```
 
-Here, the right-hand side of the `&&` expression is also guaranteed to have `a` as not `Nil`.
+이때 `&&` 표현식의 우측에서도 `a`가 `Nil`이 아니라는 것이 보장됩니다.
 
-Of course, reassigning a variable inside the `then` branch makes that variable have a new type based on the expression assigned.
+물론 `then` 분기 안에서 변수를 다시 할당한다면 그 변수는 할당된 표현식에 따라 새로운 타입을 갖게 됩니다.
 
-The above logic **doesn’t** work with instance variables or class variables:
+하지만 이는 인스턴스 변수나 클래스 변수에는 적용되지 *않습니다*.
 
 ```crystal
 if @a
-  # here @a can be nil
+  # 이때 @a는 nil일 수 있음
 end
 ```
 
-This is because any method call could potentially affect that instance variable, rendering it `nil`. Another reason is that another thread could change that instance variable after checking the condition.
+이는 어떠한 메서드 호출이라도 잠재적으로 해당 변수를 건드릴 수 있기 때문입니다. 뿐만 아니라 조건을 확인한 다음 다른 스레드가 그 인스턴스 변수를 바꿀 수도 있습니다.
 
-To do something with `@a` only when it is not `nil` you have two options:
+`@a`를 `nil`이 아닐 때에만 이용하려면 두 가지 방법이 있습니다.
 
 ```crystal
-# First option: assign it to a variable
+  # 첫 번째: 변수에 할당
 if a = @a
-  # here a can't be nil
+  # a는 nil이 아님
 end
 
-# Second option: use `Object#try` found in the standard library
+# 두 번째: 표준 라이브러리의 `Object#try`를 이용
 @a.try do |a|
-  # here a can't be nil
+  # a는 nil이 아님
 end
 ```
 
-That logic also doesn't work with proc and method calls, including getters and properties, because nilable (or, more generally, union-typed) procs and methods aren't guaranteed to return the same more-specific type on two successive calls.
+게터나 속성 등 프록이나 메서드를 호출할 때에도 마찬가지입니다. nil이 될 수 있는 (혹은 공용체 타입인) 프록과 메서드는 두 번 이상 연속으로 호출했을 때 같은 값을 반환한다는 보장이 없기 때문입니다.
 
 ```crystal
-if method # first call to a method that can return Int32 or Nil
-          # here we know that the first call did not return Nil
-  method  # second call can still return Int32 or Nil
+if method # 첫 호출은 Int32 혹은 Nil을 반환
+  # 첫 호출은 Nil을 반환하지 않았음
+  method # 그러나 두 번째 호출은 Int32 혹은 Nil을 반환
 end
 ```
 
-The techniques described above for instance variables will also work for proc and method calls.
+위에서 본, 인스턴스 변수를 다루는 기법을 프록 및 메서드 호출에 적용할 수 있습니다.

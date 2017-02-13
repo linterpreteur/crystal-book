@@ -1,8 +1,9 @@
-# Documenting code
+# 문서 작성
 
-Crystal documentation comments use a subset of [Markdown](https://daringfireball.net/projects/markdown/).
+크리스탈 문서 주석은 [마크다운](https://daringfireball.net/projects/markdown/)의 서브셋을 이용합니다.
 
-* Documentation should be positioned right above definitions of classes, modules, and methods. Leave no blanks between them.
+* 문서는 클래스, 모듈, 메서드의 바로 위에 위치해야 합니다. 빈 칸이 있어서는 안 됩니다.
+* (역자 주) 이 문서에서는 영어로 문서를 작성하는 법만을 다룹니다.
 
 ```crystal
 # A unicorn is a **legendary animal** (see the `Legendary` module) that has been
@@ -11,18 +12,19 @@ Crystal documentation comments use a subset of [Markdown](https://daringfireball
 class Unicorn
 end
 
-# Bad: This is not attached to any class.
+# 주의: 이 주석은 어떤 클래스에도 붙지 않습니다.
 
 class Legendary
 end
 ```
 
-* The documentation of a method is included into the method summary and the method details. The former includes only the first line, the latter includes the entire documentation. In short, it is preferred to:
+* 메서드의 주석은 메서드 요약과 메서드 상세 내용에 포함됩니다. 요약에는 주석의 첫 줄만이, 상세에는 전체가 포함됩니다. 따라서,
 
-  1. State a method's purpose or functionality in the first line.
-  2. Supplement it with details and usages after that.
+  1. 첫 줄에는 메서드의 목적과 기능을 서술하고
+  2. 그 다음에 상세 사항과 쓰임새를 보충하는 것이
 
-For instance:
+선호됩니다.
+예시는 다음과 같습니다.
 
 ``````crystal
 # Returns the number of horns this unicorn has.
@@ -35,9 +37,9 @@ def horns
 end
 ``````
 
-* Use the third person: `Returns the number of horns this unicorn has` instead of `Return the number of horns this unicorn has`.
+* 영어로 쓰는 경우 3인칭을 사용하세요. `Return the number of horns this unicorn has`보다 `Returns the number of horns this unicorn has`가 좋습니다.
 
-* Parameter names should be *italicized* (surrounded with single asterisks `*` or underscores `_`):
+* 매개변수 이름은 *기울여 써야* 합니다. (별표 `*` 또는 밑줄 `_` 하나로 둘러싸기)
 
 ```crystal
 # Creates a unicorn with the specified number of *horns*.
@@ -46,7 +48,7 @@ def initialize(@horns = 1)
 end
 ```
 
-* Code blocks that have Crystal code can be surrounded with triple backticks or indented with four spaces.
+* 크리스탈 코드를 포함하는 코드 블락은 백틱 세 개로 감싸거나 스페이스 네 개로 들여쓰면 됩니다.
 
 ``````crystal
 # ```
@@ -55,14 +57,14 @@ end
 # ```
 ``````
 
-or
+또는
 
 ```crystal
 #     unicorn = Unicorn.new
 #     unicorn.speak
 ```
 
-* Text blocks, for example to show program output, must be surrounded with triple backticks followed by the "text" keyword.
+* 프로그램 출력물 등 텍스트 블락을 표현하려면 백틱 세 개와 "text" 예약어를 이용해야 합니다.
 
 ``````crystal
 # ```text
@@ -70,31 +72,29 @@ or
 # ```
 ``````
 
-* To automatically link to other types, enclose them with single backticks.
+* 다른 타입으로 링크를 걸려면 백틱 하나로 감싸세요.
 
 ```crystal
 # the `Legendary` module
 ```
 
-* To automatically link to methods of the currently documented type, use a hash like `#horns` or `#index(char)`, and enclose it with single backticks.
+* 현재 문서를 달고 있는 타입의 메서드로 링크를 걸려면 `#horns` 또는 `#index(char)`과 같이 우물 정자를 쓰고 백틱으로 감싸세요.
 
-* To automatically link to methods in other types, do `OtherType#method(arg1, arg2)` or just `OtherType#method`, and enclose it with single backticks.
-
-For example:
+* 다른 타입의 메서드로 링크를 거는 법은 `OtherType#method(arg1, arg2)` 또는 `OtherType#method`와 같습니다.
 
 ```crystal
 # Check the number of horns with `#horns`.
 # See what a unicorn would say with `Unicorn#speak`.
 ```
 
-* To show the value of an expression inside code blocks, use `#=>`.
+* 코드 블락에서 표현식의 값을 나타내려면 `#=>`를 사용하세요.
 
 ```crystal
 1 + 2             # => 3
 Unicorn.new.speak # => "I'm a unicorn"
 ```
 
-* Use `ditto` to use the same comment as in the previous declaration.
+* 이전 정의와 동일한 주석을 사용하려면 `ditto`를 이용하세요.
 
 ```crystal
 # ditto
@@ -103,7 +103,7 @@ def number_of_horns
 end
 ```
 
-* Use `:nodoc:` to hide public declarations from the generated documentation. Private and protected methods are always hidden.
+* `:nodoc:`을 통해 생성된 문서로부터 public 선언을 숨길 수 있습니다. private 그리고 protected 메서드는 항상 숨겨져 있습니다.
 
 ```crystal
 class Unicorn
@@ -113,11 +113,11 @@ class Unicorn
 end
 ```
 
-### Flagging Classes, Modules, and Methods
+### 클래스, 모듈, 메서드에 플래그 달기
 
-Given a valid keyword, Crystal will automatically generate visual flags that help highlight problems, notes and/or possible issues.
+유효한 예약어를 지정하면, 문제 사항과 주의점을 강조하는 시각적 플래그가 자동으로 생성됩니다.
 
-The supported flag keywords are:
+지원되는 예약어는 다음과 같습니다.
 
 - BUG
 - DEPRECATED
@@ -126,7 +126,7 @@ The supported flag keywords are:
 - OPTIMIZE
 - TODO
 
-Flag keywords must be the first word in their respective line and must be in all caps. An optional trailing colon is preferred for readability.
+플래그 예약어는 각 줄에서 첫 단어여야 하며 모두 대문자입니다. 예약어 후에 콜론을 붙일 수 있으며, 가독성을 위해 붙이는 쪽이 권장됩니다.
 
 ``````crystal
 # Makes the unicorn speak to STDOUT
@@ -146,33 +146,32 @@ def talk
 end
 ``````
 
-### Use Crystal's code formatter
+### 크리스탈의 코드 포매터 이용하기
 
-Crystal's built-in code formatter can be used not just to format your code,
-but also to format code samples included in documentation blocks.
+크리스탈에 내장된 코드 포매터를 이용해 코드뿐 아니라 문서 주석에 포함된 예제 코드 또한
+포맷할 수 있습니다.
 
-This is done automatically when `crystal tool format` is invoked, which
-will automatically format all `.cr` files in current directory.
+이는 `crystal tool format`이 호출될 때 현재 디렉토리의 모든 `.cr` 파일을 포맷하며
+자동으로 이루어집니다.
 
-To format a single file:
+단일 파일을 포맷하는 법은 다음과 같습니다.
 
 ```
 $ crystal tool format file.cr
 ```
 
-To format all `.cr` files within a directory:
+한 디렉토리의 모든 `.cr` 파일을 포맷하는 법은 다음과 같습니다.
 
 ```
 $ crystal tool format src/
 ```
 
-Use this tool to unify code styles and to submit documentation improvements to
-Crystal itself.
+이 툴을 이용해 코드 스타일을 통일하고 크리스탈 자체의 문서를 개선할 수 있습니다.
 
-The formatter is also fast, so very little time is lost if you format the
-entire project instead of a single file.
+또한 포매터는 빠르기 때문에 파일을 일일히 포맷하는 대신 프로젝트 전채를 포맷하더라도
+시간의 손실은 매우 적습니다.
 
-### A Complete Example
+### 전체 예시
 
 ``````crystal
 # A unicorn is a **legendary animal** (see the `Legendary` module) that has been
@@ -226,6 +225,7 @@ class Unicorn
 end
 ``````
 
-### Generate Documentation
+### 문서 생성
 
-To generate documentation for a project, invoke `crystal doc`. This will create a `doc` directory, with a `doc/index.html` entry point. All files inside the root `src` directory will be considered.
+프로젝트의 문서를 생성하려면 `crystal doc`을 호출하세요. `doc` 디렉토리에 `doc/index.html` 진입점을 가진 문서가 생성될 것입니다.
+프로젝트 루트의 `src` 디렉토리에 있는 모든 파일이 대상입니다.

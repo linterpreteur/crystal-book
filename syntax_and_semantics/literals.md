@@ -1,3 +1,3 @@
-# Literals
+# 리터럴
 
-Several literals are available for creating many basic types in the language.
+몇 가지 리터럴을 이용해 크리스탈 기본 타입의 객체를 만들 수 있습니다.

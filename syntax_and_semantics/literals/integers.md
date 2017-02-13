@@ -1,13 +1,12 @@
-# Integers
+# 정수
 
-There are four signed integer types: [Int8](http://crystal-lang.org/api/Int8.html), [Int16](http://crystal-lang.org/api/Int16.html), [Int32](http://crystal-lang.org/api/Int32.html) and [Int64](http://crystal-lang.org/api/Int64.html), being able to represent numbers of 8, 16, 32 and 64 bits respectively.
+부호 있는 정수 타입은 네 개가 있습니다. [Int8](http://crystal-lang.org/api/Int8.html), [Int16](http://crystal-lang.org/api/Int16.html), [Int32](http://crystal-lang.org/api/Int32.html), [Int64](http://crystal-lang.org/api/Int64.html)으로 각각 8, 16, 32, 64비트의 숫자를 나타냅니다.
 
-There are four unsigned integer types: [UInt8](http://crystal-lang.org/api/UInt8.html), [UInt16](http://crystal-lang.org/api/UInt16.html), [UInt32](http://crystal-lang.org/api/UInt32.html) and [UInt64](http://crystal-lang.org/api/UInt64.html).
+부호 없는 정수 타입은 네 개가 있습니다. [UInt8](http://crystal-lang.org/api/UInt8.html), [UInt16](http://crystal-lang.org/api/UInt16.html), [UInt32](http://crystal-lang.org/api/UInt32.html), [UInt64](http://crystal-lang.org/api/UInt64.html)입니다.
 
-An integer literal is an optional `+` or `-` sign, followed by
-a sequence of digits and underscores, optionally followed by a suffix.
-If no suffix is present, the literal's type is the lowest between `Int32`, `Int64` and `UInt64`
-in which the number fits:
+정수 리터럴은 맨 앞에 `+` 또는 `-` 부호가 올 수 있습니다. 숫자나 밑줄이 이어지고,
+마지막에 접미사가 올 수 있습니다. 접미사가 없다면 리터럴의 타입은 `Int32`, 
+`Int64`, `UInt64` 중 숫자가 들어맞는 가장 낮은 타입입니다.
 
 ```crystal
 1      # Int32
@@ -29,27 +28,27 @@ in which the number fits:
 9223372036854775808 # UInt64
 ```
 
-The underscore `_` before the suffix is optional.
+접미사 전의 밑줄(`_`)은 반드시 필요한 것은 아닙니다.
 
-Underscores can be used to make some numbers more readable:
+밑줄을 써서 숫자를 읽기 쉽게 만들 수도 있습니다.
 
 ```crystal
-1_000_000 # better than 1000000
+1_000_000 # 1000000보다 나음
 ```
 
-Binary numbers start with `0b`:
+이진수는 `0b`로 시작합니다.
 
 ```crystal
 0b1101 # == 13
 ```
 
-Octal numbers start with a `0o`:
+8진수는 `0o`로 시작합니다.
 
 ```crystal
 0o123 # == 83
 ```
 
-Hexadecimal numbers start with `0x`:
+16진수는 `0x`로 시작합니다.
 
 ```crystal
 0xFE012D # == 16646445

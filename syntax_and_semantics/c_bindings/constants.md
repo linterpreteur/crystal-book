@@ -1,9 +1,9 @@
-# Constants
+# 상수
 
-You can also declare constants inside a `lib` declaration:
+`lib` 선언에서 상수를 선언할 수도 있습니다.
 
 ```crystal
-@[Link("pcre")]
+@ [Link("pcre")]
 lib PCRE
   INFO_CAPTURECOUNT = 2
 end

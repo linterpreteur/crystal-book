@@ -1,3 +1,3 @@
-# Guides
+# 지침
 
-Read these guides to get the best out of Crystal.
+지침을 읽고 크리스탈을 최대로 활용하세요.

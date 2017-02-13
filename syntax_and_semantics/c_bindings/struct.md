@@ -1,10 +1,10 @@
 # struct
 
-A `struct` declaration inside a `lib` declares a C struct.
+`lib` 안의 `struct` 선언은 C 구조체를 선언합니다.
 
 ```crystal
 lib C
-  # In C:
+  # C에서는
   #
   #  struct TimeZone {
   #    int minutes_west;
@@ -17,7 +17,7 @@ lib C
 end
 ```
 
-You can also specify many fields of the same type:
+같은 타입의 여러 속성을 한 번에 선언할 수도 있습니다.
 
 ```crystal
 lib C
@@ -27,7 +27,7 @@ lib C
 end
 ```
 
-Recursive structs work just like you expect them to:
+재귀적 구조체 또한 예상대로 동작합니다.
 
 ```crystal
 lib C
@@ -41,24 +41,24 @@ lib C
 end
 ```
 
-To create an instance of a struct use `new`:
+구조체의 인스턴스는 `new`로 생성할 수 있습니다.
 
 ```crystal
 tz = C::TimeZone.new
 ```
 
-This allocates the struct on the stack.
+스택에 구조체가 할당될 것입니다.
 
-A C struct starts with all its fields set to "zero": integers and floats start at zero, pointers start with an address of zero, etc.
+C 구조체는 모든 필드를 0으로 초기화합니다. 정수와 실수는 0에서 시작하고, 포인터는 0의 주소 값을 가집니다.
 
-To avoid this initialization you can use `uninitialized`:
+`uninitialized`를 이용하여 이를 방지할 수 있습니다.
 
 ```crystal
 tz = uninitialized C::TimeZone
-tz.minutes_west #=> some garbage value
+tz.minutes_west #=> 임의의 쓰레기 값
 ```
 
-You can set and get its properties:
+속성을 쓰고 읽을 수 있습니다.
 
 ```crystal
 tz = C::TimeZone.new
@@ -66,9 +66,9 @@ tz.minutes_west = 1
 tz.minutes_west #=> 1
 ```
 
-If the assigned value is not exactly the same as the property's type, [to_unsafe](to_unsafe.html) will be tried.
+할당하는 값의 타입과 속성의 타입이 다를 경우 [to_unsafe](to_unsafe.html)가 시도됩니다.
 
-You can also initialize some fields with a syntax similar to [named arguments](../default_and_named_arguments.html):
+[named arguments](../default_and_named_arguments.html)와 비슷한 문법으로 속성을 초기화할 수도 있습니다.
 
 ```crystal
 tz = C::TimeZone.new minutes_west: 1, dst_time: 2
@@ -76,7 +76,7 @@ tz.minutes_west #=> 1
 tz.dst_time     #=> 2
 ```
 
-A C struct is passed by value (as a copy) to functions and methods, and also passed by value when it is returned from a method:
+C 구조체는 함수와 메서드에 값으로 (복사되어) 전달되며, 메서드에서 반환될 때에도 값으로 전달됩니다.
 
 ```crystal
 def change_it(tz)
@@ -88,4 +88,4 @@ change_it tz
 tz.minutes_west #=> 0
 ```
 
-Refer to the [type grammar](../type_grammar.html) for the notation used in struct field types.
+[타입 문법](../type_grammar.html)에서 구조체 속성 타입에 쓰인 표기에 대해 알아볼 수 있습니다.

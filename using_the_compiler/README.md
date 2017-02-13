@@ -1,52 +1,52 @@
-# Using the compiler
+# 컴파일러의 사용
 
-Once you [install](../installation/README.md) the compiler you will have a `crystal` binary at your disposal.
+컴파일러를 [설치](../installation/README.md)하고 나면 `crystal` 바이너리가 생성됩니다.
 
-In the next sections a dollar sign (`$`) denotes the command line.
+앞으로 달러 기호(`$`)는 커맨드 라인을 나타냅니다.
 
-## Compiling and running at once
+## 컴파일과 실행을 한 번에
 
-To compile and run a program in a single shot you can invoke `crystal` with a single filename:
+파일명 하나를 가지고 `crystal`을 호출하여 컴파일과 실행을 한 방에 끝낼 수 있습니다.
 
 ```
 $ crystal some_program.cr
 ```
 
-Crystal files end with the `.cr` extension.
+크리스탈 파일은 `.cr` 확장자로 끝납니다.
 
-Alternative you can use the `run` command:
+혹은 `run` 명령어를 이용할 수도 있습니다.
 
 ```
 $ crystal run some_program.cr
 ```
 
-## Creating an executable
+## 실행 파일 생성
 
-To create an executable use the `build` command:
+실행 파일을 만들기 위해서는 `build` 명령어를 이용하세요.
 
 ```
 $ crystal build some_program.cr
 ```
 
-This will create a `some_program` file that you can execute:
+실행할 수 있는 `some_program` 파일이 생성됩니다.
 
 ```
 $ ./some_program
 ```
 
-**Note:** By default the generated executables **are not fully optimized**. To turn optimizations on, use the `--release` flag:
+**주의:** 생성된 실행 파일은 **기본 설정으로는 완전히 최적화되지 않습니다**. 최적화를 켜기 위해, `--release` 플래그를 이용하세요.
 
 ```
 $ crystal build some_program.cr --release
 ```
 
-Make sure to always use `--release` for production-ready executables and when performing benchmarks.
+프로덕션을 위한 실행 파일을 만드는 경우이거나 벤치마크를 수행하실 때는 반드시 `--release` 플래그를 이용하세요.
 
-The reason for this is that performance without full optimizations is still pretty good and provides fast compile times, so you can use the `crystal` command almost as if it were an interpreter.
+기본적으로 최적화되지 않는 이유는 최적화 없이도 성능이 꽤 괜찮은 데다가, 컴파일 시간이 훨씬 줄어들기 때문에 `crystal` 명령어를 거의 인터프리터인 것처럼 사용할 수 있기 때문입니다.
 
-## Creating a project or library
+## 프로젝트 혹은 라이브러리 생성
 
-Use the `init` command to create a Crystal project with the standard directory structure.
+`init` 명령어를 사용하여 표준 디렉토리 구조를 갖는 크리스탈 프로젝트를 만들 수 있습니다.
 
 ```
 $ crystal init lib my_cool_lib
@@ -62,9 +62,9 @@ $ crystal init lib my_cool_lib
 Initialized empty Git repository in ~/my_cool_lib/.git/
 ```
 
-## Other commands and options
+## 기타 명령어와 옵션
 
-To see the full set of commands, invoke `crystal` without arguments.
+모든 명령어 목록을 보시려면 인자 없이 `crystal`을 호출하세요.
 
 ```
 $ crystal
@@ -85,7 +85,7 @@ Command:
     version, --version, -v   show version
 ```
 
-To see the available options for a particular command, use `--help` after a command:
+특정한 명령어와 함께 쓸 수 있는 옵션을 보시려면, 명령어 뒤에 `--help`를 입력하세요.
 
 ```
 $ crystal build --help

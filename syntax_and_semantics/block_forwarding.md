@@ -1,6 +1,6 @@
-# Block forwarding
+# 블락 넘기기
 
-To forward captured blocks, you use a block argument, prefixing an expression with `&`:
+포획한 블락을 넘기려면, `&`로 시작하는 블락 인자를 사용합니다.
 
 ```crystal
 def capture(&block)
@@ -11,17 +11,17 @@ def invoke(&block)
   block.call
 end
 
-proc = capture { puts "Hello" }
-invoke(&proc) # prints "Hello"
+proc = capture { puts "안녕" }
+invoke(&proc) # prints "안녕"
 ```
 
-In the above example, `invoke` receives a block. We can't pass `proc` directly to it because `invoke` doesn't receive regular arguments, just a block argument. We use `&` to specify that we really want to pass `proc` as the block argument. Otherwise:
+이 예시에서 `invoke`는 블락을 받습니다. `invoke`는 일반적인 인자가 아니라 블락을 받기 때문에 `proc`을 바로 인자로 넘겨줄 수는 없습니다. `proc`을 블락 인자로 넘기려면 `&`을 사용합니다. 그러지 않으면 오류가 발생합니다.
 
 ```crystal
-invoke(proc) # Error: wrong number of arguments for 'invoke' (1 for 0)
+invoke(proc) # 오류: 'invoke'의 인자 개수 틀림 (0개 자리에 1개)
 ```
 
-You can actually pass a proc to a method that yields:
+블락을 받는 메서드에 프록을 넘길 수도 있습니다.
 
 ```crystal
 def capture(&block)
@@ -33,38 +33,38 @@ def twice
   yield
 end
 
-proc = capture { puts "Hello" }
+proc = capture { puts "안녕" }
 twice &proc
 ```
 
-The above is simply rewritten to:
+단순하게 다음과 같이 쓸 수도 있습니다.
 
 ```crystal
-proc = capture { puts "Hello" }
+proc = capture { puts "안녕" }
 twice do
   proc.call
 end
 ```
 
-Or, combining the `&` and `->` syntaxes:
+`&` 문법과 `->` 문법을 조합할 수도 있습니다.
 
 ```crystal
-twice &->{ puts "Hello" }
+twice &->{ puts "안녕" }
 ```
 
-Or:
+또는,
 
 ```crystal
 def say_hello
-  puts "Hello"
+  puts "안녕"
 end
 
 twice &->say_hello
 ```
 
-## Forwarding non-captured blocks
+## 포획하지 않은 블락 넘기기
 
-To forward non-captured blocks, you must use `yield`:
+포획하지 않은 블락을 넘기려면 `yield`를 사용해야 합니다.
 
 ```crystal
 def foo
@@ -72,24 +72,24 @@ def foo
 end
 
 def wrap_foo
-  puts "Before foo"
+  puts "foo 이전"
   foo do |x|
     yield x
   end
-  puts "After foo"
+  puts "foo 이후"
 end
 
 wrap_foo do |i|
   puts i
 end
 
-# Output:
-# Before foo
+# 출력:
+# foo 이전
 # 1
-# After foo
+# foo 이후
 ```
 
-You can also use the `&block` syntax to forward blocks, but then you have to at least specify the input types, and the generated code will involve closures and will be slower:
+`&block` 문법으로 블락을 넘길 수도 있지만, 입력 인자 타입을 특정해야 하며 클로저가 사용되므로 더 느려집니다.
 
 ```crystal
 def foo
@@ -97,22 +97,22 @@ def foo
 end
 
 def wrap_foo(&block : Int32 -> _)
-  puts "Before foo"
+  puts "foo 이전"
   foo(&block)
-  puts "After foo"
+  puts "foo 이후"
 end
 
 wrap_foo do |i|
   puts i
 end
 
-# Output:
-# Before foo
+# 출력:
+# foo 이전
 # 1
-# After foo
+# foo 이후
 ```
 
-Try to avoid forwarding blocks like this if doing `yield` is enough. There's also the issue that `break` and `next` are not allowed inside captured blocks, so the following won't work when using `&block` forwarding:
+`yield`로 충분하다면 이런 방법은 쓰지 않는 것이 좋습니다. 포획한 블락에서는 `break`와 `next`를 쓸 수 없기 때문에 다음과 같은 코드는 동작하지 않는다는 문제도 있습니다.
 
 ```crystal
 foo_forward do |i|
@@ -120,4 +120,4 @@ foo_forward do |i|
 end
 ```
 
-In short, avoid `&block` forwarding when `yield` is involved.
+요약하자면 `yield`를 사용할 때는 `&block`으로 인자를 넘기는 것을 피해야 합니다.

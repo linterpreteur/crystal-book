@@ -1,3 +1,3 @@
-# Syntax and Semantics
+# 문법과 의미론
 
-The program’s source code must be encoded in UTF-8.
+프로그램의 소스 코드는 UTF-8 인코딩이어야 합니다.

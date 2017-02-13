@@ -1,7 +1,7 @@
-# Comments
+# 주석
 
-Comments start with the sharp (`#`) character. Only one-line comments are supported for now.
+주석은 우물 정(`#`) 문자로 시작합니다. 지금은 한 줄짜리 주석만이 가능합니다.
 
 ```crystal
-# This is a comment
+# 주석
 ```

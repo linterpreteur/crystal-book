@@ -1,21 +1,21 @@
 # fun
 
-A `fun` declaration inside a `lib` binds to a C function.
+`lib` 안의 `fun` 선언은 C 함수로 바인딩됩니다.
 
 ```crystal
 lib C
-  # In C: double cos(double x)
+  # C에서는 double cos(double x)
   fun cos(value : Float64) : Float64
 end
 ```
 
-Once you bind it, the function is available inside the `C` type as if it was a class method:
+한 번 바인딩하면, `C` 타입의 클래스 메서드인 것처럼 이용할 수 있습니다.
 
 ```crystal
 C.cos(1.5) #=> 0.0707372
 ```
 
-You can omit the parentheses if the function doesn't have arguments (and omit them in the call as well):
+함수에 인자가 없다면 선언할 때와 호출할 때 모두 괄호를 생략할 수 있습니다.
 
 ```crystal
 lib C
@@ -25,7 +25,7 @@ end
 C.getch
 ```
 
-If the return type is void you can omit it:
+반환형이 void라면 이 또한 생략할 수 있습니다.
 
 ```crystal
 lib C
@@ -35,7 +35,7 @@ end
 C.srand(1_u32)
 ```
 
-You can bind to variadic functions:
+가변 인자 함수도 바인딩할 수 있습니다.
 
 ```crystal
 lib X
@@ -45,9 +45,9 @@ end
 X.variadic(1, 2, 3, 4)
 ```
 
-Note that there are no implicit conversions (except `to_unsafe`, which is explained later) when invoking a C function: you must pass the exact type that is expected. For integers and floats you can use the various `to_...` methods.
+C 함수를 호출할 때 (나중에 설명할 `to_unsafe`를 제외하면) 묵시적 변환은 없다는 사실을 알 수 있습니다. 반드시 예상되는 타입을 넘겨야 하는 것입니다. 정수나 실수형의 경우에는 다양한 `to_...` 메서드를 사용합니다.
 
-Because method names in Crystal must start with a lowercase letter, `fun` names must also start with a lowercase letter. If you need to bind to a C function that starts with a capital letter you can give the function another name for Crystal:
+크리스탈의 메서드 이름은 소문자로 시작해야 하므로 `fun` 이름 또한 소문자로 시작해야 합니다. 대문자로 시작하는 C 함수를 바인딩하려면 크리스탈에서 쓰일 다른 이름을 줄 수 있습니다.
 
 ```crystal
 lib LibSDL
@@ -55,7 +55,7 @@ lib LibSDL
 end
 ```
 
-You can also use a string as a name if the name is not a valid identifier or type name:
+이름이 유효한 식별자가 아니거나 타입 이름인 경우 문자열을 이름으로 쓸 수 있습니다.
 
 ```crystal
 lib LLVMIntrinsics
@@ -63,21 +63,21 @@ lib LLVMIntrinsics
 end
 ```
 
-This can also be used to give shorter, nicer names to C functions, as these tend to be long and are usually prefixed with the library name.
+C 함수는 대개 길고 라이브러리 이름이 접두사로 붙어 있기 때문에 이런 방법을 통해 더 짧고 더 나은 이름을 달아줄 수 있습니다.
 
-The valid types to use in C bindings are:
-* Primitive types (`Int8`, ..., `Int64`, `UInt8`, ..., `UInt64`, `Float32`, `Float64`)
-* Pointer types (`Pointer(Int32)`, which can also be written as `Int32*`)
-* Static arrays (`StaticArray(Int32, 8)`, which can also be written as `Int32[8]`)
-* Function types (`Function(Int32, Int32)`, which can also be written as `Int32 -> Int32`)
-* Other `struct`, `union`, `enum`, `type` or `alias` declared previously.
-* `Void`: the absence of a return value.
-* `NoReturn`: similar to `Void`, but the compiler understands that no code can be executed after that invocation.
-* Crystal structs marked with the `@[Extern]` attribute
+C 바인딩에 쓸 수 있는 유효한 타입은
+* 원시 타입 (`Int8`, ..., `Int64`, `UInt8`, ..., `UInt64`, `Float32`, `Float64`)
+* 포인터 타입 (`Pointer(Int32)`, `Int32*`로도 쓸 수 있음)
+* 정적 배열 (`StaticArray(Int32, 8)`, `Int32[8]`로도 쓸 수 있음)
+* 함수 타입 (`Function(Int32, Int32)`, `Int32 -> Int32`로도 쓸 수 있음)
+* 이전에 선언된 `struct`, `union`, `enum`, `type`, `alias`
+* 반환형이 없음을 나타내는 `Void`
+* `Void`와 비슷하지만 코드가 더 이상 진행되지 않음을 나타내는 `NoReturn`
+* `@ [Extern]` 속성이 표시된 크리스탈 구조체
 
-Refer to the [type grammar](../type_grammar.html) for the notation used in fun types.
+[타입 문법](../type_grammar.html)에서 fun 선언에 쓰인 표기에 대해 알아볼 수 있습니다.
 
-The standard library defines the [LibC](https://github.com/crystal-lang/crystal/blob/master/src/lib_c.cr) lib with aliases for common C types, like `int`, `short`, `size_t`. Use them in bindings like this:
+표준 라이브러리에 정의된 [LibC](https://github.com/crystal-lang/crystal/blob/master/src/lib_c.cr) lib은 `int`, `short`, `size_t` 등 흔하게 사용되는 C 타입의 별칭을 선언합니다. 이를 바인딩에서 다음과 같이 사용할 수 있습니다.
 
 ```crystal
 lib MyLib
@@ -85,4 +85,4 @@ lib MyLib
 end
 ```
 
-**Note:** The C `char` type is `UInt8` in Crystal, so a `char*` or a `const char*` is `UInt8*`. The `Char` type in Crystal is a unicode codepoint so it is represented by four bytes, making it similar to an `Int32`, not to an `UInt8`. There's also the alias `LibC::Char` if in doubt.
+**주의:** C의 `char` 타입은 크리스탈의 `UInt8`이므로, `char*`와 `const char*`은 `UInt8*`입니다. 크리스탈의 `Char` 타입은 유니코드의 코드 포인트이므로 4바이트로 나타냅니다. 이는 `UInt8`이 아니라 `Int32`와 더 유사합니다. 확실하지 않다면 `LibC::Char` 별칭을 쓸 수 있습니다.
