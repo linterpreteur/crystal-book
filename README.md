@@ -43,9 +43,7 @@ gitbook_1  | Restart after change in file node_modules/.bin
 
 ## 기여
 
-스스로가 유용한 인물이라고 생각하시나요? 버그 혹은 불분명한 서술을 찾으신다면 이 문서에
-언제든 기여하실 수 있습니다. 이 저장소(https://github.com/crystal-lang/crystal-book)에
-풀 리퀘스트를 보내실 수 있습니다.
+스스로가 유용한 인물이라고 생각하시나요? 버그 혹은 불분명한 서술을 찾으신다면 이 문서에 언제든 기여하실 수 있습니다. 공식 저장소로(https://github.com/crystal-lang/crystal-book) 풀 리퀘스트를 보내실 수 있습니다. 번역에 관한 것은 번역본 저장소로(https://github.com/linterpreteur/crystal-book) 문의해 주세요.
 
 감사합니다!
 
