@@ -10,7 +10,13 @@
 * 보일러플레이트 코드를 방지하기 위해 컴파일 타임 평가와 코드 생성이 있음.
 * 효율적인 네이티브 코드로 컴파일됨.
 
-## 빌드
+## 기여
+
+스스로가 유용한 인물이라고 생각하시나요? 버그 혹은 불분명한 서술을 찾으신다면 이 문서에 언제든 기여하실 수 있습니다. 공식 저장소로(https://github.com/crystal-lang/crystal-book) 풀 리퀘스트를 보내실 수 있습니다. 번역에 관한 것은 번역본 저장소로(https://github.com/linterpreteur/crystal-book) 문의해 주세요.
+
+감사합니다!
+
+## 빌드 및 로컬 서버 구동
 
 ```
 $ git clone https://github.com/crystal-lang/crystal-book.git
@@ -40,12 +46,6 @@ gitbook_1  | Serving book on http://localhost:4000
 gitbook_1  | Restart after change in file node_modules/.bin
 ...
 ```
-
-## 기여
-
-스스로가 유용한 인물이라고 생각하시나요? 버그 혹은 불분명한 서술을 찾으신다면 이 문서에 언제든 기여하실 수 있습니다. 공식 저장소로(https://github.com/crystal-lang/crystal-book) 풀 리퀘스트를 보내실 수 있습니다. 번역에 관한 것은 번역본 저장소로(https://github.com/linterpreteur/crystal-book) 문의해 주세요.
-
-감사합니다!
 
 ### 페이지 추가
 
