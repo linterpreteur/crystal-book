@@ -190,6 +190,6 @@ end
 타입 문법에서 `typeof`를 사용할 수 있습니다. `typeof`는 전달된 표현식의 공용체 타입을 반환합니다.
 
 ```crystal
-alias SameAsInt32 = typeof(1 + 2)
-alias Int32OrString = typeof(1, "a")
+typeof(1 + 2) # => Int32
+typeof(1, "a") # => (Int32 | String)
 ```

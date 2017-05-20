@@ -25,6 +25,12 @@ apt-get update
 sudo apt-get install crystal
 ```
 
+[가끔은](https://github.com/crystal-lang/crystal/issues/4342) `build-essential` 패키지를 설치해야 크리스탈 프로그램을 설치 또는 빌드할 수 있습니다. 다음 명령어로 이 패키지를 설치할 수 있습니다.
+
+```
+sudo apt-get install build-essential
+```
+
 ## 업그레이드
 
 크리스탈의 새로운 버전이 릴리즈되면 다음을 통해 시스템을 업그레이드할 수 있습니다.

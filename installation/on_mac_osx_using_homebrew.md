@@ -7,7 +7,7 @@ brew update
 brew install crystal-lang
 ```
 
-프로젝트에 기여하시려면 LLVM 또한 설치하는 것이 유용합니다. 마지막 줄을 다음과 같이 바꾸어 LLVM을 설치할 수 있습니다.
+크리스탈 언어 프로젝트에 직접 기여하시려면 LLVM 또한 설치하는 것이 유용합니다. 마지막 줄을 다음과 같이 바꾸어 LLVM을 설치할 수 있습니다.
 
 ```
 brew install crystal-lang --with-llvm
