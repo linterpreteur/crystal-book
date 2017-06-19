@@ -1,10 +1,10 @@
-# On Gentoo Linux
+# Gentoo Linux에서
 
-Gentoo Linux includes the Crystal compiler in the main overlay.
+Gentoo Linux의 주 [저장소](https://wiki.gentoo.org/wiki/Ebuild_repository/ko)는 크리스탈 컴파일러를 포함하고 있습니다.
 
-## Configuration
+## 설정
 
-You might want to take a look at the available configuration flags first:
+설정 플래그를 먼저 살펴봅시다.
 
 ```
 # equery u dev-lang/crystal
@@ -13,13 +13,13 @@ You might want to take a look at the available configuration flags first:
 [ Colors : set, unset                             ]
  * Found these USE flags for dev-lang/crystal-0.18.7:
  U I
- - - doc      : Add extra documentation (API, Javadoc, etc). It is recommended to enable per package instead of globally
- - - examples : Install examples, usually source code
- + + xml      : Use the dev-libs/libxml2 library to enable Crystal xml module
- + - yaml     : Use the dev-libs/libyaml library to enable Crystal yaml module
+ - - doc      : API, Javadoc과 같은 문서를 설치. 전역으로 설치하는 대신 패키지마다 설정하는 것이 권장됨
+ - - examples : 소스 코드를 비롯한 예시를 설치
+ + + xml      : dev-libs/libxml2 라이브러리로 크리스탈 XML 모듈을 사용
+ + - yaml     : dev-libs/libyaml 라이브러리로 크리스탈 YAML 모듈을 사용
 ```
 
-## Install
+## 설치
 
 ```
 su -
