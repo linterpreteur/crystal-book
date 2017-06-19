@@ -5,6 +5,7 @@
    * [Debian과 Ubuntu에서](installation/on_debian_and_ubuntu.md)
    * [RedHat과 CentOS에서](installation/on_redhat_and_centos.md)
    * [Arch Linux에서](installation/on_arch_linux.md)
+   * [Gentoo Linux에서](installation/on_gentoo_linux.md)
    * [Mac OSX에서 Homebrew를 이용하여](installation/on_mac_osx_using_homebrew.md)
    * [Windows에서 Bash on Ubuntu를 이용하여](installation/on_bash_on_ubuntu_on_windows.md)
    * [tar.gz 파일로부터](installation/from_a_targz.md)

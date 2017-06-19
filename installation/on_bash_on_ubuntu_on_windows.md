@@ -9,7 +9,7 @@
 먼저 APT 설정에 저장소를 추가해야 합니다. 커맨드 라인에서 명령어를 입력하여 손쉽게 설정할 수 있습니다.
 
 ```
-curl https://dist.crystal-lang.org/apt/setup.sh | sudo bash
+curl -sSL https://dist.crystal-lang.org/apt/setup.sh | sudo bash
 ```
 
 서명 키와 저장소 설정이 추가될 것입니다. 직접 이 과정을 다루고 싶으시다면, *루트* 권한으로 다음 명령어를 실행하세요.
